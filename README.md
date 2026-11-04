@@ -1,11 +1,9 @@
 
-# Online Shoppers Purchasing Intention Using Machine Learning
+# **Online Shoppers Purchasing Intention Using Machine Learning**
 
 **Machine Learning – Assignment 2**
 
-**Name : Lakshmipriya VS**
-
-**BITS ID : 2026ak05650**
+**Name : Lakshmipriya VS | BITS ID : 2026ak05650**
 
 ## a. Problem Statement
 
