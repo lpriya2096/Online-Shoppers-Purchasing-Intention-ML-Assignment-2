@@ -28,9 +28,14 @@ MODEL_FILES = {
 @st.cache_resource(show_spinner=False, max_entries=2)
 def load_model(model_path: str):
     return joblib.load(model_path)
+    
+st.write("")
+st.title("Online Shoppers' Purchasing Intention")
 
-st.title("🛒 Online Shopping Purchase Prediction")
-st.caption("Evaluate five pretrained classification models on labeled test data. No retraining.")
+st.caption(
+    "Compare the performance of five trained machine "
+    "learning models using test data."
+)
 
 with st.form("evaluation_form"):
     left, right = st.columns([1, 1.3], gap="medium")
