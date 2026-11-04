@@ -1,7 +1,7 @@
 
 # Online Shoppers Purchasing Intention Using Machine Learning
 
-**Machine Learning – Assignment 2 | M.Tech (AIML), BITS Pilani**
+**Machine Learning – Assignment 2**
 
 **Name : Lakshmipriya VS**
 
