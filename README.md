@@ -118,3 +118,10 @@ python -m streamlit run app.py
 ### What I Learned
 Assignment helped me understand how different classification algorithms perform on the same data. I found that high accuracy does not always mean a model is good at identifying purchases, especially when purchase records are less common. The Decision Tree gave the best overall results in my experiment. I also learned how to tune Naive Bayes and use saved models in a Streamlit application.
 
+Links: 
+
+GitHub Repository: https://github.com/lpriya2096/Online-Shoppers-Purchasing-Intention/ 
+
+Streamlit Application: https://online-shoppers-purchasing-intention-7iktxvhohj9ecgnamhddcg.streamlit.app/ 
+
+Dataset: https://archive.ics.uci.edu/dataset/468/online+shoppers+purchasing+intention+dataset
