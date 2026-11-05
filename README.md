@@ -120,8 +120,8 @@ Assignment helped me understand how different classification algorithms perform 
 
 Links: 
 
-GitHub Repository: https://github.com/lpriya2096/Online-Shoppers-Purchasing-Intention/ 
+**GitHub repository :** https://github.com/lpriya2096/Online-Shoppers-Purchasing-Intention-ML-Assignment-2
 
-Streamlit Application: https://online-shoppers-purchasing-intention-7iktxvhohj9ecgnamhddcg.streamlit.app/ 
+**Live Streamlit app :** https://online-shoppers-purchasing-intention-ml-assignment-2-nz3biup75.streamlit.app/
 
-Dataset: https://archive.ics.uci.edu/dataset/468/online+shoppers+purchasing+intention+dataset
+**Dataset :**  https://archive.ics.uci.edu/dataset/468/online+shoppers+purchasing+intention+dataset
