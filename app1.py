@@ -1,4 +1,5 @@
 import html as _html
+import hashlib
 import streamlit as st
 import pandas as pd
 import joblib
@@ -209,6 +210,49 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 .classification-table th:first-child,.classification-table td:first-child{text-align:left}
 .classification-table th:not(:first-child),.classification-table td:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
 
+
+/* Final UI refinement: match multiselect chips, arrow, and number input to ShopSense blue. */
+[data-testid="stMultiSelect"] [data-baseweb="select"] > div,
+[data-testid="stMultiSelect"] [role="combobox"] {
+  background:#eaf4ff!important;color:#25496c!important;
+  border:1px solid #bdd4eb!important;border-radius:10px!important;
+  box-shadow:none!important;
+}
+[data-testid="stMultiSelect"] [data-baseweb="tag"] {
+  background:#d1e7fb!important;color:#24496e!important;
+  border:1px solid #a9cde9!important;border-radius:7px!important;
+}
+[data-testid="stMultiSelect"] [data-baseweb="tag"] *,
+[data-testid="stMultiSelect"] [data-baseweb="select"] svg,
+[data-testid="stMultiSelect"] input {
+  color:#24496e!important;-webkit-text-fill-color:#24496e!important;
+  font-family:'DM Sans',sans-serif!important;
+}
+[data-testid="stMultiSelect"] [data-baseweb="tag"] svg {fill:#24496e!important;}
+[data-testid="stSelectbox"] [data-baseweb="select"] [role="combobox"] > div,
+[data-testid="stSelectbox"] [data-baseweb="select"] [role="combobox"] svg {
+  background:#e7f2ff!important;color:#25496c!important;
+}
+[data-testid="stNumberInput"] [data-baseweb="input"],
+[data-testid="stNumberInput"] [data-baseweb="base-input"],
+[data-testid="stNumberInput"] [data-baseweb="input"] > div {
+  border-color:#b9d2ee!important;outline:none!important;box-shadow:none!important;
+}
+[data-testid="stNumberInput"] [data-baseweb="input"]:focus-within {
+  border-color:#78a8d9!important;box-shadow:0 0 0 1px #78a8d9!important;
+}
+/* Light surfaces for any portal-hosted metric choices. */
+[data-baseweb="popover"] [role="listbox"],
+[data-baseweb="popover"] [role="option"] {
+  color:#25496c!important;-webkit-text-fill-color:#25496c!important;
+  font-family:'DM Sans',sans-serif!important;
+}
+/* Keep horizontal scrolling obvious, without changing original table values. */
+.tw,.compare-scroll {scrollbar-color:#a8c5e3 #edf4fb;scrollbar-width:thin;}
+.tw::-webkit-scrollbar,.compare-scroll::-webkit-scrollbar {height:9px;}
+.tw::-webkit-scrollbar-thumb,.compare-scroll::-webkit-scrollbar-thumb {background:#a8c5e3;border-radius:9px;}
+.tw::-webkit-scrollbar-track,.compare-scroll::-webkit-scrollbar-track {background:#edf4fb;}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -349,6 +393,8 @@ uploaded_file = st.file_uploader(
 )
 
 test_df = None
+# Content fingerprint prevents reusing results for a different CSV with the same name and size.
+current_file = hashlib.sha256(uploaded_file.getvalue()).hexdigest() if uploaded_file is not None else None
 if uploaded_file is not None:
     try:
         test_df = pd.read_csv(uploaded_file)
@@ -388,6 +434,7 @@ if uploaded_file is not None:
         f'{len(test_df):,} rows</div>',
         unsafe_allow_html=True,
     )
+    st.caption("Scroll horizontally inside the table to view all CSV columns.")
     st.markdown(preview_table(preview_rows, len(preview_rows)), unsafe_allow_html=True)
     if "Revenue" in test_df.columns:
         st.markdown(f'<div class="note">The <b>Revenue</b> column is the target used for model evaluation. '
@@ -453,11 +500,10 @@ def evaluate_saved_model(name, features, actual):
 # Store the evaluation request, not stale predictions; recompute against the current CSV.
 if run_evaluation:
     st.session_state["shop_evaluated_model"] = selected_model
-    st.session_state["shop_evaluated_file"] = (uploaded_file.name, uploaded_file.size) if uploaded_file else None
+    st.session_state["shop_evaluated_file"] = current_file
 
 active_name = st.session_state.get("shop_evaluated_model")
 active_file = st.session_state.get("shop_evaluated_file")
-current_file = (uploaded_file.name, uploaded_file.size) if uploaded_file else None
 results = None
 X = y = None
 if test_df is not None:
@@ -565,6 +611,10 @@ if compare_clicked and X is not None:
     st.session_state["shop_comparison"] = pd.DataFrame(comparison_rows)
     st.session_state["shop_comparison_errors"] = comparison_errors
     st.session_state["shop_comparison_file"] = current_file
+    if comparison_errors:
+        st.warning(f"Evaluated {len(comparison_rows)} of {len(MODEL_FILES)} models successfully. See model-specific errors below.")
+    else:
+        st.success(f"All {len(MODEL_FILES)} models evaluated successfully.")
 
 live_comparison = st.session_state.get("shop_comparison")
 if (isinstance(live_comparison, pd.DataFrame) and not live_comparison.empty
@@ -592,6 +642,7 @@ if comparison is not None:
             highlight = ' class="best-score"' if np.isclose(val, best_per_metric[metric]) else ''
             cells.append(f'<td{highlight}>{val:.4f}</td>')
         body_rows.append('<tr>' + ''.join(cells) + '</tr>')
+    st.caption("Scroll horizontally inside the comparison table to see every metric.")
     st.markdown('<div class="compare-scroll"><table class="compare-table"><thead><tr>'
                 + header + '</tr></thead><tbody>' + ''.join(body_rows)
                 + '</tbody></table></div>', unsafe_allow_html=True)
@@ -611,7 +662,15 @@ if comparison is not None:
                 colors = ["#2874A6" if i == best else "#AED6F1" for i in range(len(values))]
                 positions = np.arange(len(values))
                 ax.bar(positions, values, color=colors, width=0.6)
-                ax.set_xticks(positions, comparison["ML Model Name"], rotation=25, ha="right", fontsize=8)
+                chart_names = {
+                    "Logistic Regression": "Logistic Reg.",
+                    "Decision Tree": "Decision Tree",
+                    "K-Nearest Neighbors (KNN)": "KNN",
+                    "Gaussian Naive Bayes": "Naive Bayes",
+                    "Support Vector Machine (SVM)": "SVM",
+                }
+                short_labels = [chart_names.get(str(name), str(name)) for name in comparison["ML Model Name"]]
+                ax.set_xticks(positions, short_labels, rotation=20, ha="right", fontsize=9)
                 ax.set_title(metric, fontsize=11, fontweight="bold", color="#285487", pad=10)
                 ax.tick_params(axis="y", labelsize=8)
                 ax.grid(axis="y", alpha=0.17)
