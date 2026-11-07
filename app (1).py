@@ -10,7 +10,6 @@ from sklearn.metrics import (
 
 st.set_page_config(page_title="Purchase Intent Predictor", page_icon="🛒", layout="wide")
 
-# Palette: plum + violet (brand), ocean blue (upload), coral (mistakes / buyers), mint (correct), sun (accent), cream (page)
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
@@ -41,7 +40,12 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 .sub {color:var(--muted);font-size:.91rem;line-height:1.5;margin:0 0 16px;}
 [data-testid="stFileUploader"] section {background:#e9f3ff;border:1.5px dashed #3b82f6;border-radius:16px;padding:12px;}
 [data-testid="stFileUploader"] section button {background:#fff;border:1px solid #cbdaf5;border-radius:9px;}
-[data-testid="stFileUploaderFile"] {background:#e7f0ff!important;border:1px solid #93b9fa;border-radius:10px;}
+/* Uploaded CSV: readable filename and file details on a light blue surface */
+[data-testid="stFileUploaderFile"] {background:#dbeafe!important;border:1px solid #60a5fa!important;border-radius:12px;padding:7px 10px;}
+[data-testid="stFileUploaderFile"] span,[data-testid="stFileUploaderFile"] small,[data-testid="stFileUploaderFile"] p {color:#17365d!important;opacity:1!important;font-weight:650;}
+[data-testid="stFileUploaderFile"] svg {color:#1d4ed8!important;}
+[data-testid="stFileUploaderFile"] button {color:#1e40af!important;}
+[data-testid="stFileUploader"] section {background:#eff6ff!important;}
 [data-testid="stForm"] {background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px 18px;box-shadow:0 5px 18px rgba(20,36,61,.035);}
 [data-testid="stFormSubmitButton"] button {background:#2563eb;color:#fff;border:0;border-radius:10px;font-weight:800;padding:.65rem 1.5rem;min-height:44px;}
 [data-testid="stFormSubmitButton"] button:hover {background:#1d4ed8;color:#fff;}
@@ -50,8 +54,6 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 [data-baseweb="select"] svg {fill:#5b21b6!important;color:#5b21b6!important;}
 [data-baseweb="popover"] [role="option"] {color:#281451!important;background:#fff!important;}
 [data-baseweb="popover"] [role="option"]:hover {background:#eee9ff!important;}
-[data-testid="stNumberInput"] [data-baseweb="input"] {background:#fff!important;border:1px solid #d8e1ed!important;border-radius:10px!important;}
-[data-testid="stNumberInput"] input {background:#fff!important;color:#14243d!important;}
 [data-testid="stExpander"] {background:#fff;border:1px solid var(--line);border-radius:12px;}
 .chips {margin:8px 0 14px;}
 .chip {display:inline-block;background:#eaf1ff;color:#254b84;font-size:.79rem;font-weight:750;padding:7px 13px;border-radius:9px;margin:0 7px 7px 0;}
@@ -78,18 +80,21 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 .mc .bar {height:7px;border-radius:8px;background:#edf2f7;overflow:hidden;}
 .mc .bar i {display:block;height:100%;border-radius:8px;}
 .mc .ht {font-size:.79rem;color:#718096;margin-top:11px;line-height:1.4;}
-.cmw {max-width:680px;margin:0 auto;}
-.cm {width:100%;border-collapse:separate;border-spacing:8px;table-layout:fixed;}
-.cm th {background:#eaf0f8;color:#31445e;font-size:.76rem;font-weight:750;padding:11px 6px!important;border:0!important;border-radius:10px;}
+.cmw {max-width:760px;margin:12px auto 0;padding:16px;background:#fff;border:1px solid #dbe4ef;border-radius:18px;}
+.cm {width:100%;border-collapse:separate;border-spacing:7px;table-layout:fixed;}
+.cm th {background:#eff4fb;color:#334967;font-size:.78rem;font-weight:750;padding:12px 6px!important;border:0!important;border-radius:9px;}
 .cm th.e {background:transparent;}
-.cm td {border:0!important;border-radius:13px;text-align:center;padding:15px 6px!important;color:#1f334a;}
-.cm .ic {font-size:1rem;line-height:1.1;}.cm .n {font-size:1.6rem;font-weight:800;line-height:1.25;}
-.cm .l {font-size:.79rem;font-weight:750;margin-top:4px;}.cm .t {font-size:.64rem;letter-spacing:.06em;opacity:.7;margin-top:3px;}
-.cm .p {font-size:.7rem;opacity:.75;margin-top:3px;}
-.key {text-align:center;font-size:.82rem;color:#64748b;margin-top:7px;}
+.cm td {border:1px solid transparent!important;border-radius:12px;text-align:center;padding:19px 7px!important;color:#1e344e;}
+.cm td.correct {background:#e0f5ed;border-color:#a8dfc9!important;}
+.cm td.incorrect {background:#fff0ed;border-color:#fac7bc!important;}
+.cm .n {font-size:clamp(1.5rem,3vw,2.15rem);font-weight:800;line-height:1.2;}
+.cm .l {font-size:.84rem;font-weight:750;margin-top:6px;}
+.cm .t {font-size:.68rem;letter-spacing:.045em;color:#53667d;margin-top:4px;}
+.cm .p {font-size:.73rem;color:#53667d;margin-top:5px;}
+.key {text-align:center;font-size:.82rem;color:#64748b;margin:12px 0 0;}
 .key i {display:inline-block;width:12px;height:12px;border-radius:4px;margin:0 5px -1px 12px;}
 .hint {background:#fff;border:1px solid #d8e4f6;border-radius:14px;padding:18px 20px;color:#4a6080;font-size:.94rem;}
-@media(max-width:700px){.block-container{padding:1rem .85rem 3rem;}.hero{padding:25px 22px;border-radius:16px;}.hero .cart{display:none!important;}.hero td:last-child{display:none;}.mt{border-spacing:6px;margin:0 -6px;}.mc{padding:12px 8px!important;}.mc .nm{font-size:.66rem;}.mc .ht{font-size:.7rem;}.cm{border-spacing:4px;}.cm th{font-size:.65rem;}.cm .n{font-size:1.25rem;}}
+@media(max-width:700px){.block-container{padding:1rem .85rem 3rem;}.hero{padding:25px 22px;border-radius:16px;}.hero .cart{display:none!important;}.hero td:last-child{display:none;}.mt{border-spacing:6px;margin:0 -6px;}.mc{padding:12px 8px!important;}.mc .nm{font-size:.66rem;}.mc .ht{font-size:.7rem;}.cm{border-spacing:4px;}.cm th{font-size:.65rem;}.cm .n{font-size:1.25rem;}.cmw{padding:7px;}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -106,14 +111,6 @@ MODEL_FILES = {
 @st.cache_resource(show_spinner=False, max_entries=2)
 def load_model(model_path: str):
     return joblib.load(model_path)
-
-
-def blend(hex_color: str, strength: float) -> str:
-    """Mix a colour with white (0 = white, 1 = full colour)."""
-    h = hex_color.lstrip("#")
-    r, g, b = (int(h[i:i + 2], 16) for i in (0, 2, 4))
-    mix = lambda c: int(255 - (255 - c) * strength)
-    return f"#{mix(r):02x}{mix(g):02x}{mix(b):02x}"
 
 
 def fmt_num(v) -> str:
@@ -187,26 +184,30 @@ def metric_cards(scores):
 
 
 def confusion_html(tn, fp, fn, tp):
+    """Compact 2×2 matrix with consistent colors and clear axis labels."""
     total = tn + fp + fn + tp
 
-    def cell(value, icon, label, tag, good):
-        share = value / total
-        base = "#059669" if good else "#ef6c67"
-        bg = blend(base, 0.14 + 0.24 * min(1.0, share * (1.15 if good else 6)))   # mild pastel shades
-        return (f'<td style="background:{bg};"><div class="ic">{icon}</div><div class="n">{value:,}</div>'
-                f'<div class="l">{label}</div><div class="t">{tag}</div>'
-                f'<div class="p">{share:.1%} of all sessions</div></td>')
+    def cell(value, label, tag, correct):
+        status = "correct" if correct else "incorrect"
+        share = value / total if total else 0
+        return (
+            f'<td class="{status}"><div class="n">{value:,}</div>'
+            f'<div class="l">{label}</div><div class="t">{tag}</div>'
+            f'<div class="p">{share:.1%} of sessions</div></td>'
+        )
 
     return (
-        '<div class="cmw"><table class="cm"><colgroup><col style="width:22%"><col style="width:39%"><col style="width:39%"></colgroup>'
-        '<tr><th class="e"></th><th>Predicted: No Purchase</th><th>Predicted: Purchase</th></tr>'
-        f'<tr><th>Actual:<br>No Purchase</th>{cell(tn, "✅", "Browsers spotted", "TRUE NEGATIVE", True)}'
-        f'{cell(fp, "🚨", "False alarms", "FALSE POSITIVE", False)}</tr>'
-        f'<tr><th>Actual:<br>Purchase</th>{cell(fn, "😕", "Missed buyers", "FALSE NEGATIVE", False)}'
-        f'{cell(tp, "🛍️", "Buyers caught", "TRUE POSITIVE", True)}</tr>'
-        '</table>'
-        '<div class="key"><i style="background:#bfeede;"></i>Correct prediction'
-        '<i style="background:#ffd3cd;"></i>Mistake</div></div>')
+        '<div class="cmw"><table class="cm">'
+        '<colgroup><col style="width:23%"><col style="width:38.5%"><col style="width:38.5%"></colgroup>'
+        '<tr><th class="e">Actual ↓ / Predicted →</th>'
+        '<th>No purchase (0)</th><th>Purchase (1)</th></tr>'
+        f'<tr><th>No purchase (0)</th>{cell(tn, "Correctly rejected", "TRUE NEGATIVE · TN", True)}'
+        f'{cell(fp, "False alarm", "FALSE POSITIVE · FP", False)}</tr>'
+        f'<tr><th>Purchase (1)</th>{cell(fn, "Missed purchase", "FALSE NEGATIVE · FN", False)}'
+        f'{cell(tp, "Correctly detected", "TRUE POSITIVE · TP", True)}</tr>'
+        '</table><div class="key"><i style="background:#a8dfc9;"></i>Correct prediction'
+        '<i style="background:#fac7bc;"></i>Incorrect prediction</div></div>'
+    )
 
 
 # ------------------------------ Header ------------------------------
