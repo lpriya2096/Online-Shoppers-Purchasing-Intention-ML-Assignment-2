@@ -49,16 +49,6 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 .chip.sun {background:#dcfce7;color:#166534;}
 .bal {width:100%;border-collapse:collapse;margin:10px 0 16px;table-layout:fixed;}
 .bal td {padding:10px 12px!important;font-size:.81rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;border:0!important;}
-.tw {max-height:340px;overflow:auto;border:1px solid #93b9fa;border-radius:13px;background:#fff;}
-.dt {border-collapse:separate;border-spacing:0;width:100%;font-size:.82rem;margin:0;}
-.dt th {position:static;background:#315f99;color:#ffffff;font-weight:750;padding:11px 12px!important;text-align:left;white-space:nowrap;border:0!important;border-bottom:1px solid var(--line)!important;}
-.dt th.tg {background:#315f99;color:#ffffff;}
-.dt td {padding:9px 12px!important;white-space:nowrap;color:#27364a;background:#fff;border:0!important;border-bottom:1px solid #edf1f6!important;}
-.dt td.num {text-align:right;}
-.dt tr:nth-child(even) td {background:#eaf2ff;}
-.dt td.tg {background:#e2edff!important;}
-.bd {display:inline-block;padding:3px 10px;border-radius:8px;font-weight:750;font-size:.74rem;color:#fff;}
-.bd.p {background:#2563eb;}.bd.n {background:#64748b;}
 .note {color:var(--muted);font-size:.84rem;margin:10px 0 0;}
 .verdict {background:#eaf2ff;border:1px solid #cfe0ff;color:#26476d;border-radius:14px;padding:17px 20px;margin:10px 0 20px;font-size:.95rem;line-height:1.65;}
 .verdict b {color:#164bb3;}
@@ -72,22 +62,6 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 @media(max-width:700px){.block-container{padding:1rem .85rem 3rem;}.hero{padding:25px 22px;border-radius:16px;}.hero .cart{display:none!important;}.hero td:last-child{display:none;}.mt{border-spacing:6px;margin:0 -6px;}.mc{padding:12px 8px!important;}.mc .nm{font-size:.66rem;}.mc .ht{font-size:.7rem;}.cm{border-spacing:4px;}.cm th{font-size:.65rem;}.cm .n{font-size:1.25rem;}.cmw{padding:7px;}}
 
 
-/* Recolour the real uploaded-file widget. No duplicate filename card. */
-[data-testid="stFileUploaderFile"],
-[data-testid="stFileUploaderFile"] > div,
-[data-testid="stFileUploaderFile"] > div > div,
-[data-testid="stFileUploaderFile"] [data-testid="stFileUploaderFileData"],
-[data-testid="stFileUploaderFile"] [data-testid="stFileUploaderFileName"],
-[data-testid="stFileUploaderFile"] [data-testid="stFileUploaderFileSize"],
-[data-testid="stFileUploaderFile"] [data-baseweb="tag"] {
-  background:#e3f1ff!important;background-color:#e3f1ff!important;
-  color:#203957!important;box-shadow:none!important;
-}
-[data-testid="stFileUploaderFile"] {display:flex!important;border:1px solid #a9cbea!important;border-radius:11px!important;}
-[data-testid="stFileUploaderFile"] :is(p,span,small,div,svg) {
-  color:#203957!important;-webkit-text-fill-color:#203957!important;
-}
-[data-testid="stFileUploaderFile"] button {background:#d0e6fc!important;border-radius:8px!important;}
 /* Closed model selector */
 [data-testid="stSelectbox"] [data-baseweb="select"] > div,
 [data-testid="stSelectbox"] [role="combobox"] {
@@ -175,26 +149,6 @@ ul[role="listbox"] li:hover {
  background:#cfe6ff!important;
 }
 
-/* Uploaded CSV: recolor Streamlit's nested file-pill surfaces. */
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] > div,
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] > div > div,
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFileData"],
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFileName"],
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFileSize"],
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] [data-baseweb="tag"] {
- background:#e4f2ff!important;background-color:#e4f2ff!important;
- color:#203957!important;box-shadow:none!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
- border:1px solid #abccec!important;border-radius:12px!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] * {
- color:#203957!important;-webkit-text-fill-color:#203957!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button {
- background:#cce5fc!important;border-radius:9px!important;
-}
 /* Unified typography for every section heading. */
 .section-heading {font-family:'DM Sans',sans-serif!important;font-size:1.27rem!important;
  font-weight:800!important;letter-spacing:-.025em!important;line-height:1.35!important;
@@ -219,15 +173,6 @@ ul[role="listbox"] li:hover {
 .matrix-cell .n {font-size:1.9rem;font-weight:800;line-height:1.2;color:#193955;}
 .matrix-cell .l {font-size:.79rem;font-weight:700;color:#294967;margin-top:9px;}
 .matrix-foot {text-align:center;color:#64748b;font-size:.75rem;margin-top:15px;}
-/* Dataset preview: balanced typography and distinct column headings. */
-.tw {border:1px solid #c6d9f1;border-radius:13px;overflow:auto;max-height:520px;}
-.dt {font-family:'DM Sans',sans-serif!important;font-size:.86rem!important;}
-.dt th {background:#315f99!important;color:#fff!important;font-size:.78rem!important;
- letter-spacing:.01em;font-weight:750!important;padding:12px 14px!important;}
-.dt td {font-size:.83rem!important;padding:11px 14px!important;color:#233c58!important;}
-.dt tr:nth-child(even) td {background:#eef5ff!important;}
-.dt td.tg {background:#e4efff!important;}
-.dt tr:hover td {background:#e0edff!important;}
 .preview-caption {font-family:'DM Sans',sans-serif;color:#4c6686;
  font-size:.85rem;font-weight:650;margin:15px 0 10px;}
 @media(max-width:600px) {
@@ -236,34 +181,6 @@ ul[role="listbox"] li:hover {
  .matrix-label.row-label{padding-left:7px}
  .matrix-cell{min-height:100px;padding:10px 4px}
  .matrix-cell .n{font-size:1.35rem}.matrix-cell .l{font-size:.65rem}
-}
-
-/* Preview row selection: mild blue pills, independent of the model dropdown. */
-[data-testid="stRadio"] [role="radiogroup"] {gap:9px;flex-wrap:wrap;}
-[data-testid="stRadio"] label {font-family:'DM Sans',sans-serif;color:#234363;
- background:#eaf3ff;border:1px solid #c9dbf2;border-radius:10px;padding:7px 11px;}
-[data-testid="stRadio"] label:has(input:checked) {background:#d8eaff;border-color:#78a9e5;}
-/* Keep table headers above, not overlapping, the body rows. */
-.tw .dt th {position:static!important;top:auto!important;z-index:auto!important;}
-.tw .dt {border-collapse:separate!important;border-spacing:0!important;}
-.tw .dt tbody tr {height:42px;}
-
-/* Uploaded file chip: override Streamlit's dark theme at every nested layer. */
-div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],
-div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(div,span,p,small),
-div[data-testid="stFileUploader"] [data-testid="stFileUploaderFileData"],
-div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] [data-baseweb="tag"],
-div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] [class*="file"],
-div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] [class*="File"] {
- background-color:#e3f1ff!important;background-image:none!important;
- color:#203957!important;-webkit-text-fill-color:#203957!important;
- box-shadow:none!important;
-}
-div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
- border:1px solid #aacbed!important;border-radius:12px!important;
-}
-div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(svg,path) {
- color:#203957!important;fill:currentColor!important;
 }
 
 /* Evaluation formulas: preserve existing layout; only match navy-blue colours. */
@@ -297,134 +214,76 @@ div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(svg,pat
  color:#314e6e!important;
 }
 
-/* Dataset Preview — one consistent style, matching the dashboard's blue palette. */
-.tw {
-  width:100%;max-width:100%;max-height:440px;overflow:auto;
-  background:#fff;border:1px solid #c8d9ed;border-radius:12px;
-}
-.tw table.dt {
-  width:max-content;min-width:100%;border-collapse:separate;border-spacing:0;
-  table-layout:auto;font-family:'DM Sans',sans-serif;
-}
-.tw table.dt thead th {
-  position:static!important;top:auto!important;
-  background:#37648f!important;color:#fff!important;
-  font-family:'DM Sans',sans-serif!important;font-size:12px!important;
-  font-weight:700!important;letter-spacing:0!important;
-  padding:12px 15px!important;line-height:1.35!important;
-  white-space:nowrap!important;text-align:left!important;border:0!important;
-}
-.tw table.dt tbody tr {height:auto!important;}
-.tw table.dt tbody td {
-  font-family:'DM Sans',sans-serif!important;font-size:12.5px!important;
-  font-weight:500!important;line-height:1.4!important;
-  padding:11px 15px!important;color:#233b57!important;
-  border:0!important;border-bottom:1px solid #e4edf5!important;
-  white-space:nowrap!important;vertical-align:middle!important;
-}
-.tw table.dt tbody tr:nth-child(odd) td {background:#ffffff!important;}
-.tw table.dt tbody tr:nth-child(even) td {background:#edf4fb!important;}
-.tw table.dt tbody tr:hover td {background:#e2effb!important;}
-.tw table.dt tbody td.tg {background:#e3eefb!important;}
-.tw table.dt tbody td.num {text-align:right!important;font-variant-numeric:tabular-nums;}
-.tw table.dt .bd {
-  display:inline-block;font-family:'DM Sans',sans-serif!important;
-  font-size:11px!important;font-weight:700!important;
-  padding:5px 9px!important;border-radius:7px!important;color:#fff!important;
-}
-.tw table.dt .bd.n {background:#60758d!important;}
-.tw table.dt .bd.p {background:#2864c9!important;}
-/* Original compact number input, not radio or segmented buttons. */
-.preview-inline-label {font-family:'DM Sans',sans-serif;font-size:.91rem;font-weight:750;color:#263e56;white-space:nowrap;}
 
-/* Dataset preview number-input +/- controls only: muted blue, readable icons. */
-[data-testid="stNumberInput"] button,
-[data-testid="stNumberInput"] [data-baseweb="button"] {
-  background-color:#dceafb !important;
-  color:#285487 !important;
-  border-color:#b9d2ee !important;
-}
-[data-testid="stNumberInput"] button:hover,
-[data-testid="stNumberInput"] [data-baseweb="button"]:hover {
-  background-color:#bfd9f6 !important;
-  color:#193d68 !important;
-}
-[data-testid="stNumberInput"] button svg,
-[data-testid="stNumberInput"] [data-baseweb="button"] svg {
-  color:#285487 !important;
-  fill:currentColor !important;
-}
-
-/* Approved Dataset Preview: decorate the table frame, not the data cells. */
-.tw {
-  border:1px solid #d5e0ec!important;
-  border-radius:12px!important;
-  overflow:auto!important;
-  max-height:440px!important;
-  background:#fff!important;
-  box-shadow:0 3px 12px rgba(30,62,95,.055)!important;
-}
-.tw table.dt {font-family:'DM Sans',sans-serif!important;border-collapse:collapse!important;}
-.tw table.dt thead th {
-  background:#f5f8fc!important;color:#315e87!important;
-  border-bottom:1px solid #dce5ee!important;
-  font-family:'DM Sans',sans-serif!important;font-size:12px!important;
-  font-weight:700!important;padding:12px 15px!important;
-}
-.tw table.dt tbody td,
-.tw table.dt tbody td.tg,
-.tw table.dt tbody td.num,
-.tw table.dt tbody tr:nth-child(even) td,
-.tw table.dt tbody tr:nth-child(odd) td,
-.tw table.dt tbody tr:hover td {
-  background:#fff!important;background-color:#fff!important;
-  color:#334155!important;font-family:'DM Sans',sans-serif!important;
-  font-size:12.5px!important;font-weight:400!important;
-  border-bottom:1px solid #edf1f5!important;padding:11px 15px!important;
-}
-.tw table.dt tbody td.num {text-align:right!important;font-variant-numeric:tabular-nums;}
-/* Coordinated light-blue row count, including its number and +/- buttons. */
-[data-testid="stNumberInput"] [data-baseweb="input"],
-[data-testid="stNumberInput"] [data-baseweb="base-input"],
-[data-testid="stNumberInput"] input {
+/* Uploaded file: style Streamlit's real file row, including the dark tag layer.
+   Do not create a duplicate filename card or alter uploader behavior. */
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] > div,
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] > div > div,
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] [data-baseweb="tag"],
+[data-testid="stFileUploader"] [data-baseweb="tag"],
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFileData"] {
   background:#dceafb!important;background-color:#dceafb!important;
-  color:#285487!important;-webkit-text-fill-color:#285487!important;
-  font-family:'DM Sans',sans-serif!important;font-weight:700!important;
+  background-image:none!important;box-shadow:none!important;
+  color:#203b59!important;
 }
-[data-testid="stNumberInput"] [data-baseweb="input"] {border:1px solid #b9d2ee!important;border-radius:10px!important;}
-.preview-inline-label {font-family:'DM Sans',sans-serif!important;color:#285487!important;font-size:.91rem!important;font-weight:700!important;}
-
-/* Approved uploaded CSV card: powder-blue, with matching DM Sans typography. */
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
-  background:#dceafb!important;background-color:#dceafb!important;
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],
+[data-testid="stFileUploader"] [data-baseweb="tag"] {
   border:1px solid #b9d2ee!important;border-radius:14px!important;
-  box-shadow:none!important;color:#203b59!important;
 }
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(div,span,p,small),
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFileName"] {
-  background-color:transparent!important;color:#203b59!important;
-  -webkit-text-fill-color:#203b59!important;
-  font-family:'DM Sans',sans-serif!important;font-weight:650!important;
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(p,span,small),
+[data-testid="stFileUploader"] [data-baseweb="tag"] :is(p,span,small) {
+  font-family:'DM Sans',sans-serif!important;
+  color:#203b59!important;-webkit-text-fill-color:#203b59!important;
 }
 [data-testid="stFileUploader"] [data-testid="stFileUploaderFileSize"] {
   color:#60758d!important;-webkit-text-fill-color:#60758d!important;
-  font-family:'DM Sans',sans-serif!important;font-weight:500!important;
+  font-weight:500!important;
 }
 [data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] svg {
-  color:#285487!important;fill:none!important;
+  color:#285487!important;
 }
 [data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button {
-  background:#ffffff!important;color:#285487!important;
-  border:1px solid #b9d2ee!important;border-radius:50%!important;
+  background:#fff!important;border:1px solid #b9d2ee!important;
+  border-radius:50%!important;color:#285487!important;
 }
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button:hover {
-  background:#c7dff8!important;
-}
-/* Dataset record-count badges: same font and palette as the preview controls. */
-.dataset-records .chip,.dataset-records .chip.sun {
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button:hover {background:#c7dff8!important;}
+/* White dataset table, with restrained navy typography and no coloured data badges. */
+.tw {width:100%;max-height:440px;overflow:auto;background:#fff;
+  border:1px solid #d5e0ec;border-radius:12px;box-shadow:0 3px 12px rgba(30,62,95,.055);}
+.tw table.dt {width:max-content;min-width:100%;border-collapse:collapse;
+  font-family:'DM Sans',sans-serif;font-size:12.5px;}
+.tw table.dt thead th {position:static!important;background:#f5f8fc!important;
+  color:#285487!important;font-size:12px!important;font-weight:700!important;
+  padding:12px 15px!important;text-align:left;white-space:nowrap;
+  border:0!important;border-bottom:1px solid #dce5ee!important;}
+.tw table.dt tbody td {background:#fff!important;color:#334155!important;
+  font-family:'DM Sans',sans-serif!important;font-size:12.5px!important;
+  font-weight:400!important;padding:11px 15px!important;white-space:nowrap;
+  border:0!important;border-bottom:1px solid #edf1f5!important;}
+.tw table.dt tbody td.num {text-align:right;font-variant-numeric:tabular-nums;}
+/* Revenue values are plain text, but slightly stronger for readability. */
+.tw table.dt tbody td.revenue-purchase {color:#285487!important;font-weight:650!important;}
+.tw table.dt tbody td.revenue-no-purchase {color:#52667c!important;font-weight:650!important;}
+/* Row count: matching powder-blue input, controls and label. */
+.preview-inline-label {font-family:'DM Sans',sans-serif;color:#285487;font-size:.91rem;font-weight:700;white-space:nowrap;}
+[data-testid="stNumberInput"] [data-baseweb="input"],
+[data-testid="stNumberInput"] [data-baseweb="base-input"],
+[data-testid="stNumberInput"] input {
   background:#dceafb!important;color:#285487!important;
-  border:1px solid #b9d2ee!important;
+  -webkit-text-fill-color:#285487!important;
   font-family:'DM Sans',sans-serif!important;font-weight:700!important;
+}
+[data-testid="stNumberInput"] [data-baseweb="input"] {border:1px solid #b9d2ee!important;border-radius:10px!important;}
+[data-testid="stNumberInput"] button,
+[data-testid="stNumberInput"] [data-baseweb="button"] {
+  background:#dceafb!important;color:#285487!important;border-color:#b9d2ee!important;
+}
+[data-testid="stNumberInput"] button:hover {background:#bfd9f6!important;}
+[data-testid="stNumberInput"] button svg {color:#285487!important;}
+.dataset-records .chip,.dataset-records .chip.sun {
+  background:#dceafb;color:#285487;border:1px solid #b9d2ee;
+  font-family:'DM Sans',sans-serif;font-weight:700;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -467,7 +326,7 @@ def preview_table(df: pd.DataFrame, n: int) -> str:
             if c == "Revenue":
                 key = str(v).strip().lower()
                 label = "Purchase" if key in ("true", "1") else "No purchase" if key in ("false", "0") else str(v)
-                cells.append(f'<td>{_html.escape(label)}</td>')
+                cells.append(f'<td class="{"revenue-purchase" if label == "Purchase" else "revenue-no-purchase" if label == "No purchase" else ""}">{_html.escape(label)}</td>')
             elif pd.api.types.is_number(v) and not pd.api.types.is_bool(v):
                 cells.append(f'<td class="num">{fmt_num(v)}</td>')
             else:
