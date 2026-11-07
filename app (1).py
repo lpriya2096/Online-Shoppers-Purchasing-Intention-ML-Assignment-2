@@ -39,28 +39,33 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 .sect {font-size:1.27rem;font-weight:800;color:var(--navy);margin:28px 0 7px;letter-spacing:-.025em;}
 .sect.blue {color:var(--navy);}
 .sub {color:var(--muted);font-size:.91rem;line-height:1.5;margin:0 0 16px;}
-[data-testid="stFileUploader"] section {background:#f0f6ff;border:1.5px dashed #8eb7fa;border-radius:16px;padding:12px;}
+[data-testid="stFileUploader"] section {background:#e9f3ff;border:1.5px dashed #3b82f6;border-radius:16px;padding:12px;}
 [data-testid="stFileUploader"] section button {background:#fff;border:1px solid #cbdaf5;border-radius:9px;}
-[data-testid="stFileUploaderFile"] {background:#fff!important;border:1px solid var(--line);border-radius:10px;}
+[data-testid="stFileUploaderFile"] {background:#e7f0ff!important;border:1px solid #93b9fa;border-radius:10px;}
 [data-testid="stForm"] {background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px 18px;box-shadow:0 5px 18px rgba(20,36,61,.035);}
 [data-testid="stFormSubmitButton"] button {background:#2563eb;color:#fff;border:0;border-radius:10px;font-weight:800;padding:.65rem 1.5rem;min-height:44px;}
 [data-testid="stFormSubmitButton"] button:hover {background:#1d4ed8;color:#fff;}
-[data-baseweb="select"]>div,[data-testid="stNumberInput"] [data-baseweb="input"] {background:#fff!important;border:1px solid #d8e1ed!important;border-radius:10px!important;}
+[data-baseweb="select"] > div {background:#eee9ff!important;border:1.5px solid #7c3aed!important;border-radius:10px!important;}
+[data-baseweb="select"] [data-testid="stMarkdownContainer"], [data-baseweb="select"] span, [data-baseweb="select"] input {color:#281451!important;font-weight:700!important;}
+[data-baseweb="select"] svg {fill:#5b21b6!important;color:#5b21b6!important;}
+[data-baseweb="popover"] [role="option"] {color:#281451!important;background:#fff!important;}
+[data-baseweb="popover"] [role="option"]:hover {background:#eee9ff!important;}
+[data-testid="stNumberInput"] [data-baseweb="input"] {background:#fff!important;border:1px solid #d8e1ed!important;border-radius:10px!important;}
 [data-testid="stNumberInput"] input {background:#fff!important;color:#14243d!important;}
 [data-testid="stExpander"] {background:#fff;border:1px solid var(--line);border-radius:12px;}
 .chips {margin:8px 0 14px;}
 .chip {display:inline-block;background:#eaf1ff;color:#254b84;font-size:.79rem;font-weight:750;padding:7px 13px;border-radius:9px;margin:0 7px 7px 0;}
-.chip.sun {background:#fff5df;color:#926316;}
+.chip.sun {background:#dcfce7;color:#166534;}
 .bal {width:100%;border-collapse:collapse;margin:10px 0 16px;table-layout:fixed;}
 .bal td {padding:10px 12px!important;font-size:.81rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;border:0!important;}
-.tw {max-height:340px;overflow:auto;border:1px solid var(--line);border-radius:13px;background:#fff;}
+.tw {max-height:340px;overflow:auto;border:1px solid #93b9fa;border-radius:13px;background:#fff;}
 .dt {border-collapse:separate;border-spacing:0;width:100%;font-size:.82rem;margin:0;}
-.dt th {position:sticky;top:0;background:#edf2fa;color:#30435f;font-weight:750;padding:11px 12px!important;text-align:left;white-space:nowrap;border:0!important;border-bottom:1px solid var(--line)!important;}
-.dt th.tg {background:#dceafd;color:#1e4d8e;}
+.dt th {position:sticky;top:0;background:#315f99;color:#ffffff;font-weight:750;padding:11px 12px!important;text-align:left;white-space:nowrap;border:0!important;border-bottom:1px solid var(--line)!important;}
+.dt th.tg {background:#315f99;color:#ffffff;}
 .dt td {padding:9px 12px!important;white-space:nowrap;color:#27364a;background:#fff;border:0!important;border-bottom:1px solid #edf1f6!important;}
 .dt td.num {text-align:right;}
-.dt tr:nth-child(even) td {background:#f9fbfe;}
-.dt td.tg {background:#f0f6ff!important;}
+.dt tr:nth-child(even) td {background:#eaf2ff;}
+.dt td.tg {background:#e2edff!important;}
 .bd {display:inline-block;padding:3px 10px;border-radius:8px;font-weight:750;font-size:.74rem;color:#fff;}
 .bd.p {background:#2563eb;}.bd.n {background:#64748b;}
 .note {color:var(--muted);font-size:.84rem;margin:10px 0 0;}
@@ -246,11 +251,10 @@ if uploaded_file is not None:
         if flags.notna().all():
             st.markdown(balance_bar(int(flags.sum()), len(flags)), unsafe_allow_html=True)
 
-    n_rows = st.number_input("Rows to show (up to 100)", min_value=1, max_value=min(100, len(test_df)),
-                             value=min(10, len(test_df)), step=5)
-    st.markdown(preview_table(test_df, int(n_rows)), unsafe_allow_html=True)
+    st.caption("Preview: first 5 rows")
+    st.markdown(preview_table(test_df, 5), unsafe_allow_html=True)
     if "Revenue" in test_df.columns:
-        st.markdown(f'<div class="note">The rose <b>Revenue</b> column (shown first) is what the models predict: Purchase or No purchase. '
+        st.markdown(f'<div class="note">The highlighted <b>Revenue</b> column (shown first) is what the models predict: Purchase or No purchase. '
                     f'The other {test_df.shape[1] - 1} columns are the inputs they use.</div>', unsafe_allow_html=True)
 
 # ------------------------------ Step 2: model + run ------------------------------
