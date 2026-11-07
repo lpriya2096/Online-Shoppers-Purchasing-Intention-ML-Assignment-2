@@ -107,6 +107,37 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 .cm .l{font-size:.84rem!important;font-weight:800!important;color:#294963!important;}
 .cm .t{font-size:.67rem!important;color:#56728a!important;}.cm .p{font-size:.73rem!important;color:#56728a!important;}
 @media(max-width:700px){.cmw{padding:6px}.cm{border-spacing:4px}.cm td{padding:10px 3px!important}.cm .n{font-size:1.3rem!important}.cm .l{font-size:.67rem!important}.cm .t,.cm .p{font-size:.57rem!important}}
+
+/* Model heading uses the same font and visual treatment as the upload heading. */
+.step.model-heading{font-family:'DM Sans',sans-serif;font-size:1.27rem;font-weight:800;letter-spacing:-.025em;color:#274d8b!important;margin:28px 0 13px;}
+/* The open select menu is a portal outside stSelectbox: style its own listbox. */
+[data-baseweb="popover"] [role="listbox"],
+[data-baseweb="popover"] [role="listbox"] ul,
+[data-baseweb="popover"] [data-baseweb="menu"],
+[data-baseweb="popover"] [data-baseweb="menu"] ul {
+  background:#eaf4ff!important;background-color:#eaf4ff!important;
+  color:#203957!important;border:1px solid #bad4ed!important;
+  border-radius:12px!important;box-shadow:0 12px 28px rgba(25,55,91,.12)!important;
+}
+[data-baseweb="popover"] [role="option"],
+[data-baseweb="popover"] [role="listbox"] li,
+[data-baseweb="popover"] [data-baseweb="menu"] li {
+  background:#eaf4ff!important;color:#203957!important;
+  -webkit-text-fill-color:#203957!important;font-family:'DM Sans',sans-serif!important;
+  font-weight:600!important;
+}
+[data-baseweb="popover"] [role="option"] *,
+[data-baseweb="popover"] [role="listbox"] li *,
+[data-baseweb="popover"] [data-baseweb="menu"] li * {
+  color:#203957!important;-webkit-text-fill-color:#203957!important;
+}
+[data-baseweb="popover"] [role="option"]:hover,
+[data-baseweb="popover"] [role="option"][aria-selected="true"],
+[data-baseweb="popover"] [role="listbox"] li:hover,
+[data-baseweb="popover"] [data-baseweb="menu"] li:hover {
+  background:#d5e9ff!important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -270,7 +301,7 @@ if uploaded_file is not None:
                     f'The other {test_df.shape[1] - 1} columns are the inputs they use.</div>', unsafe_allow_html=True)
 
 # ------------------------------ Step 2: model + run ------------------------------
-st.markdown('<div class="step"><b>2</b>Choose a model and run</div>', unsafe_allow_html=True)
+st.markdown('<div class="step model-heading">Choose a model and run</div>', unsafe_allow_html=True)
 with st.form("evaluation_form"):
     selected_model = st.selectbox("Classification model", list(MODEL_FILES))
     run_evaluation = st.form_submit_button("Run Evaluation", type="primary")
