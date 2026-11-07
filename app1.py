@@ -247,6 +247,24 @@ ul[role="listbox"] li:hover {
 .tw .dt th {position:static!important;top:auto!important;z-index:auto!important;}
 .tw .dt {border-collapse:separate!important;border-spacing:0!important;}
 .tw .dt tbody tr {height:42px;}
+
+/* Uploaded file chip: override Streamlit's dark theme at every nested layer. */
+div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],
+div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(div,span,p,small),
+div[data-testid="stFileUploader"] [data-testid="stFileUploaderFileData"],
+div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] [data-baseweb="tag"],
+div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] [class*="file"],
+div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] [class*="File"] {
+ background-color:#e3f1ff!important;background-image:none!important;
+ color:#203957!important;-webkit-text-fill-color:#203957!important;
+ box-shadow:none!important;
+}
+div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
+ border:1px solid #aacbed!important;border-radius:12px!important;
+}
+div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(svg,path) {
+ color:#203957!important;fill:currentColor!important;
+}
 </style>
 """, unsafe_allow_html=True)
 
