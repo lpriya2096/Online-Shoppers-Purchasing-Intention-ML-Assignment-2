@@ -199,26 +199,44 @@ ul[role="listbox"] li:hover {
 .section-heading {font-family:'DM Sans',sans-serif!important;font-size:1.27rem!important;
  font-weight:800!important;letter-spacing:-.025em!important;line-height:1.35!important;
  color:#274d8b!important;margin:28px 0 13px!important;}
-/* Medium, uncluttered confusion matrix. */
-.cmw {max-width:600px;margin:16px auto 0;padding:20px;background:#fff;
+/* Confusion matrix: CSS grid gives real, consistent gaps between every cell. */
+.cmw {max-width:620px;margin:18px auto 0;padding:22px;background:#fff;
  border:1px solid #dbe6f2;border-radius:18px;box-shadow:0 7px 22px rgba(23,53,89,.06);}
-.matrix-axis {text-align:center;font-size:.85rem;font-weight:700;color:#496682;margin:0 0 12px;}
-.cm {width:100%;border-collapse:separate;border-spacing:8px;table-layout:fixed;font-family:'DM Sans',sans-serif;}
-.cm th {background:#edf3fb!important;color:#294967!important;font-size:.8rem!important;
- font-weight:700!important;padding:12px 7px!important;border:0!important;border-radius:10px;}
-.cm td {text-align:center;border:1px solid transparent!important;border-radius:12px!important;
- padding:20px 6px!important;color:#193955!important;}
-.cm td.tn {background:#dff4ee!important;border-color:#b6e2d3!important;}
-.cm td.tp {background:#e0ecff!important;border-color:#b6cdf4!important;}
-.cm td.fp {background:#fff0dc!important;border-color:#f0d4aa!important;}
-.cm td.fn {background:#fae8ee!important;border-color:#eec6d4!important;}
-.cm .n {font-size:1.8rem!important;font-weight:800!important;line-height:1.15!important;}
-.cm .l {font-size:.79rem!important;font-weight:700!important;margin-top:7px!important;}
-.matrix-foot {text-align:center;color:#64748b;font-size:.75rem;margin:12px 0 0;}
-@media(max-width:600px) {.cmw{padding:8px}.cm{border-spacing:4px}
- .cm th{font-size:.66rem!important;padding:8px 3px!important}
- .cm td{padding:13px 3px!important}.cm .n{font-size:1.35rem!important}
- .cm .l{font-size:.65rem!important}}
+.matrix-axis {text-align:center;font-size:.86rem;font-weight:750;color:#496682;margin-bottom:15px;}
+.matrix-grid {display:grid;grid-template-columns: minmax(105px,1fr) minmax(0,1.3fr) minmax(0,1.3fr);
+ gap:12px;align-items:stretch;}
+.matrix-label {display:flex;align-items:center;justify-content:center;text-align:center;
+ background:#edf3fb;color:#294967;font-size:.82rem;font-weight:750;
+ border-radius:11px;padding:12px 8px;min-width:0;}
+.matrix-label.row-label {justify-content:flex-start;text-align:left;padding-left:14px;}
+.matrix-cell {min-width:0;min-height:125px;display:flex;flex-direction:column;
+ justify-content:center;align-items:center;text-align:center;border-radius:13px;
+ padding:18px 8px;border:1px solid transparent;}
+.matrix-cell.tn {background:#dff4ee;border-color:#b6e2d3;}
+.matrix-cell.tp {background:#e0ecff;border-color:#b6cdf4;}
+.matrix-cell.fp {background:#fff0dc;border-color:#f0d4aa;}
+.matrix-cell.fn {background:#fae8ee;border-color:#eec6d4;}
+.matrix-cell .n {font-size:1.9rem;font-weight:800;line-height:1.2;color:#193955;}
+.matrix-cell .l {font-size:.79rem;font-weight:700;color:#294967;margin-top:9px;}
+.matrix-foot {text-align:center;color:#64748b;font-size:.75rem;margin-top:15px;}
+/* Dataset preview: balanced typography and distinct column headings. */
+.tw {border:1px solid #c6d9f1;border-radius:13px;overflow:auto;max-height:430px;}
+.dt {font-family:'DM Sans',sans-serif!important;font-size:.86rem!important;}
+.dt th {background:#315f99!important;color:#fff!important;font-size:.78rem!important;
+ letter-spacing:.01em;font-weight:750!important;padding:12px 14px!important;}
+.dt td {font-size:.83rem!important;padding:11px 14px!important;color:#233c58!important;}
+.dt tr:nth-child(even) td {background:#eef5ff!important;}
+.dt td.tg {background:#e4efff!important;}
+.dt tr:hover td {background:#e0edff!important;}
+.preview-caption {font-family:'DM Sans',sans-serif;color:#4c6686;
+ font-size:.85rem;font-weight:650;margin:15px 0 10px;}
+@media(max-width:600px) {
+ .cmw{padding:12px}.matrix-grid{gap:6px;grid-template-columns:minmax(75px,1fr) repeat(2,minmax(0,1.3fr))}
+ .matrix-label{font-size:.68rem;padding:8px 4px}
+ .matrix-label.row-label{padding-left:7px}
+ .matrix-cell{min-height:100px;padding:10px 4px}
+ .matrix-cell .n{font-size:1.35rem}.matrix-cell .l{font-size:.65rem}
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -308,23 +326,26 @@ def metric_cards(scores):
 
 
 def confusion_html(tn, fp, fn, tp):
-    """Readable 2×2 confusion matrix with clearly labeled axes."""
+    """Medium-sized confusion matrix with clearly separated grid cells."""
     def cell(value, title, kind):
         return (
-            f'<td class="{kind}"><div class="n">{value:,}</div>'
-            f'<div class="l">{title}</div></td>'
+            f'<div class="matrix-cell {kind}"><div class="n">{value:,}</div>'
+            f'<div class="l">{title}</div></div>'
         )
 
     return (
         '<div class="cmw"><div class="matrix-axis">Predicted outcome →</div>'
-        '<table class="cm"><colgroup><col style="width:25%">'
-        '<col style="width:37.5%"><col style="width:37.5%"></colgroup>'
-        '<tr><th>Actual outcome ↓</th><th>No purchase</th><th>Purchase</th></tr>'
-        f'<tr><th>No purchase</th>{cell(tn,"True negative","tn")}'
-        f'{cell(fp,"False positive","fp")}</tr>'
-        f'<tr><th>Purchase</th>{cell(fn,"False negative","fn")}'
-        f'{cell(tp,"True positive","tp")}</tr></table>'
-        '<div class="matrix-foot">Green / blue = correct predictions'
+        '<div class="matrix-grid">'
+        '<div class="matrix-label">Actual outcome ↓</div>'
+        '<div class="matrix-label">No purchase</div>'
+        '<div class="matrix-label">Purchase</div>'
+        '<div class="matrix-label row-label">No purchase</div>'
+        + cell(tn, "True negative", "tn")
+        + cell(fp, "False positive", "fp")
+        + '<div class="matrix-label row-label">Purchase</div>'
+        + cell(fn, "False negative", "fn")
+        + cell(tp, "True positive", "tp")
+        + '</div><div class="matrix-foot">Green / blue = correct predictions'
         ' · Amber / rose = incorrect predictions</div></div>'
     )
 
@@ -374,8 +395,18 @@ if uploaded_file is not None:
         if flags.notna().all():
             st.markdown(balance_bar(int(flags.sum()), len(flags)), unsafe_allow_html=True)
 
-    st.caption("Preview: first 5 rows")
-    st.markdown(preview_table(test_df, 5), unsafe_allow_html=True)
+    preview_count = st.selectbox(
+        "Rows to preview",
+        options=[5, 10, 20, 50, 100],
+        index=0,
+        help="Display more rows without changing the uploaded dataset or model evaluation.",
+        key="preview_rows",
+    )
+    st.markdown(
+        f'<div class="preview-caption">Showing first {min(preview_count, len(test_df)):,} '
+        f'of {len(test_df):,} rows</div>', unsafe_allow_html=True
+    )
+    st.markdown(preview_table(test_df, preview_count), unsafe_allow_html=True)
     if "Revenue" in test_df.columns:
         st.markdown(f'<div class="note">The highlighted <b>Revenue</b> column (shown first) is what the models predict: Purchase or No purchase. '
                     f'The other {test_df.shape[1] - 1} columns are the inputs they use.</div>', unsafe_allow_html=True)
