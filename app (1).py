@@ -34,11 +34,15 @@ h1, h2, h3, .pop {font-family: 'Poppins', 'Segoe UI', sans-serif;}
 .hero .cart {width: 96px; height: 96px; line-height: 96px; text-align: center; font-size: 3rem;
              border-radius: 50%; background: rgba(255,200,69,.22); border: 2px dashed #ffc845;}
 
-.step {font-family: 'Poppins', 'Segoe UI', sans-serif; font-size: 1.15rem; font-weight: 700; color: #231942; margin: 26px 0 8px;}
+.step {font-family: 'Poppins', 'Segoe UI', sans-serif; font-size: 1.15rem; font-weight: 700; color: #231942;
+       line-height: 1.2; margin: 26px 0 10px;}
+.step.up {color: #0b6b6b;}
+.step.up b {background: #0fa3a3; color: #ffffff;}
 .step b {display: inline-block; width: 32px; height: 32px; line-height: 32px; text-align: center; border-radius: 50%;
          background: #ffc845; color: #2d1b4e; margin-right: 10px; font-size: .95rem;}
 
-[data-testid="stFileUploader"] section {background: #ffffff; border: 2px dashed #b9a3e6; border-radius: 18px;}
+[data-testid="stFileUploader"] section {background: #e8f8f7; border: 2px dashed #0fa3a3; border-radius: 18px;}
+[data-testid="stFileUploader"] section button {border-color: #0fa3a3; color: #0b6b6b;}
 [data-testid="stForm"] {border: 1px solid #e3d9f5; border-radius: 20px; padding: 18px 22px 14px; background: #ffffff;
                         box-shadow: 0 4px 16px rgba(91,47,160,.07);}
 [data-testid="stFormSubmitButton"] button {background: linear-gradient(135deg, #ff6f61, #ff8a5c); color: #ffffff; border: 0;
@@ -52,8 +56,9 @@ h1, h2, h3, .pop {font-family: 'Poppins', 'Segoe UI', sans-serif;}
 .bal {width: 100%; border-collapse: collapse; margin: 6px 0 4px; table-layout: fixed;}
 .bal td {padding: 9px 12px; font-size: .84rem; font-weight: 700; color: #ffffff; white-space: nowrap; overflow: hidden;}
 
-.sect {font-family: 'Poppins', 'Segoe UI', sans-serif; font-size: 1.3rem; font-weight: 800; color: #231942;
-       margin: 28px 0 8px; padding-left: 14px; border-left: 7px solid #ff6f61;}
+.sect {font-family: 'Poppins', 'Segoe UI', sans-serif; font-size: 1.25rem; font-weight: 800; color: #231942;
+       line-height: 1.15; margin: 26px 0 10px; padding: 3px 0 3px 12px; border-left: 6px solid #ff6f61;}
+.sect.teal {border-left-color: #0fa3a3;}
 
 .verdict {background: #2d1b4e; color: #f4ecff; border-radius: 18px; padding: 16px 22px; margin: 6px 0 14px;
           font-size: .98rem; line-height: 1.6;}
@@ -69,15 +74,16 @@ h1, h2, h3, .pop {font-family: 'Poppins', 'Segoe UI', sans-serif;}
 .mc .bar i {display: block; height: 100%; border-radius: 8px;}
 .mc .ht {font-size: .78rem; color: #7a6f90; margin-top: 9px; line-height: 1.35;}
 
-.cm {width: 100%; border-collapse: separate; border-spacing: 10px; table-layout: fixed;}
-.cm th {background: #2d1b4e; color: #ffffff; font-size: .8rem; font-weight: 700; padding: 11px 6px; border-radius: 12px;}
+.cmw {max-width: 600px; margin: 0 auto;}
+.cm {width: 100%; border-collapse: separate; border-spacing: 8px; table-layout: fixed;}
+.cm th {background: #2d1b4e; color: #ffffff; font-size: .74rem; font-weight: 700; padding: 8px 5px; border-radius: 10px;}
 .cm th.e {background: transparent;}
-.cm td {border-radius: 18px; text-align: center; padding: 20px 8px; color: #231942;}
-.cm .ic {font-size: 1.2rem;}
-.cm .n {font-family: 'Poppins', 'Segoe UI', sans-serif; font-size: 2.1rem; font-weight: 800; line-height: 1.15;}
-.cm .l {font-size: .84rem; font-weight: 700; margin-top: 3px;}
-.cm .t {font-size: .72rem; letter-spacing: .06em; opacity: .7; margin-top: 2px;}
-.cm .p {font-size: .74rem; opacity: .75; margin-top: 2px;}
+.cm td {border-radius: 14px; text-align: center; padding: 11px 6px; color: #231942;}
+.cm .ic {font-size: 1rem; line-height: 1.1;}
+.cm .n {font-family: 'Poppins', 'Segoe UI', sans-serif; font-size: 1.55rem; font-weight: 800; line-height: 1.15;}
+.cm .l {font-size: .76rem; font-weight: 700; margin-top: 2px;}
+.cm .t {font-size: .62rem; letter-spacing: .06em; opacity: .7; margin-top: 1px;}
+.cm .p {font-size: .66rem; opacity: .75; margin-top: 1px;}
 .hint {background: #ffffff; border: 2px dashed #cdbbf0; border-radius: 18px; padding: 18px 22px; color: #3b1f5e; font-size: .98rem;}
 </style>
 """, unsafe_allow_html=True)
@@ -150,13 +156,13 @@ def confusion_html(tn, fp, fn, tp):
                 f'<div class="p">{share:.1%} of all sessions</div></td>')
 
     return (
-        '<table class="cm"><colgroup><col style="width:20%"><col style="width:40%"><col style="width:40%"></colgroup>'
+        '<div class="cmw"><table class="cm"><colgroup><col style="width:22%"><col style="width:39%"><col style="width:39%"></colgroup>'
         '<tr><th class="e"></th><th>Predicted: No Purchase</th><th>Predicted: Purchase</th></tr>'
         f'<tr><th>Actual:<br>No Purchase</th>{cell(tn, "✅", "Browsers spotted", "TRUE NEGATIVE", True)}'
         f'{cell(fp, "🚨", "False alarms", "FALSE POSITIVE", False)}</tr>'
         f'<tr><th>Actual:<br>Purchase</th>{cell(fn, "😕", "Missed buyers", "FALSE NEGATIVE", False)}'
         f'{cell(tp, "🛍️", "Buyers caught", "TRUE POSITIVE", True)}</tr>'
-        '</table>')
+        '</table></div>')
 
 
 # ------------------------------ Header ------------------------------
@@ -173,7 +179,7 @@ st.markdown(
     unsafe_allow_html=True)
 
 # ------------------------------ Step 1: upload + preview ------------------------------
-st.markdown('<div class="step"><b>1</b>Upload your test data</div>', unsafe_allow_html=True)
+st.markdown('<div class="step up"><b>1</b>Upload your test data</div>', unsafe_allow_html=True)
 uploaded_file = st.file_uploader("Test CSV (including Revenue)", type=["csv"])
 
 test_df = None
@@ -188,7 +194,7 @@ if uploaded_file is not None:
         st.error("The uploaded CSV has no rows.")
         st.stop()
 
-    st.markdown('<div class="sect">Dataset Preview</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sect teal">Dataset Preview</div>', unsafe_allow_html=True)
     chips = (f'<span class="chip">{len(test_df):,} rows</span>'
              f'<span class="chip">{test_df.shape[1]} columns</span>'
              f'<span class="chip sun">{int(test_df.isna().sum().sum())} missing values</span>')
