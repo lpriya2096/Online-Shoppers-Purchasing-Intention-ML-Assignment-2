@@ -58,11 +58,6 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 [data-testid="stFileUploader"] section{background:#f1f7ff!important;border:1px solid #bad1e8!important;border-radius:13px!important;box-shadow:none!important}
 [data-testid="stFileUploader"] section button{background:#fff!important;border:1px solid #b8cde4!important;color:#254a73!important;border-radius:9px!important}
 [data-testid="stFileUploaderFile"],[data-testid="stFileUploaderFileData"]{display:none!important}
-.uploaded-file-summary{display:flex;align-items:center;gap:12px;background:#eaf4ff;border:1px solid #b9d6ee;border-radius:12px;padding:12px 15px;margin:8px 0 12px;max-width:480px}
-.uploaded-file-icon{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:10px;background:#fff;color:#23618b;font-size:22px;font-weight:800}
-.uploaded-file-details{display:flex;flex-direction:column;gap:3px}
-.uploaded-file-details strong{font-size:.89rem;color:#1e456b;font-weight:750}
-.uploaded-file-details small{font-size:.78rem;color:#69809a}
 .chips{margin:9px 0 14px}.chip{display:inline-block;background:#eaf3fc;border:1px solid #cfe0ef;color:#315c84;font-size:.77rem;font-weight:750;padding:8px 13px;border-radius:9px;margin:0 7px 7px 0}
 .bal{width:100%;border-collapse:collapse;margin:11px 0 15px;table-layout:fixed}.bal td{padding:11px 12px!important;font-size:.79rem;font-weight:750;color:#fff;white-space:nowrap;overflow:hidden;border:0!important}
 .preview-inline-label{font-family:'DM Sans',sans-serif;color:#285487;font-size:.91rem;font-weight:750;white-space:nowrap}
@@ -96,6 +91,19 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 [data-testid="stExpander"]{background:#fff;border:1px solid var(--line);border-radius:12px}[data-testid="stExpander"] details>summary{background:#e9f2ff!important;color:#28518a!important}[data-testid="stExpander"] details>summary *{color:#28518a!important}[data-testid="stExpander"] .katex,[data-testid="stExpander"] .katex *{color:#28518a!important}[data-testid="stExpander"] .katex-display{margin:.5em 0!important}
 @media(max-width:700px){.block-container{padding:1rem .8rem 3rem}.hero{padding:25px 20px}.hero .cart{display:none!important}.hero td:last-child{display:none}.overview{grid-template-columns:1fr}.mt{border-spacing:5px;margin:0 -5px}.mc{padding:12px 8px!important}.mc .nm{font-size:.67rem}.mc .ht{font-size:.7rem}.cmw{padding:12px}.matrix-grid{gap:6px;grid-template-columns:minmax(75px,1fr) repeat(2,minmax(0,1.3fr))}.matrix-cell{min-height:100px;padding:10px 4px}.matrix-cell .n{font-size:1.35rem}}
 
+
+/* Model comparison: restrained typography and an easy-to-scan table. */
+.compare-scroll{overflow-x:auto;border:1px solid #dce5ef;border-radius:12px;background:#fff;margin:12px 0 8px}
+.compare-table{width:100%;min-width:760px;border-collapse:collapse;font-family:'DM Sans',sans-serif;font-size:13px;color:#334155;font-variant-numeric:tabular-nums}
+.compare-table th{background:#f2f6fb;color:#285487;font-weight:700;text-align:right;padding:14px 12px;border-bottom:1px solid #dce5ef;white-space:nowrap}
+.compare-table th:first-child,.compare-table td:first-child{text-align:left;padding-left:18px;min-width:175px}
+.compare-table td{background:#fff;text-align:right;padding:13px 12px;border-bottom:1px solid #edf1f5;white-space:nowrap;font-weight:500}
+.compare-table tbody tr:last-child td{border-bottom:0}
+.compare-table tbody tr:hover td{background:#f8fbff}
+.compare-table td.model-name{color:#253d5a;font-weight:650}
+.compare-table td.best-score{color:#205f91;font-weight:800;background:#eef6fd}
+.comparison-chart-title{font-size:1.12rem!important;margin-top:26px!important}
+
 /* Deliberate, restrained table and chart styling */
 [data-testid="stTabs"] [data-baseweb="tab-list"]{gap:8px;flex-wrap:wrap}
 [data-testid="stTabs"] [data-baseweb="tab"]{background:#edf4fb!important;border-radius:10px 10px 0 0;color:#345875!important;font-weight:700!important}
@@ -108,6 +116,35 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 .data-note{background:#eef6fc;border:1px solid #d3e6f4;border-radius:12px;padding:14px 18px;margin:12px 0;color:#355b7a;font-size:.88rem}
 /* Hide default uploader chip only when our own accessible file summary is shown. */
 [data-testid="stFileUploaderFile"]{display:none!important}
+
+/* Tabs: make labels and active indicator visible in light and dark browser themes. */
+[data-testid="stTabs"] [data-baseweb="tab-list"] {
+  display:flex!important; flex-wrap:wrap!important; gap:8px!important;
+  background:#ffffff!important; border-bottom:1px solid #d4e2f0!important;
+  padding:7px 4px!important; min-height:52px!important;
+}
+[data-testid="stTabs"] button[data-baseweb="tab"],
+[data-testid="stTabs"] [role="tab"] {
+  display:inline-flex!important; visibility:visible!important; opacity:1!important;
+  min-height:39px!important; padding:9px 14px!important;
+  background:#eaf2fc!important; border:1px solid #c6d9ed!important;
+  border-radius:9px!important; color:#24496e!important;
+  font-family:'DM Sans',sans-serif!important; font-size:.88rem!important;
+  font-weight:700!important; -webkit-text-fill-color:#24496e!important;
+}
+[data-testid="stTabs"] button[data-baseweb="tab"] *,
+[data-testid="stTabs"] [role="tab"] * {
+  color:#24496e!important; -webkit-text-fill-color:#24496e!important;
+  opacity:1!important; visibility:visible!important;
+}
+[data-testid="stTabs"] [role="tab"][aria-selected="true"] {
+  background:#d4e9ff!important; border-color:#6b9bc9!important;
+  box-shadow:inset 0 -3px 0 #2865a0!important;
+}
+[data-testid="stTabs"] [data-baseweb="tab-highlight"] {background:#2865a0!important;}
+[data-testid="stTabs"] [data-baseweb="tab-border"] {background:#d4e2f0!important;}
+[data-testid="stTabs"] [data-baseweb="tab-panel"] {background:#fff!important;color:#203b59!important;padding-top:15px!important;}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -246,20 +283,6 @@ st.caption("Upload a labeled CSV containing the Revenue column to evaluate the s
 uploaded_file = st.file_uploader(
     "Upload CSV", type=["csv"], label_visibility="collapsed"
 )
-
-# The native Streamlit uploaded-file chip is styled internally and remains dark
-# in some Streamlit versions. Show one stable, light-blue file summary instead.
-if uploaded_file is not None:
-    file_name = _html.escape(uploaded_file.name)
-    file_size = uploaded_file.size
-    size_text = f"{file_size / 1024:.1f} KB" if file_size < 1024 * 1024 else f"{file_size / (1024 * 1024):.1f} MB"
-    st.markdown(
-        f'<div class="uploaded-file-summary">'
-        f'<span class="uploaded-file-icon">▦</span>'
-        f'<span class="uploaded-file-details"><strong>{file_name}</strong>'
-        f'<small>{size_text}</small></span></div>',
-        unsafe_allow_html=True,
-    )
 
 test_df = None
 if uploaded_file is not None:
@@ -446,58 +469,105 @@ if results is not None:
         st.markdown("**AUC:** Area under the ROC curve, calculated using predicted probabilities.")
 
 # ------------------------------ Five-model comparison ------------------------------
-st.markdown('<div id="comparison"></div><div class="section-heading">Compare all five models</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub">Evaluate the five saved classifiers on the same uploaded records, without retraining.</div>', unsafe_allow_html=True)
-compare_clicked = st.button("Run five-model comparison", disabled=X is None, type="secondary")
+st.markdown('<div id="comparison"></div><div class="section-heading">Model comparison</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub">Compare the six evaluation metrics across all five classifiers. Scores are shown to four decimal places for readability.</div>', unsafe_allow_html=True)
+
+# A supplied comparison file is used only as a clearly labelled reference.
+# Evaluations of uploaded data are calculated separately using the saved models.
+REFERENCE_COMPARISON = Path(__file__).resolve().parent / "model_comparison.csv"
+metric_columns = ["Accuracy", "AUC", "Precision", "Recall", "F1", "MCC"]
+reference_comparison = None
+if REFERENCE_COMPARISON.is_file():
+    try:
+        candidate = pd.read_csv(REFERENCE_COMPARISON)
+        if all(col in candidate.columns for col in ["ML Model Name", *metric_columns]):
+            for col in metric_columns:
+                candidate[col] = pd.to_numeric(candidate[col], errors="raise")
+            reference_comparison = candidate[["ML Model Name", *metric_columns]].copy()
+    except (ValueError, OSError, pd.errors.ParserError):
+        st.warning("The model_comparison.csv reference could not be read.")
+
+compare_clicked = st.button("Evaluate all five models", disabled=X is None, type="secondary")
 if compare_clicked and X is not None:
     comparison_rows = []
     comparison_errors = []
-    with st.spinner("Comparing saved classifiers..."):
+    with st.spinner("Evaluating saved classifiers..."):
         for name in MODEL_FILES:
             try:
                 result = evaluate_saved_model(name, X, y)
-                comparison_rows.append({"ML Model Name": name, **result["scores"]})
+                comparison_rows.append({"ML Model Name": name, **{("F1" if key == "F1 Score" else key): value for key, value in result["scores"].items()}})
             except Exception as exc:
                 comparison_errors.append(f"{name}: {exc}")
     st.session_state["shop_comparison"] = pd.DataFrame(comparison_rows)
     st.session_state["shop_comparison_errors"] = comparison_errors
     st.session_state["shop_comparison_file"] = current_file
 
-comparison = st.session_state.get("shop_comparison")
-if isinstance(comparison, pd.DataFrame) and not comparison.empty and st.session_state.get("shop_comparison_file") == current_file:
-    st.dataframe(comparison.style.format({col: "{:.4f}" for col in comparison.columns if col != "ML Model Name"})
-                 .highlight_max(subset=[col for col in comparison.columns if col != "ML Model Name"], color="#dceff0"),
-                 hide_index=True, use_container_width=True)
-    st.download_button("Download model comparison (CSV)", comparison.to_csv(index=False).encode("utf-8"),
-                       file_name="shopsense_model_comparison.csv", mime="text/csv")
-    available_metrics = [col for col in comparison.columns if col != "ML Model Name"]
-    chosen_metrics = st.multiselect("Metrics to compare", available_metrics,
-                                    default=["Accuracy", "AUC", "F1 Score", "MCC"])
+live_comparison = st.session_state.get("shop_comparison")
+if (isinstance(live_comparison, pd.DataFrame) and not live_comparison.empty
+        and st.session_state.get("shop_comparison_file") == current_file):
+    comparison = live_comparison.copy()
+    st.caption("Results calculated from your currently uploaded test data.")
+elif reference_comparison is not None:
+    comparison = reference_comparison.copy()
+    st.caption("Reference results from model_comparison.csv. Upload test data and select Evaluate all five models to recalculate.")
+else:
+    comparison = None
+    st.info("Upload a labelled test CSV and select Evaluate all five models to see the comparison.")
+
+if comparison is not None:
+    # Keep column names, model names, and numeric data unchanged; format only the display.
+    metrics = [col for col in metric_columns if col in comparison.columns]
+    display_cols = ["ML Model Name", *metrics]
+    best_per_metric = {col: comparison[col].max() for col in metrics}
+    header = ''.join(f'<th>{_html.escape(col)}</th>' for col in display_cols)
+    body_rows = []
+    for _, row_data in comparison.iterrows():
+        cells = [f'<td class="model-name">{_html.escape(str(row_data["ML Model Name"]))}</td>']
+        for metric in metrics:
+            val = float(row_data[metric])
+            highlight = ' class="best-score"' if np.isclose(val, best_per_metric[metric]) else ''
+            cells.append(f'<td{highlight}>{val:.4f}</td>')
+        body_rows.append('<tr>' + ''.join(cells) + '</tr>')
+    st.markdown('<div class="compare-scroll"><table class="compare-table"><thead><tr>'
+                + header + '</tr></thead><tbody>' + ''.join(body_rows)
+                + '</tbody></table></div>', unsafe_allow_html=True)
+    st.caption("Light-blue numbers indicate the highest value for that metric. All metrics are higher-is-better.")
+    st.download_button("Download comparison CSV", comparison[display_cols].to_csv(index=False).encode("utf-8"),
+                       file_name="model_comparison.csv", mime="text/csv")
+
+    st.markdown('<div class="section-heading comparison-chart-title">Metric comparison charts</div>', unsafe_allow_html=True)
+    chosen_metrics = st.multiselect("Metrics to display", metrics, default=["Accuracy", "AUC", "F1", "MCC"])
     if chosen_metrics:
-        # Side-by-side bars preserve metric meaning; negative MCC remains visible.
-        fig, axes = plt.subplots(len(chosen_metrics), 1, figsize=(9, 2.35 * len(chosen_metrics)))
-        axes = np.atleast_1d(axes)
-        for ax, metric in zip(axes, chosen_metrics):
-            vals = comparison[metric].to_numpy()
-            best = np.argmax(vals)
-            colors = ["#168e9a" if i == best else "#adcce3" for i in range(len(vals))]
-            ax.barh(comparison["ML Model Name"], vals, color=colors, height=.58)
-            ax.invert_yaxis()
-            ax.set_title(metric, loc="left", fontweight="bold", fontsize=11)
-            ax.axvline(0, color="#64748b", lw=.7)
-            ax.tick_params(labelsize=8)
-            ax.grid(axis="x", alpha=.15)
-            ax.set_axisbelow(True)
-        fig.tight_layout(h_pad=1.7)
-        st.pyplot(fig, clear_figure=True)
-        plt.close(fig)
-    st.markdown('<div class="data-note"><b>Interpretation:</b> The highest value depends on the chosen metric. '
-                'AUC measures ranking, recall measures caught purchases, and MCC balances all four confusion-matrix outcomes.</div>',
-                unsafe_allow_html=True)
-    for error in st.session_state.get("shop_comparison_errors", []):
+        # Two small, separate charts per row. Keep the labels horizontal and legible.
+        for start in range(0, len(chosen_metrics), 2):
+            group = chosen_metrics[start:start + 2]
+            fig, axes = plt.subplots(1, len(group), figsize=(12, 3.5), squeeze=False)
+            for ax, metric in zip(axes[0], group):
+                values = comparison[metric].astype(float).to_numpy()
+                best = int(np.argmax(values))
+                colors = ["#2874A6" if i == best else "#AED6F1" for i in range(len(values))]
+                positions = np.arange(len(values))
+                ax.bar(positions, values, color=colors, width=0.6)
+                ax.set_xticks(positions, comparison["ML Model Name"], rotation=25, ha="right", fontsize=8)
+                ax.set_title(metric, fontsize=11, fontweight="bold", color="#285487", pad=10)
+                ax.tick_params(axis="y", labelsize=8)
+                ax.grid(axis="y", alpha=0.17)
+                ax.set_axisbelow(True)
+                lower = min(0, float(np.min(values)))
+                upper = max(0.05, float(np.max(values)))
+                margin = max(0.04, (upper - lower) * 0.13)
+                ax.set_ylim(lower - (margin if lower < 0 else 0), upper + margin)
+                for x, v in zip(positions, values):
+                    ax.annotate(f"{v:.3f}", (x, v), xytext=(0, 4 if v >= 0 else -12),
+                                textcoords="offset points", ha="center", fontsize=8, color="#34465d")
+                for spine in ("top", "right"):
+                    ax.spines[spine].set_visible(False)
+            fig.tight_layout(w_pad=2.8)
+            st.pyplot(fig, clear_figure=True, use_container_width=True)
+            plt.close(fig)
+
+    for error in (st.session_state.get("shop_comparison_errors", []) if st.session_state.get("shop_comparison_file") == current_file else []):
         st.warning(error)
-elif X is not None:
-    st.caption("Select Run five-model comparison to generate the benchmark table and charts.")
 
 # ------------------------------ Dataset & methodology ------------------------------
 st.markdown('<div id="methodology"></div><div class="section-heading">Dataset & methodology</div>', unsafe_allow_html=True)
