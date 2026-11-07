@@ -95,6 +95,41 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 .key i {display:inline-block;width:12px;height:12px;border-radius:4px;margin:0 5px -1px 12px;}
 .hint {background:#fff;border:1px solid #d8e4f6;border-radius:14px;padding:18px 20px;color:#4a6080;font-size:.94rem;}
 @media(max-width:700px){.block-container{padding:1rem .85rem 3rem;}.hero{padding:25px 22px;border-radius:16px;}.hero .cart{display:none!important;}.hero td:last-child{display:none;}.mt{border-spacing:6px;margin:0 -6px;}.mc{padding:12px 8px!important;}.mc .nm{font-size:.66rem;}.mc .ht{font-size:.7rem;}.cm{border-spacing:4px;}.cm th{font-size:.65rem;}.cm .n{font-size:1.25rem;}.cmw{padding:7px;}}
+
+/* Quiet coastal palette: sea-glass, mist and warm ivory */
+:root {--navy:#233c42;--blue:#397d78;--muted:#6b7d80;--line:#dbe7e4;--surface:#ffffff;}
+[data-testid="stAppViewContainer"] {background:#f7faf8;color:#233c42;}
+.hero {background:linear-gradient(118deg,#315b61 0%,#447d7b 58%,#85aaa0 100%);border:1px solid #7ea6a0;box-shadow:0 12px 28px rgba(41,86,83,.12);}
+.hero:after {border-color:rgba(255,255,255,.08);}
+.hero .kick {color:#e5f4e9;}
+.hero p {color:#f1f8f5;}
+.hero .tag {background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.25);color:#fff;}
+.hero .cart {background:rgba(255,255,255,.16);}
+.step b {background:#e3f1ed;color:#397d78;}
+.step.up,.step.up b {color:#397d78;}
+[data-testid="stFileUploader"] section {background:#eff7f4!important;border:1.5px dashed #87b4aa;}
+[data-testid="stFileUploader"] section button {background:#fff;border:1px solid #a5c8bf;color:#315b61;}
+[data-testid="stFileUploaderFile"] {background:#e2f0eb!important;border:1px solid #a4c9be!important;box-shadow:0 2px 8px rgba(55,112,104,.05);}
+[data-testid="stFileUploaderFile"] span,[data-testid="stFileUploaderFile"] small,[data-testid="stFileUploaderFile"] p {color:#294e4c!important;}
+[data-testid="stFileUploaderFile"] svg,[data-testid="stFileUploaderFile"] button {color:#397d78!important;}
+[data-testid="stFormSubmitButton"] button {background:#397d78;color:#fff;box-shadow:0 4px 12px rgba(57,125,120,.15);}
+[data-testid="stFormSubmitButton"] button:hover {background:#2c625e;color:#fff;}
+[data-baseweb="select"] > div {background:#eef5f0!important;border:1.5px solid #89afa3!important;}
+[data-baseweb="select"] [data-testid="stMarkdownContainer"],[data-baseweb="select"] span,[data-baseweb="select"] input {color:#294d46!important;}
+[data-baseweb="select"] svg {fill:#397d78!important;color:#397d78!important;}
+[data-baseweb="popover"] [role="option"] {color:#294d46!important;}
+[data-baseweb="popover"] [role="option"]:hover {background:#e6f2ec!important;}
+.chip {background:#e6f1ee;color:#37665f;}
+.chip.sun {background:#edf3df;color:#556a3d;}
+.tw {border-color:#bdd6cf;}
+.dt th,.dt th.tg {background:#567d7a;color:#fff;}
+.dt tr:nth-child(even) td {background:#f1f7f4;}
+.dt td.tg {background:#e8f3ee!important;}
+.bd.p {background:#397d78;}.bd.n {background:#788c8b;}
+.verdict {background:#eef6f1;border-color:#cde3d8;color:#355d54;}
+.verdict b {color:#286a60;}
+.cm th {background:#edf4f0;color:#355650;}
+.hint {border-color:#d3e4dc;color:#4b6a63;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -156,18 +191,18 @@ def balance_bar(pos: int, total: int) -> str:
     pos_w = max(pos_pct, 12)          # keep the small segment readable
     neg_w = 100 - pos_w
     return (f'<table class="bal"><tr>'
-            f'<td style="width:{neg_w:.1f}%;background:#64748b;border-radius:12px 0 0 12px;">No purchase &middot; {neg_pct:.1f}%</td>'
-            f'<td style="width:{pos_w:.1f}%;background:#2563eb;border-radius:0 12px 12px 0;">Purchase &middot; {pos_pct:.1f}%</td>'
+            f'<td style="width:{neg_w:.1f}%;background:#7b8f8d;border-radius:12px 0 0 12px;">No purchase &middot; {neg_pct:.1f}%</td>'
+            f'<td style="width:{pos_w:.1f}%;background:#397d78;border-radius:0 12px 12px 0;">Purchase &middot; {pos_pct:.1f}%</td>'
             f'</tr></table>')
 
 
 def metric_cards(scores):
     meta = {
-        "Accuracy": ("#2563eb", "🎯", "Overall share of correct predictions"),
+        "Accuracy": ("#397d78", "🎯", "Overall share of correct predictions"),
         "AUC": ("#0e7490", "📈", "How well buyers rank above non-buyers"),
         "Precision": ("#059669", "🔍", "Predicted purchases that were real"),
         "Recall": ("#d97706", "🧲", "Real purchases the model caught"),
-        "F1 Score": ("#7c3aed", "⚖️", "Balance between precision and recall"),
+        "F1 Score": ("#7b8fbd", "⚖️", "Balance between precision and recall"),
         "MCC": ("#475569", "🧩", "Quality across all four outcomes"),
     }
     cells = []
