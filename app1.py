@@ -344,6 +344,8 @@ div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(svg,pat
 [data-testid="stSegmentedControl"] button {font-family:'DM Sans',sans-serif!important;
  min-width:52px!important;font-weight:700!important;}
 
+
+.preview-inline-label {font-family:"DM Sans",sans-serif;font-size:.91rem;font-weight:750;color:#263e56;white-space:nowrap;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -502,16 +504,15 @@ if uploaded_file is not None:
         if flags.notna().all():
             st.markdown(balance_bar(int(flags.sum()), len(flags)), unsafe_allow_html=True)
 
-    # Segmented buttons stay in one horizontal row and control the exact preview size.
-    preview_count = st.segmented_control(
-        "Rows to preview",
-        options=[5, 10, 20, 50, 100],
-        default=5,
-        selection_mode="single",
-        key="dataset_preview_row_count",
-    )
-    if preview_count is None:
-        preview_count = 5
+    # Keep the original row-count input, aligned beside its label.
+    label_col, count_col, _ = st.columns([2.2, 1.5, 3], vertical_alignment="center")
+    with label_col:
+        st.markdown('<div class="preview-inline-label">Rows to preview</div>', unsafe_allow_html=True)
+    with count_col:
+        preview_count = st.number_input(
+            "Rows to preview", min_value=1, max_value=100, value=5,
+            step=1, label_visibility="collapsed", key="dataset_preview_count_input"
+        )
     preview_rows = test_df.head(preview_count)
     st.markdown(
         f'<div class="preview-caption">Showing {len(preview_rows):,} of '
