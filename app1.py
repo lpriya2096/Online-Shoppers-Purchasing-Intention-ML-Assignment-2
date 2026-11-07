@@ -69,22 +69,6 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 .mc .bar {height:7px;border-radius:8px;background:#edf2f7;overflow:hidden;}
 .mc .bar i {display:block;height:100%;border-radius:8px;}
 .mc .ht {font-size:.79rem;color:#718096;margin-top:11px;line-height:1.4;}
-.cmw {max-width:760px;margin:12px auto 0;padding:16px;background:#fff;border:1px solid #dbe4ef;border-radius:18px;}
-.cm {width:100%;border-collapse:separate;border-spacing:7px;table-layout:fixed;}
-.cm th {background:#eff4fb;color:#334967;font-size:.78rem;font-weight:750;padding:12px 6px!important;border:0!important;border-radius:9px;}
-.cm th.e {background:transparent;}
-.cm td {border:1px solid transparent!important;border-radius:12px;text-align:center;padding:19px 7px!important;color:#1e344e;}
-.cm td.tn {background:#e2f5f0;border-color:#9bdacb!important;}
-.cm td.tp {background:#e3efff;border-color:#a8c9f5!important;}
-.cm td.fp {background:#fff0df;border-color:#f2d0a1!important;}
-.cm td.fn {background:#fae9f0;border-color:#edbfd0!important;}
-.cm .n {font-size:clamp(1.5rem,3vw,2.15rem);font-weight:800;line-height:1.2;}
-.cm .l {font-size:.84rem;font-weight:750;margin-top:6px;}
-.cm .t {font-size:.68rem;letter-spacing:.045em;color:#53667d;margin-top:4px;}
-.cm .p {font-size:.73rem;color:#53667d;margin-top:5px;}
-.key {text-align:center;font-size:.82rem;color:#64748b;margin:12px 0 0;}
-.key i {display:inline-block;width:12px;height:12px;border-radius:4px;margin:0 5px -1px 12px;}
-.hint {background:#fff;border:1px solid #d8e4f6;border-radius:14px;padding:18px 20px;color:#4a6080;font-size:.94rem;}
 @media(max-width:700px){.block-container{padding:1rem .85rem 3rem;}.hero{padding:25px 22px;border-radius:16px;}.hero .cart{display:none!important;}.hero td:last-child{display:none;}.mt{border-spacing:6px;margin:0 -6px;}.mc{padding:12px 8px!important;}.mc .nm{font-size:.66rem;}.mc .ht{font-size:.7rem;}.cm{border-spacing:4px;}.cm th{font-size:.65rem;}.cm .n{font-size:1.25rem;}.cmw{padding:7px;}}
 
 
@@ -211,34 +195,30 @@ ul[role="listbox"] li:hover {
 [data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button {
  background:#cce5fc!important;border-radius:9px!important;
 }
-/* Medium-size, polished confusion matrix; four distinct outcome colors. */
-.cmw{max-width:620px!important;padding:17px!important;border:1px solid #d7e5f2!important;
- box-shadow:0 8px 25px rgba(35,75,116,.09)!important;border-radius:18px!important;}
-.cm{border-spacing:7px!important;font-family:'DM Sans',sans-serif!important;}
-.cm th{background:#e8f1fc!important;color:#254565!important;
- font-size:.75rem!important;padding:10px 5px!important;}
-.cm td{padding:14px 5px!important;border-radius:12px!important;}
-.cm td.tn{background:#daf4ec!important;border-color:#9edecb!important;}
-.cm td.tp{background:#dceaff!important;border-color:#a6c7fa!important;}
-.cm td.fp{background:#fff0d9!important;border-color:#efcb8c!important;}
-.cm td.fn{background:#fce4ec!important;border-color:#edb2c9!important;}
-.cm .n{font-size:1.7rem!important;font-weight:800!important;color:#1b3857!important;}
-.cm .l{font-size:.76rem!important;color:#294867!important;}
-.cm .t{font-size:.61rem!important;color:#5a728a!important;}
-.cm .p{font-size:.67rem!important;color:#5a728a!important;}
-@media(max-width:700px){.cmw{padding:7px!important}.cm{border-spacing:4px!important}
- .cm td{padding:9px 3px!important}.cm .n{font-size:1.3rem!important}}
-
-/* Clean medium-size confusion matrix; large counts and short labels. */
-.cmw{max-width:650px!important;margin:16px auto!important;padding:18px!important;}
-.matrix-axis{text-align:center;font-size:.85rem;font-weight:750;color:#426185;margin-bottom:10px;}
-.cm{border-spacing:8px!important;}
-.cm th{font-size:.82rem!important;padding:12px 8px!important;}
-.cm td{padding:24px 7px!important;}
-.cm .n{font-size:2.05rem!important;line-height:1.2!important;}
-.cm .l{font-size:.82rem!important;margin-top:8px!important;}
-.matrix-foot{text-align:center;color:#61748b;font-size:.76rem;margin-top:12px;}
-@media(max-width:600px){.cmw{padding:8px!important}.cm td{padding:13px 3px!important}.cm .n{font-size:1.4rem!important}}
+/* Unified typography for every section heading. */
+.section-heading {font-family:'DM Sans',sans-serif!important;font-size:1.27rem!important;
+ font-weight:800!important;letter-spacing:-.025em!important;line-height:1.35!important;
+ color:#274d8b!important;margin:28px 0 13px!important;}
+/* Medium, uncluttered confusion matrix. */
+.cmw {max-width:600px;margin:16px auto 0;padding:20px;background:#fff;
+ border:1px solid #dbe6f2;border-radius:18px;box-shadow:0 7px 22px rgba(23,53,89,.06);}
+.matrix-axis {text-align:center;font-size:.85rem;font-weight:700;color:#496682;margin:0 0 12px;}
+.cm {width:100%;border-collapse:separate;border-spacing:8px;table-layout:fixed;font-family:'DM Sans',sans-serif;}
+.cm th {background:#edf3fb!important;color:#294967!important;font-size:.8rem!important;
+ font-weight:700!important;padding:12px 7px!important;border:0!important;border-radius:10px;}
+.cm td {text-align:center;border:1px solid transparent!important;border-radius:12px!important;
+ padding:20px 6px!important;color:#193955!important;}
+.cm td.tn {background:#dff4ee!important;border-color:#b6e2d3!important;}
+.cm td.tp {background:#e0ecff!important;border-color:#b6cdf4!important;}
+.cm td.fp {background:#fff0dc!important;border-color:#f0d4aa!important;}
+.cm td.fn {background:#fae8ee!important;border-color:#eec6d4!important;}
+.cm .n {font-size:1.8rem!important;font-weight:800!important;line-height:1.15!important;}
+.cm .l {font-size:.79rem!important;font-weight:700!important;margin-top:7px!important;}
+.matrix-foot {text-align:center;color:#64748b;font-size:.75rem;margin:12px 0 0;}
+@media(max-width:600px) {.cmw{padding:8px}.cm{border-spacing:4px}
+ .cm th{font-size:.66rem!important;padding:8px 3px!important}
+ .cm td{padding:13px 3px!important}.cm .n{font-size:1.35rem!important}
+ .cm .l{font-size:.65rem!important}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -363,7 +343,7 @@ st.markdown(
     unsafe_allow_html=True)
 
 # ------------------------------ Step 1: upload + preview ------------------------------
-st.markdown('<div class="step up">Upload your test data</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-heading">Upload your test data</div>', unsafe_allow_html=True)
 st.caption("Upload a labeled CSV containing the Revenue column to evaluate the saved models.")
 uploaded_file = st.file_uploader(
     "Upload CSV", type=["csv"], label_visibility="collapsed"
@@ -381,7 +361,7 @@ if uploaded_file is not None:
         st.error("The uploaded CSV has no rows.")
         st.stop()
 
-    st.markdown('<div class="sect blue">Dataset Preview</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-heading">Dataset Preview</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub">A quick look at your file. The bar shows how many sessions ended in a purchase.</div>',
                 unsafe_allow_html=True)
     chips = (f'<span class="chip">{len(test_df):,} rows</span>'
@@ -401,7 +381,7 @@ if uploaded_file is not None:
                     f'The other {test_df.shape[1] - 1} columns are the inputs they use.</div>', unsafe_allow_html=True)
 
 # ------------------------------ Step 2: model + run ------------------------------
-st.markdown('<div class="step model-heading">Choose a model and run</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-heading">Choose a model and run</div>', unsafe_allow_html=True)
 with st.form("evaluation_form"):
     selected_model = st.selectbox("Classification model", list(MODEL_FILES))
     run_evaluation = st.form_submit_button("Run Evaluation", type="primary")
@@ -475,7 +455,7 @@ scores = [
 tn, fp, fn, tp = (int(v) for v in confusion_matrix(y, predictions, labels=[0, 1]).ravel())
 
 # ------------------------------ Results ------------------------------
-st.markdown('<div class="sect">Model Evaluation</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-heading">Model Evaluation</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub">Six scores for the selected model on your uploaded test data. Most scores range from 0 to 1 '
             '(MCC from -1 to 1), and higher is better.</div>', unsafe_allow_html=True)
 st.markdown(
@@ -492,7 +472,7 @@ if summary:
 
 st.markdown(metric_cards(scores), unsafe_allow_html=True)
 
-st.markdown('<div class="sect">Confusion Matrix</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-heading">Confusion Matrix</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub">Each row shows what really happened and each column shows what the model predicted, '
             'so the tiles count the four possible outcomes.</div>', unsafe_allow_html=True)
 st.markdown(confusion_html(tn, fp, fn, tp), unsafe_allow_html=True)
