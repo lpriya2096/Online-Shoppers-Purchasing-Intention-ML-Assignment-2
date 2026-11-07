@@ -261,40 +261,46 @@ html, body, .stApp, [data-testid="stApp"],
   color:#14243d;
   color-scheme:light;
 }
-/* The native uploaded-file chip contains nested elements with their own dark
-   backgrounds. Make its inner layers transparent over one powder-blue card. */
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
+/* Uploaded CSV: style the actual file item AND its inner file-data wrapper.
+   Streamlit versions differ in whether the dark background lives on the item,
+   the file-data wrapper, or the filename/size container. */
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFileData"],
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] > div,
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFileData"] > div {
   background:#dceafb!important;
-  border:1px solid #b9d2ee!important;
-  border-radius:11px!important;
-  box-shadow:none!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"]
-  :is(div,span,p,small,strong,section,article) {
-  background:transparent!important;
-  background-color:transparent!important;
+  background-color:#dceafb!important;
   background-image:none!important;
+  border-radius:10px!important;
   box-shadow:none!important;
+  color:#203b59!important;
+  font-family:'DM Sans',sans-serif!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
+  border:1px solid #b9d2ee!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(p,span,small,strong),
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFileName"] {
   color:#203b59!important;
   -webkit-text-fill-color:#203b59!important;
   font-family:'DM Sans',sans-serif!important;
 }
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"]
-  [data-testid="stFileUploaderFileSize"] {
-  color:#60758d!important;-webkit-text-fill-color:#60758d!important;
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFileSize"] {
+  color:#60758d!important;
+  -webkit-text-fill-color:#60758d!important;
 }
 [data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button {
-  background:#fff!important;color:#285487!important;border-radius:50%!important;
+  background:#fff!important;color:#285487!important;
+  border:1px solid #b9d2ee!important;border-radius:50%!important;
 }
 [data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] svg {
-  color:#285487!important;
+  color:#285487!important;fill:currentColor!important;
 }
-/* Match both the select's text and its right-hand arrow area. */
-[data-testid="stSelectbox"] [data-baseweb="select"],
+/* The closed select arrow is often an independent BaseWeb end-cap. */
 [data-testid="stSelectbox"] [data-baseweb="select"] > div,
 [data-testid="stSelectbox"] [data-baseweb="select"] > div > div,
-[data-testid="stSelectbox"] [data-baseweb="select"] [data-baseweb="select-arrow"] {
-  background:#e4f2ff!important;
+[data-testid="stSelectbox"] [data-baseweb="select"] [data-baseweb="select-arrow"],
+[data-testid="stSelectbox"] [data-baseweb="select"] [aria-hidden="true"] {
   background-color:#e4f2ff!important;
   color:#213f60!important;
   border-color:#b5d4ef!important;
@@ -302,18 +308,24 @@ html, body, .stApp, [data-testid="stApp"],
 [data-testid="stSelectbox"] [data-baseweb="select"] svg {
   color:#213f60!important;fill:currentColor!important;
 }
-/* Remove dark outlines while retaining visible accessible focus. */
+/* Light number input: remove thick outlines, including the inner control ring. */
 [data-testid="stNumberInput"] [data-baseweb="input"],
 [data-testid="stNumberInput"] [data-baseweb="base-input"] {
-  background:#dceafb!important;border:1px solid #b9d2ee!important;
-  border-radius:9px!important;box-shadow:none!important;
+  background:#dceafb!important;
+  border:1px solid #b9d2ee!important;
+  border-radius:9px!important;
+  box-shadow:none!important;
+  outline:none!important;
+}
+[data-testid="stNumberInput"] [data-baseweb="input"]:focus-within {
+  border-color:#7aa8dc!important;
+  box-shadow:0 0 0 2px rgba(122,168,220,.18)!important;
 }
 [data-testid="stNumberInput"] button {
   background:#dceafb!important;color:#285487!important;
   border-color:#b9d2ee!important;box-shadow:none!important;
 }
 [data-testid="stNumberInput"] button:hover {background:#bfd9f6!important;}
-[data-testid="stNumberInput"] :focus-within {outline-color:#7aa8dc!important;}
 /* Keep the formula panel compact without changing the equations. */
 [data-testid="stExpander"] [data-testid="stLatex"] {margin-block:0!important;padding-block:0!important;}
 [data-testid="stExpander"] .katex-display {margin:.45em 0!important;}
