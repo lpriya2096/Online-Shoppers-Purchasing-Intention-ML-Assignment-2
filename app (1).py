@@ -85,28 +85,39 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 .hint {background:#fff;border:1px solid #d8e4f6;border-radius:14px;padding:18px 20px;color:#4a6080;font-size:.94rem;}
 @media(max-width:700px){.block-container{padding:1rem .85rem 3rem;}.hero{padding:25px 22px;border-radius:16px;}.hero .cart{display:none!important;}.hero td:last-child{display:none;}.mt{border-spacing:6px;margin:0 -6px;}.mc{padding:12px 8px!important;}.mc .nm{font-size:.66rem;}.mc .ht{font-size:.7rem;}.cm{border-spacing:4px;}.cm th{font-size:.65rem;}.cm .n{font-size:1.25rem;}.cmw{padding:7px;}}
 
-/* Streamlit uploader: force the uploaded file pill AND all nested dark-theme wrappers light. */
+/* Uploaded CSV: Streamlit versions use either a file row or a BaseWeb tag.
+   Target BOTH, including the dark inner pill visible in the screenshot. */
 [data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] *,
 [data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] > div,
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] [data-testid="stFileUploaderFileData"] {
+[data-testid="stFileUploader"] [data-baseweb="tag"],
+[data-testid="stFileUploader"] [data-baseweb="tag"] > div,
+[data-testid="stFileUploader"] [data-baseweb="tag"] > span {
+    background:#e8f2ff !important;
     background-color:#e8f2ff !important;
-    color:#243c5a !important;
-    -webkit-text-fill-color:#243c5a !important;
-    box-shadow:none !important;
+    color:#203957 !important;
+    border-radius:10px !important;
 }
-[data-testid="stFileUploaderFile"] {
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
     border:1px solid #b5cee9 !important;
-    border-radius:12px !important;
-    padding:9px 12px !important;
+    padding:8px 10px !important;
 }
-[data-testid="stFileUploaderFile"] svg {color:#315d8e !important;fill:none !important;}
-[data-testid="stFileUploaderFile"] button,
-[data-testid="stFileUploaderFile"] button * {
-    background:#d1e4fa !important;color:#315d8e !important;
-    -webkit-text-fill-color:#315d8e !important;
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] span,
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] small,
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] p,
+[data-testid="stFileUploader"] [data-baseweb="tag"] span,
+[data-testid="stFileUploader"] [data-baseweb="tag"] p {
+    color:#203957 !important;
+    -webkit-text-fill-color:#203957 !important;
 }
-/* Selectbox: override the actual BaseWeb control and its dark theme. */
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] svg,
+[data-testid="stFileUploader"] [data-baseweb="tag"] svg {color:#315d8e !important;}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button,
+[data-testid="stFileUploader"] [data-baseweb="tag"] button {
+    background:#d4e6fa !important;
+    color:#315d8e !important;
+    border-radius:50% !important;
+}
+/* BaseWeb select control: override the inner combobox, not just its outer shell. */
 [data-testid="stSelectbox"] [data-baseweb="select"] > div,
 [data-testid="stSelectbox"] [data-baseweb="select"] [role="combobox"],
 [data-testid="stSelectbox"] [data-baseweb="select"] [role="combobox"] > div,
@@ -115,7 +126,6 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
     background-color:#f0edfa !important;
     color:#283653 !important;
     -webkit-text-fill-color:#283653 !important;
-    border-color:#bcb4de !important;
 }
 [data-testid="stSelectbox"] [data-baseweb="select"] > div {
     border:1px solid #bcb4de !important;
