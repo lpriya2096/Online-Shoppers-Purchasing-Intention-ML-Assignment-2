@@ -1,3 +1,4 @@
+import html as _html
 import streamlit as st
 import pandas as pd
 import joblib
@@ -9,7 +10,7 @@ from sklearn.metrics import (
 
 st.set_page_config(page_title="Purchase Intent Predictor", page_icon="🛒", layout="centered")
 
-# Palette: plum + violet (brand), coral (mistakes), mint (correct), sun (accent), cream (background)
+# Palette: plum + violet (brand), ocean blue (upload), coral (mistakes / buyers), mint (correct), sun (accent), cream (page)
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap');
@@ -18,15 +19,32 @@ st.markdown("""
 .block-container {max-width: 980px; padding-top: 1.2rem; padding-bottom: 2.5rem;}
 footer {visibility: hidden;}
 [data-testid="stWidgetLabel"] p, label p {color: #231942 !important; font-weight: 600;}
+[data-testid="stCaptionContainer"] {color: #6b5f82 !important;}
 h1, h2, h3, .pop {font-family: 'Poppins', 'Segoe UI', sans-serif;}
 
+/* ---------- widgets: always light, whatever the browser theme is ---------- */
+[data-testid="stNumberInput"] [data-baseweb="input"], [data-testid="stNumberInput"] [data-baseweb="base-input"] {
+    background: #ffffff !important; border-radius: 12px !important;}
+[data-testid="stNumberInput"] [data-baseweb="input"] {border: 1px solid #cdbbf0 !important;}
+[data-testid="stNumberInput"] input {background: #ffffff !important; color: #231942 !important;}
+[data-testid="stNumberInput"] button {background: #f3edfc !important; color: #231942 !important;}
+[data-baseweb="select"] > div {background: #ffffff !important; color: #231942 !important;
+    border: 1px solid #cdbbf0 !important; border-radius: 12px !important;}
+[data-baseweb="select"] svg, [data-baseweb="select"] input {color: #231942 !important; fill: #231942 !important;}
+[data-baseweb="popover"] ul, [data-baseweb="popover"] li {background: #ffffff !important; color: #231942 !important;}
+[data-baseweb="popover"] li:hover {background: #f3edfc !important;}
+[data-testid="stExpander"] {background: #ffffff; border: 1px solid #e3d9f5; border-radius: 14px;}
+[data-testid="stExpander"] * {color: #231942 !important;}
+
+/* ---------- header ---------- */
 .hero {background: radial-gradient(circle at 92% 12%, rgba(255,200,69,.40) 0, rgba(255,200,69,0) 38%),
                     linear-gradient(135deg, #2d1b4e 0%, #5b2fa0 100%);
        border-radius: 24px; padding: 30px 34px; margin-bottom: 22px;
        box-shadow: 0 12px 30px rgba(45,27,78,.30); border-bottom: 6px solid #ffc845;}
+.hero table, .hero tr, .hero td {border: 0 !important; background: transparent !important; width: auto;}
 .hero table {width: 100%; border-collapse: collapse;}
-.hero td {vertical-align: middle; padding: 0;}
-.hero .kick {color: #ffd98a; font-size: .76rem; font-weight: 700; letter-spacing: .22em;}
+.hero td {vertical-align: middle; padding: 0 !important;}
+.hero .kick {color: #ffd98a; font-size: .76rem; font-weight: 700; letter-spacing: .2em;}
 .hero h1 {color: #ffffff; font-size: 2.1rem; font-weight: 800; line-height: 1.18; margin: 8px 0 10px; padding: 0;}
 .hero p {color: #e9defa; font-size: 1rem; margin: 0; line-height: 1.5;}
 .hero .tag {display: inline-block; background: rgba(255,255,255,.14); color: #ffffff; font-size: .78rem;
@@ -34,40 +52,60 @@ h1, h2, h3, .pop {font-family: 'Poppins', 'Segoe UI', sans-serif;}
 .hero .cart {width: 96px; height: 96px; line-height: 96px; text-align: center; font-size: 3rem;
              border-radius: 50%; background: rgba(255,200,69,.22); border: 2px dashed #ffc845;}
 
+/* ---------- steps and section headings ---------- */
 .step {font-family: 'Poppins', 'Segoe UI', sans-serif; font-size: 1.15rem; font-weight: 700; color: #231942;
        line-height: 1.2; margin: 26px 0 10px;}
-.step.up {color: #1e40af;}
-.step.up b {background: #2563eb; color: #ffffff;}
 .step b {display: inline-block; width: 32px; height: 32px; line-height: 32px; text-align: center; border-radius: 50%;
          background: #ffc845; color: #2d1b4e; margin-right: 10px; font-size: .95rem;}
+.step.up {color: #1e40af;}
+.step.up b {background: #2563eb; color: #ffffff;}
+.sect {font-family: 'Poppins', 'Segoe UI', sans-serif; font-size: 1.25rem; font-weight: 800; color: #231942;
+       line-height: 1.15; margin: 26px 0 6px; padding: 3px 0 3px 12px; border-left: 6px solid #ff6f61;}
+.sect.blue {border-left-color: #2563eb;}
+.sub {color: #6b5f82; font-size: .9rem; line-height: 1.45; margin: 0 0 12px 18px;}
 
+/* ---------- upload ---------- */
 [data-testid="stFileUploader"] section {background: #eaf2ff; border: 2px dashed #2563eb; border-radius: 18px;}
 [data-testid="stFileUploader"] * {color: #1e3a8a !important;}
 [data-testid="stFileUploader"] svg {fill: #2563eb !important;}
 [data-testid="stFileUploader"] section button {background: #ffffff; border: 1px solid #2563eb; border-radius: 10px;}
+[data-testid="stFileUploaderFile"] {background: #ffffff !important; border: 1px solid #bcd0f7; border-radius: 12px;}
 [data-testid="stForm"] {border: 1px solid #e3d9f5; border-radius: 20px; padding: 18px 22px 14px; background: #ffffff;
                         box-shadow: 0 4px 16px rgba(91,47,160,.07);}
 [data-testid="stFormSubmitButton"] button {background: linear-gradient(135deg, #ff6f61, #ff8a5c); color: #ffffff; border: 0;
         border-radius: 14px; font-weight: 700; padding: .6rem 1.8rem; box-shadow: 0 6px 14px rgba(255,111,97,.35);}
 [data-testid="stFormSubmitButton"] button:hover {background: #2d1b4e; color: #ffffff;}
 
+/* ---------- dataset preview ---------- */
 .chips {margin: 4px 0 10px;}
 .chip {display: inline-block; background: #efe7fb; color: #3b1f5e; font-size: .82rem; font-weight: 700;
        padding: 6px 15px; border-radius: 999px; margin: 0 8px 8px 0;}
 .chip.sun {background: #fff0c2; color: #6b4a00;}
-.bal {width: 100%; border-collapse: collapse; margin: 6px 0 4px; table-layout: fixed;}
-.bal td {padding: 9px 12px; font-size: .84rem; font-weight: 700; color: #ffffff; white-space: nowrap; overflow: hidden;}
+.bal {width: 100%; border-collapse: collapse; margin: 6px 0 12px; table-layout: fixed;}
+.bal td {padding: 9px 12px !important; font-size: .84rem; font-weight: 700; color: #ffffff; white-space: nowrap;
+         overflow: hidden; border: 0 !important;}
+.tw {max-height: 340px; overflow: auto; border: 1px solid #e3d9f5; border-radius: 14px; background: #ffffff;}
+.dt {border-collapse: separate; border-spacing: 0; width: 100%; font-size: .8rem; margin: 0;}
+.dt th {position: sticky; top: 0; background: #ece5f8; color: #3b1f5e; font-weight: 700; padding: 9px 12px !important;
+        text-align: left; white-space: nowrap; border: 0 !important; border-bottom: 1px solid #d9cdf0 !important;}
+.dt th.tg {background: #ffe0db; color: #8a2c20;}
+.dt td {padding: 7px 12px !important; white-space: nowrap; color: #231942; background: #ffffff;
+        border: 0 !important; border-bottom: 1px solid #f0eaf9 !important;}
+.dt td.num {text-align: right;}
+.dt tr:nth-child(even) td {background: #faf7ff;}
+.dt td.tg {background: #fff5f3 !important;}
+.bd {display: inline-block; padding: 2px 10px; border-radius: 999px; font-weight: 700; font-size: .74rem; color: #ffffff;}
+.bd.p {background: #ff6f61;}
+.bd.n {background: #5b2fa0;}
+.note {color: #6b5f82; font-size: .84rem; margin: 8px 0 0 4px;}
 
-.sect {font-family: 'Poppins', 'Segoe UI', sans-serif; font-size: 1.25rem; font-weight: 800; color: #231942;
-       line-height: 1.15; margin: 26px 0 10px; padding: 3px 0 3px 12px; border-left: 6px solid #ff6f61;}
-.sect.blue {border-left-color: #2563eb;}
-
+/* ---------- results ---------- */
 .verdict {background: #2d1b4e; color: #f4ecff; border-radius: 18px; padding: 16px 22px; margin: 6px 0 14px;
           font-size: .98rem; line-height: 1.6;}
 .verdict b {color: #ffc845;}
-
 .mt {width: 100%; border-collapse: separate; border-spacing: 12px; table-layout: fixed; margin: 0 -12px;}
-.mc {background: #ffffff; border: 1px solid #ece4f8; border-radius: 18px; padding: 16px 18px 14px;
+.mc {background: #ffffff; border-left: 1px solid #ece4f8 !important; border-right: 1px solid #ece4f8 !important;
+     border-bottom: 1px solid #ece4f8 !important; border-radius: 18px; padding: 16px 18px 14px !important;
      box-shadow: 0 6px 16px rgba(45,27,78,.08); vertical-align: top;}
 .mc .nm {font-size: .74rem; letter-spacing: .1em; text-transform: uppercase; color: #6b5f82; font-weight: 800;}
 .mc .vl {font-family: 'Poppins', 'Segoe UI', sans-serif; font-size: 2.1rem; font-weight: 800; color: #231942;
@@ -75,17 +113,19 @@ h1, h2, h3, .pop {font-family: 'Poppins', 'Segoe UI', sans-serif;}
 .mc .bar {height: 8px; border-radius: 8px; background: #efe9f8; overflow: hidden;}
 .mc .bar i {display: block; height: 100%; border-radius: 8px;}
 .mc .ht {font-size: .78rem; color: #7a6f90; margin-top: 9px; line-height: 1.35;}
-
 .cmw {max-width: 600px; margin: 0 auto;}
 .cm {width: 100%; border-collapse: separate; border-spacing: 8px; table-layout: fixed;}
-.cm th {background: #ece5f8; color: #3b1f5e; font-size: .74rem; font-weight: 700; padding: 8px 5px; border-radius: 10px;}
+.cm th {background: #ece5f8; color: #3b1f5e; font-size: .74rem; font-weight: 700; padding: 8px 5px !important;
+        border: 0 !important; border-radius: 10px;}
 .cm th.e {background: transparent;}
-.cm td {border-radius: 14px; text-align: center; padding: 11px 6px; color: #231942;}
+.cm td {border: 0 !important; border-radius: 14px; text-align: center; padding: 11px 6px !important; color: #231942;}
 .cm .ic {font-size: 1rem; line-height: 1.1;}
 .cm .n {font-family: 'Poppins', 'Segoe UI', sans-serif; font-size: 1.55rem; font-weight: 800; line-height: 1.15;}
 .cm .l {font-size: .76rem; font-weight: 700; margin-top: 2px;}
 .cm .t {font-size: .62rem; letter-spacing: .06em; opacity: .7; margin-top: 1px;}
 .cm .p {font-size: .66rem; opacity: .75; margin-top: 1px;}
+.key {text-align: center; font-size: .82rem; color: #6b5f82; margin-top: 4px;}
+.key i {display: inline-block; width: 12px; height: 12px; border-radius: 4px; margin: 0 5px -1px 12px;}
 .hint {background: #ffffff; border: 2px dashed #cdbbf0; border-radius: 18px; padding: 18px 22px; color: #3b1f5e; font-size: .98rem;}
 </style>
 """, unsafe_allow_html=True)
@@ -111,6 +151,43 @@ def blend(hex_color: str, strength: float) -> str:
     r, g, b = (int(h[i:i + 2], 16) for i in (0, 2, 4))
     mix = lambda c: int(255 - (255 - c) * strength)
     return f"#{mix(r):02x}{mix(g):02x}{mix(b):02x}"
+
+
+def fmt_num(v) -> str:
+    if pd.isna(v):
+        return ""
+    if float(v).is_integer():
+        return f"{int(v):,}" if abs(v) >= 10000 else str(int(v))
+    return f"{v:,.3f}".rstrip("0").rstrip(".")
+
+
+def preview_table(df: pd.DataFrame, n: int) -> str:
+    """Light, readable HTML table; the Revenue (target) column is highlighted with badges."""
+    view = df.head(n)
+    if "Revenue" in view.columns:          # show the target first so it is never hidden by scrolling
+        view = view[["Revenue"] + [c for c in view.columns if c != "Revenue"]]
+    head = "".join(
+        f'<th class="{"tg" if c == "Revenue" else ""}">{_html.escape(str(c))}</th>' for c in view.columns)
+    rows = []
+    for _, row in view.iterrows():
+        cells = []
+        for c in view.columns:
+            v = row[c]
+            if c == "Revenue":
+                key = str(v).strip().lower()
+                if key in ("true", "1"):
+                    cell = '<span class="bd p">Purchase</span>'
+                elif key in ("false", "0"):
+                    cell = '<span class="bd n">No purchase</span>'
+                else:
+                    cell = _html.escape(str(v))
+                cells.append(f'<td class="tg">{cell}</td>')
+            elif pd.api.types.is_number(v) and not pd.api.types.is_bool(v):
+                cells.append(f'<td class="num">{fmt_num(v)}</td>')
+            else:
+                cells.append(f'<td>{_html.escape(str(v))}</td>')
+        rows.append(f'<tr>{"".join(cells)}</tr>')
+    return f'<div class="tw"><table class="dt"><thead><tr>{head}</tr></thead><tbody>{"".join(rows)}</tbody></table></div>'
 
 
 def balance_bar(pos: int, total: int) -> str:
@@ -164,7 +241,9 @@ def confusion_html(tn, fp, fn, tp):
         f'{cell(fp, "🚨", "False alarms", "FALSE POSITIVE", False)}</tr>'
         f'<tr><th>Actual:<br>Purchase</th>{cell(fn, "😕", "Missed buyers", "FALSE NEGATIVE", False)}'
         f'{cell(tp, "🛍️", "Buyers caught", "TRUE POSITIVE", True)}</tr>'
-        '</table></div>')
+        '</table>'
+        '<div class="key"><i style="background:#bfeede;"></i>Correct prediction'
+        '<i style="background:#ffd3cd;"></i>Mistake</div></div>')
 
 
 # ------------------------------ Header ------------------------------
@@ -197,6 +276,8 @@ if uploaded_file is not None:
         st.stop()
 
     st.markdown('<div class="sect blue">Dataset Preview</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub">A quick look at your file. The bar shows how many sessions ended in a purchase.</div>',
+                unsafe_allow_html=True)
     chips = (f'<span class="chip">{len(test_df):,} rows</span>'
              f'<span class="chip">{test_df.shape[1]} columns</span>'
              f'<span class="chip sun">{int(test_df.isna().sum().sum())} missing values</span>')
@@ -207,9 +288,12 @@ if uploaded_file is not None:
         if flags.notna().all():
             st.markdown(balance_bar(int(flags.sum()), len(flags)), unsafe_allow_html=True)
 
-    n_rows = st.number_input("Rows to show", min_value=1, max_value=len(test_df),
+    n_rows = st.number_input("Rows to show (up to 100)", min_value=1, max_value=min(100, len(test_df)),
                              value=min(10, len(test_df)), step=5)
-    st.dataframe(test_df.head(int(n_rows)), hide_index=True)
+    st.markdown(preview_table(test_df, int(n_rows)), unsafe_allow_html=True)
+    if "Revenue" in test_df.columns:
+        st.markdown(f'<div class="note">The rose <b>Revenue</b> column (shown first) is what the models predict: Purchase or No purchase. '
+                    f'The other {test_df.shape[1] - 1} columns are the inputs they use.</div>', unsafe_allow_html=True)
 
 # ------------------------------ Step 2: model + run ------------------------------
 st.markdown('<div class="step"><b>2</b>Choose a model and run</div>', unsafe_allow_html=True)
@@ -219,7 +303,7 @@ with st.form("evaluation_form"):
 
 if not run_evaluation:
     st.markdown('<div class="hint">Upload <b>test_data.csv</b>, choose a model, then press '
-                '<b>Run Evaluation</b> to see the metrics and the confusion matrix.</div>',
+                '<b>Run Evaluation</b> to see the scores and the confusion matrix.</div>',
                 unsafe_allow_html=True)
     st.stop()
 
@@ -287,6 +371,8 @@ tn, fp, fn, tp = (int(v) for v in confusion_matrix(y, predictions, labels=[0, 1]
 
 # ------------------------------ Results ------------------------------
 st.markdown('<div class="sect">Model Evaluation</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub">Six scores for the chosen model on your test data. Every score runs from 0 to 1 '
+            '(MCC from -1 to 1), and higher is better.</div>', unsafe_allow_html=True)
 st.markdown(
     f'<div class="chips"><span class="chip">{selected_model}</span><span class="chip">{len(test_df):,} rows</span>'
     f'<span class="chip">{X.shape[1]} features</span></div>', unsafe_allow_html=True)
@@ -302,6 +388,8 @@ if summary:
 st.markdown(metric_cards(scores), unsafe_allow_html=True)
 
 st.markdown('<div class="sect">Confusion Matrix</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub">Each row shows what really happened and each column shows what the model predicted, '
+            'so the tiles count the four possible outcomes.</div>', unsafe_allow_html=True)
 st.markdown(confusion_html(tn, fp, fn, tp), unsafe_allow_html=True)
 st.caption(f"TN = {tn:,} · FP = {fp:,} · FN = {fn:,} · TP = {tp:,}")
 
