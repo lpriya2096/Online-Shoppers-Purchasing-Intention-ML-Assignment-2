@@ -311,6 +311,39 @@ div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(svg,pat
 .tw .dt td.num {text-align:right!important;font-variant-numeric:tabular-nums;}
 .tw .dt .bd {font-family:'DM Sans',sans-serif!important;font-size:11.5px!important;
  font-weight:700!important;padding:5px 9px!important;border-radius:7px!important;}
+
+/* Dataset preview refresh: compact, readable, restrained teal-blue palette. */
+.tw {background:#fff!important;border:1px solid #c9dce9!important;
+ border-radius:14px!important;overflow:auto!important;max-height:480px!important;}
+.tw table.dt {width:max-content!important;min-width:100%!important;
+ border-collapse:separate!important;border-spacing:0!important;table-layout:auto!important;
+ font-family:'DM Sans',sans-serif!important;}
+.tw table.dt thead th {position:static!important;top:auto!important;z-index:auto!important;
+ background:#285d78!important;color:#fff!important;font-size:12px!important;
+ font-weight:700!important;letter-spacing:0!important;line-height:1.35!important;
+ padding:12px 16px!important;border:0!important;border-bottom:2px solid #427f99!important;
+ white-space:nowrap!important;text-align:left!important;}
+.tw table.dt tbody tr {height:auto!important;}
+.tw table.dt tbody td {font-family:'DM Sans',sans-serif!important;font-size:12.5px!important;
+ font-weight:500!important;line-height:1.4!important;color:#263e56!important;
+ padding:12px 16px!important;border:0!important;border-bottom:1px solid #e5edf2!important;
+ white-space:nowrap!important;vertical-align:middle!important;}
+.tw table.dt tbody tr:nth-child(odd) td {background:#fff!important;}
+.tw table.dt tbody tr:nth-child(even) td {background:#f0f7fa!important;}
+.tw table.dt tbody tr:hover td {background:#e5f2f7!important;}
+.tw table.dt tbody td.tg {background:#e8f2f9!important;}
+.tw table.dt tbody td.num {text-align:right!important;font-variant-numeric:tabular-nums;}
+.tw table.dt .bd {display:inline-block!important;font-size:11px!important;font-weight:700!important;
+ padding:5px 9px!important;border-radius:7px!important;color:#fff!important;}
+.tw table.dt .bd.n {background:#60788e!important;}
+.tw table.dt .bd.p {background:#2878b8!important;}
+/* One-row segmented selector, visually distinct from model dropdown. */
+[data-testid="stSegmentedControl"] [role="radiogroup"],
+[data-testid="stSegmentedControl"] [role="group"] {display:flex!important;flex-direction:row!important;
+ flex-wrap:nowrap!important;gap:6px!important;overflow-x:auto!important;}
+[data-testid="stSegmentedControl"] button {font-family:'DM Sans',sans-serif!important;
+ min-width:52px!important;font-weight:700!important;}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -469,14 +502,16 @@ if uploaded_file is not None:
         if flags.notna().all():
             st.markdown(balance_bar(int(flags.sum()), len(flags)), unsafe_allow_html=True)
 
-    # A horizontal radio avoids the model dropdown CSS and makes the selected count explicit.
-    preview_count = st.radio(
+    # Segmented buttons stay in one horizontal row and control the exact preview size.
+    preview_count = st.segmented_control(
         "Rows to preview",
         options=[5, 10, 20, 50, 100],
-        index=0,
-        horizontal=True,
+        default=5,
+        selection_mode="single",
         key="dataset_preview_row_count",
     )
+    if preview_count is None:
+        preview_count = 5
     preview_rows = test_df.head(preview_count)
     st.markdown(
         f'<div class="preview-caption">Showing {len(preview_rows):,} of '
