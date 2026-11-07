@@ -74,8 +74,10 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 .cm th {background:#eff4fb;color:#334967;font-size:.78rem;font-weight:750;padding:12px 6px!important;border:0!important;border-radius:9px;}
 .cm th.e {background:transparent;}
 .cm td {border:1px solid transparent!important;border-radius:12px;text-align:center;padding:19px 7px!important;color:#1e344e;}
-.cm td.correct {background:#e0f5ed;border-color:#a8dfc9!important;}
-.cm td.incorrect {background:#fff0ed;border-color:#fac7bc!important;}
+.cm td.tn {background:#e2f5f0;border-color:#9bdacb!important;}
+.cm td.tp {background:#e3efff;border-color:#a8c9f5!important;}
+.cm td.fp {background:#fff0df;border-color:#f2d0a1!important;}
+.cm td.fn {background:#fae9f0;border-color:#edbfd0!important;}
 .cm .n {font-size:clamp(1.5rem,3vw,2.15rem);font-weight:800;line-height:1.2;}
 .cm .l {font-size:.84rem;font-weight:750;margin-top:6px;}
 .cm .t {font-size:.68rem;letter-spacing:.045em;color:#53667d;margin-top:4px;}
@@ -86,58 +88,73 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 @media(max-width:700px){.block-container{padding:1rem .85rem 3rem;}.hero{padding:25px 22px;border-radius:16px;}.hero .cart{display:none!important;}.hero td:last-child{display:none;}.mt{border-spacing:6px;margin:0 -6px;}.mc{padding:12px 8px!important;}.mc .nm{font-size:.66rem;}.mc .ht{font-size:.7rem;}.cm{border-spacing:4px;}.cm th{font-size:.65rem;}.cm .n{font-size:1.25rem;}.cmw{padding:7px;}}
 
 
-/* Hide the native uploaded filename chip; keep the upload widget functional. */
-[data-testid="stFileUploaderFile"], [data-testid="stFileUploader"] ul {display:none!important;}
-[data-testid="stSelectbox"] [data-baseweb="select"]>div,[data-testid="stSelectbox"] [role="combobox"],[data-testid="stSelectbox"] [role="combobox"]>div{background:#e7f3ff!important;background-color:#e7f3ff!important;color:#1d3957!important;border-color:#abcdf0!important;}
-[data-testid="stSelectbox"] [role="combobox"]{border:1px solid #abcdf0!important;border-radius:12px!important;}
-[data-testid="stSelectbox"] [role="combobox"] *,[data-testid="stSelectbox"] [data-baseweb="select"] input{color:#1d3957!important;-webkit-text-fill-color:#1d3957!important;}
-[data-testid="stSelectbox"] svg{color:#265780!important;fill:#265780!important;}
-.sect{display:inline-block;color:#1b4e75!important;background:#e5f2fc;border-left:5px solid #58a5d5;border-radius:0 10px 10px 0;padding:10px 17px;margin-top:30px;margin-bottom:12px;}
-.sect.blue{background:#e9f0ff;color:#274d8b!important;border-left-color:#6488d8;}
-.step.up{font-family:'DM Sans',sans-serif;font-size:1.27rem;font-weight:800;letter-spacing:-.025em;color:#274d8b!important;margin:28px 0 13px;} .step:not(.up){color:#236184;}.step:not(.up) b{background:#d9f1f2;color:#1b7377;}
-.cmw{max-width:790px;background:#fff;border:1px solid #dbe6f0;box-shadow:0 10px 30px rgba(23,53,89,.07);padding:19px;border-radius:20px;}
-.cm{font-family:'DM Sans',sans-serif;border-spacing:9px;}
-.cm th{background:#eaf1fa!important;color:#254564!important;border-radius:11px!important;font-size:.81rem!important;padding:13px 6px!important;}
-.cm th.e{background:#fff!important;}.cm td{padding:20px 8px!important;border-radius:15px!important;text-align:center;}
-.cm td.tn{background:#e5f5f0!important;border:1px solid #b4e2d1!important;}
-.cm td.tp{background:#e7f0ff!important;border:1px solid #b7d0f7!important;}
-.cm td.fp{background:#fff0e6!important;border:1px solid #f5d3b5!important;}
-.cm td.fn{background:#fbeafa!important;border:1px solid #edc6e8!important;}
-.cm .n{font-size:2rem!important;font-weight:800!important;color:#193955!important;}
-.cm .l{font-size:.84rem!important;font-weight:800!important;color:#294963!important;}
-.cm .t{font-size:.67rem!important;color:#56728a!important;}.cm .p{font-size:.73rem!important;color:#56728a!important;}
-@media(max-width:700px){.cmw{padding:6px}.cm{border-spacing:4px}.cm td{padding:10px 3px!important}.cm .n{font-size:1.3rem!important}.cm .l{font-size:.67rem!important}.cm .t,.cm .p{font-size:.57rem!important}}
-
-/* Model heading uses the same font and visual treatment as the upload heading. */
-.step.model-heading{font-family:'DM Sans',sans-serif;font-size:1.27rem;font-weight:800;letter-spacing:-.025em;color:#274d8b!important;margin:28px 0 13px;}
-/* The open select menu is a portal outside stSelectbox: style its own listbox. */
-[data-baseweb="popover"] [role="listbox"],
-[data-baseweb="popover"] [role="listbox"] ul,
-[data-baseweb="popover"] [data-baseweb="menu"],
-[data-baseweb="popover"] [data-baseweb="menu"] ul {
-  background:#eaf4ff!important;background-color:#eaf4ff!important;
-  color:#203957!important;border:1px solid #bad4ed!important;
-  border-radius:12px!important;box-shadow:0 12px 28px rgba(25,55,91,.12)!important;
+/* Native uploaded file item — recolor the item itself, not just the upload area. */
+[data-testid="stFileUploaderFile"],
+[data-testid="stFileUploaderFile"] > div,
+[data-testid="stFileUploaderFile"] [data-testid="stFileUploaderFileData"],
+[data-testid="stFileUploaderFile"] [data-testid="stFileUploaderFileName"],
+[data-testid="stFileUploaderFile"] [data-testid="stFileUploaderFileSize"] {
+ background-color:#e4f2ff!important;color:#213f60!important;
 }
-[data-baseweb="popover"] [role="option"],
-[data-baseweb="popover"] [role="listbox"] li,
-[data-baseweb="popover"] [data-baseweb="menu"] li {
-  background:#eaf4ff!important;color:#203957!important;
-  -webkit-text-fill-color:#203957!important;font-family:'DM Sans',sans-serif!important;
-  font-weight:600!important;
+[data-testid="stFileUploaderFile"] {
+ display:flex!important;border:1px solid #b5d4ef!important;
+ border-radius:12px!important;padding:7px 12px!important;
 }
-[data-baseweb="popover"] [role="option"] *,
-[data-baseweb="popover"] [role="listbox"] li *,
-[data-baseweb="popover"] [data-baseweb="menu"] li * {
-  color:#203957!important;-webkit-text-fill-color:#203957!important;
+[data-testid="stFileUploaderFile"] *,
+[data-testid="stFileUploaderFile"] p,
+[data-testid="stFileUploaderFile"] span,
+[data-testid="stFileUploaderFile"] small,
+[data-testid="stFileUploaderFile"] svg {
+ color:#213f60!important;fill:currentColor!important;
+ -webkit-text-fill-color:#213f60!important;
 }
-[data-baseweb="popover"] [role="option"]:hover,
-[data-baseweb="popover"] [role="option"][aria-selected="true"],
-[data-baseweb="popover"] [role="listbox"] li:hover,
-[data-baseweb="popover"] [data-baseweb="menu"] li:hover {
-  background:#d5e9ff!important;
+[data-testid="stFileUploaderFile"] button {
+ background:#d0e7fc!important;border-radius:50%!important;
 }
-
+/* Closed model selector */
+[data-testid="stSelectbox"] [data-baseweb="select"] > div,
+[data-testid="stSelectbox"] [role="combobox"] {
+ background:#e4f2ff!important;color:#213f60!important;
+ border:1px solid #b5d4ef!important;border-radius:12px!important;
+}
+[data-testid="stSelectbox"] [role="combobox"] *,
+[data-testid="stSelectbox"] [data-baseweb="select"] input,
+[data-testid="stSelectbox"] svg {
+ color:#213f60!important;-webkit-text-fill-color:#213f60!important;
+}
+/* OPEN dropdown: BaseWeb renders it in a portal outside the selectbox. */
+div[data-baseweb="popover"],
+div[data-baseweb="popover"] > div,
+div[data-baseweb="popover"] [data-baseweb="menu"],
+div[data-baseweb="popover"] [role="listbox"],
+ul[role="listbox"],ul[data-baseweb="menu"] {
+ background:#e8f3ff!important;background-color:#e8f3ff!important;
+ color:#213f60!important;border-color:#b5d4ef!important;
+}
+div[data-baseweb="popover"] li,
+div[data-baseweb="popover"] [role="option"],
+ul[role="listbox"] li,
+ul[role="listbox"] [role="option"] {
+ background:#e8f3ff!important;color:#213f60!important;
+ -webkit-text-fill-color:#213f60!important;
+ font-family:'DM Sans',sans-serif!important;
+}
+div[data-baseweb="popover"] li *,
+div[data-baseweb="popover"] [role="option"] *,
+ul[role="listbox"] li * {
+ color:#213f60!important;-webkit-text-fill-color:#213f60!important;
+}
+div[data-baseweb="popover"] li:hover,
+div[data-baseweb="popover"] [role="option"]:hover,
+div[data-baseweb="popover"] [aria-selected="true"],
+ul[role="listbox"] li:hover {
+ background:#cfe6ff!important;
+}
+/* One consistent heading style */
+.step.up,.step.model-heading {
+ font-family:'DM Sans',sans-serif;font-size:1.27rem;font-weight:800;
+ letter-spacing:-.025em;color:#274d8b!important;margin:28px 0 13px;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -247,8 +264,8 @@ def confusion_html(tn, fp, fn, tp):
         f'{cell(fp, "False alarm", "FALSE POSITIVE · FP", "fp")}</tr>'
         f'<tr><th>Purchase (1)</th>{cell(fn, "Missed purchase", "FALSE NEGATIVE · FN", "fn")}'
         f'{cell(tp, "Correctly detected", "TRUE POSITIVE · TP", "tp")}</tr>'
-        '</table><div class="key"><i style="background:#a8dfc9;"></i>Correct prediction'
-        '<i style="background:#fac7bc;"></i>Incorrect prediction</div></div>'
+        '</table><div class="key"><i style="background:#9bdacb;"></i>Correct prediction'
+        '<i style="background:#f2c7a7;"></i>Incorrect prediction</div></div>'
     )
 
 
@@ -267,6 +284,7 @@ st.markdown(
 
 # ------------------------------ Step 1: upload + preview ------------------------------
 st.markdown('<div class="step up">Upload your test data</div>', unsafe_allow_html=True)
+st.caption("Upload a labeled CSV containing the Revenue column to evaluate the saved models.")
 uploaded_file = st.file_uploader("Upload CSV", type=["csv"], label_visibility="collapsed")
 
 test_df = None
