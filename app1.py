@@ -88,29 +88,18 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 @media(max-width:700px){.block-container{padding:1rem .85rem 3rem;}.hero{padding:25px 22px;border-radius:16px;}.hero .cart{display:none!important;}.hero td:last-child{display:none;}.mt{border-spacing:6px;margin:0 -6px;}.mc{padding:12px 8px!important;}.mc .nm{font-size:.66rem;}.mc .ht{font-size:.7rem;}.cm{border-spacing:4px;}.cm th{font-size:.65rem;}.cm .n{font-size:1.25rem;}.cmw{padding:7px;}}
 
 
-/* Native uploaded file item — recolor the item itself, not just the upload area. */
+/* The native filename chip has an internal dark surface in this Streamlit version.
+   Hide only that chip; a custom powder-blue filename card is rendered below. */
 [data-testid="stFileUploaderFile"],
-[data-testid="stFileUploaderFile"] > div,
-[data-testid="stFileUploaderFile"] [data-testid="stFileUploaderFileData"],
-[data-testid="stFileUploaderFile"] [data-testid="stFileUploaderFileName"],
-[data-testid="stFileUploaderFile"] [data-testid="stFileUploaderFileSize"] {
- background-color:#e4f2ff!important;color:#213f60!important;
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
+ display:none!important;
 }
-[data-testid="stFileUploaderFile"] {
- display:flex!important;border:1px solid #b5d4ef!important;
- border-radius:12px!important;padding:7px 12px!important;
-}
-[data-testid="stFileUploaderFile"] *,
-[data-testid="stFileUploaderFile"] p,
-[data-testid="stFileUploaderFile"] span,
-[data-testid="stFileUploaderFile"] small,
-[data-testid="stFileUploaderFile"] svg {
- color:#213f60!important;fill:currentColor!important;
- -webkit-text-fill-color:#213f60!important;
-}
-[data-testid="stFileUploaderFile"] button {
- background:#d0e7fc!important;border-radius:50%!important;
-}
+.csv-file-card {display:flex;align-items:center;gap:12px;background:#e4f2ff;
+ border:1px solid #abccec;border-radius:12px;padding:12px 15px;margin:9px 0 12px;
+ font-family:'DM Sans',sans-serif;color:#203957;}
+.csv-file-icon{font-size:1.3rem;background:#d2e8fd;border-radius:9px;padding:8px;}
+.csv-file-name{font-size:.95rem;font-weight:750;color:#203957;overflow-wrap:anywhere;}
+.csv-file-meta{font-size:.78rem;color:#52718e;margin-top:2px;}
 /* Closed model selector */
 [data-testid="stSelectbox"] [data-baseweb="select"] > div,
 [data-testid="stSelectbox"] [role="combobox"] {
@@ -367,7 +356,27 @@ st.markdown(
 # ------------------------------ Step 1: upload + preview ------------------------------
 st.markdown('<div class="step up">Upload your test data</div>', unsafe_allow_html=True)
 st.caption("Upload a labeled CSV containing the Revenue column to evaluate the saved models.")
-uploaded_file = st.file_uploader("Upload CSV", type=["csv"], label_visibility="collapsed")
+if "csv_upload_version" not in st.session_state:
+    st.session_state.csv_upload_version = 0
+uploaded_file = st.file_uploader(
+    "Upload CSV", type=["csv"], label_visibility="collapsed",
+    key=f"csv_upload_{st.session_state.csv_upload_version}",
+)
+if uploaded_file is not None:
+    file_name = _html.escape(uploaded_file.name)
+    file_size = uploaded_file.size / 1024
+    card_col, clear_col = st.columns([9, 1], vertical_alignment="center")
+    with card_col:
+        st.markdown(
+            '<div class="csv-file-card"><span class="csv-file-icon">📄</span>'
+            f'<div><div class="csv-file-name">{file_name}</div>'
+            f'<div class="csv-file-meta">{file_size:,.1f} KB · CSV file</div></div></div>',
+            unsafe_allow_html=True,
+        )
+    with clear_col:
+        if st.button("✕", key="clear_csv", help="Remove uploaded CSV"):
+            st.session_state.csv_upload_version += 1
+            st.rerun()
 
 test_df = None
 if uploaded_file is not None:
