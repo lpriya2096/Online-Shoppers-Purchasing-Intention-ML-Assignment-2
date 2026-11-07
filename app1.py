@@ -2,13 +2,15 @@ import html as _html
 import streamlit as st
 import pandas as pd
 import joblib
+import numpy as np
+import matplotlib.pyplot as plt
 from pathlib import Path
 from sklearn.metrics import (
     accuracy_score, precision_score, recall_score, f1_score,
-    matthews_corrcoef, roc_auc_score, confusion_matrix
+    matthews_corrcoef, roc_auc_score, confusion_matrix, classification_report, roc_curve
 )
 
-st.set_page_config(page_title="Purchase Intent Predictor", page_icon="🛒", layout="wide")
+st.set_page_config(page_title="ShopSense | Purchase Intelligence", page_icon="🛍️", layout="wide")
 
 st.markdown("""
 <style>
@@ -21,7 +23,7 @@ footer{visibility:hidden}
 h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 [data-testid="stWidgetLabel"] p{color:#29476a!important;font-weight:700}
 [data-testid="stCaptionContainer"]{color:#77879d!important}
-/* Independent shopping analytics identity; no clinical theme or copied wording. */
+/* ShopSense shopping analytics design */
 [data-testid="stSidebar"]{background:#101f35!important;border-right:1px solid #29425f}
 [data-testid="stSidebar"] [data-testid="stSidebarContent"]{background:#101f35!important}
 [data-testid="stSidebar"] p,[data-testid="stSidebar"] a,[data-testid="stSidebar"] span{color:#dce9f8}
@@ -93,6 +95,19 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 .matrix-axis{text-align:center;font-size:.86rem;font-weight:750;color:#496682;margin-bottom:15px}.matrix-grid{display:grid;grid-template-columns:minmax(105px,1fr) minmax(0,1.3fr) minmax(0,1.3fr);gap:12px;align-items:stretch}.matrix-label{display:flex;align-items:center;justify-content:center;text-align:center;background:#edf3fb;color:#294967;font-size:.82rem;font-weight:750;border-radius:11px;padding:12px 8px;min-width:0}.matrix-label.row-label{justify-content:flex-start;text-align:left;padding-left:14px}.matrix-cell{min-width:0;min-height:125px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;border-radius:13px;padding:18px 8px;border:1px solid transparent}.matrix-cell.tn{background:#dff4ee;border-color:#b6e2d3}.matrix-cell.tp{background:#e0ecff;border-color:#b6cdf4}.matrix-cell.fp{background:#fff0dc;border-color:#f0d4aa}.matrix-cell.fn{background:#fae8ee;border-color:#eec6d4}.matrix-cell .n{font-size:1.9rem;font-weight:800;line-height:1.2;color:#193955}.matrix-cell .l{font-size:.79rem;font-weight:700;color:#294967;margin-top:9px}.matrix-foot{text-align:center;color:#64748b;font-size:.75rem;margin-top:15px}
 [data-testid="stExpander"]{background:#fff;border:1px solid var(--line);border-radius:12px}[data-testid="stExpander"] details>summary{background:#e9f2ff!important;color:#28518a!important}[data-testid="stExpander"] details>summary *{color:#28518a!important}[data-testid="stExpander"] .katex,[data-testid="stExpander"] .katex *{color:#28518a!important}[data-testid="stExpander"] .katex-display{margin:.5em 0!important}
 @media(max-width:700px){.block-container{padding:1rem .8rem 3rem}.hero{padding:25px 20px}.hero .cart{display:none!important}.hero td:last-child{display:none}.overview{grid-template-columns:1fr}.mt{border-spacing:5px;margin:0 -5px}.mc{padding:12px 8px!important}.mc .nm{font-size:.67rem}.mc .ht{font-size:.7rem}.cmw{padding:12px}.matrix-grid{gap:6px;grid-template-columns:minmax(75px,1fr) repeat(2,minmax(0,1.3fr))}.matrix-cell{min-height:100px;padding:10px 4px}.matrix-cell .n{font-size:1.35rem}}
+
+/* Deliberate, restrained table and chart styling */
+[data-testid="stTabs"] [data-baseweb="tab-list"]{gap:8px;flex-wrap:wrap}
+[data-testid="stTabs"] [data-baseweb="tab"]{background:#edf4fb!important;border-radius:10px 10px 0 0;color:#345875!important;font-weight:700!important}
+[data-testid="stTabs"] [aria-selected="true"]{background:#dbeeff!important;color:#173e6a!important}
+[data-testid="stDataFrame"]{border:1px solid #d8e4f0;border-radius:12px;overflow:hidden}
+[data-testid="stDownloadButton"] button,[data-testid="stButton"] button{border-radius:10px!important;font-weight:700!important}
+[data-testid="stButton"] button[kind="primary"]{background:#2563eb!important;color:white!important}
+.insight-panel{background:#fff;border:1px solid #d8e5f0;border-left:4px solid #19a3aa;border-radius:12px;padding:17px 20px;margin:14px 0 24px;color:#34516e;line-height:1.6}
+.insight-panel strong{color:#1e486c}
+.data-note{background:#eef6fc;border:1px solid #d3e6f4;border-radius:12px;padding:14px 18px;margin:12px 0;color:#355b7a;font-size:.88rem}
+/* Hide default uploader chip only when our own accessible file summary is shown. */
+[data-testid="stFileUploaderFile"]{display:none!important}
 </style>
 """, unsafe_allow_html=True)
 
@@ -200,6 +215,8 @@ with st.sidebar:
         <a class="sidelink" href="#dataset">▤ &nbsp; Dataset preview</a>
         <a class="sidelink" href="#evaluate">◈ &nbsp; Evaluate a model</a>
         <a class="sidelink" href="#results">▥ &nbsp; Model results</a>
+        <a class="sidelink" href="#comparison">◫ &nbsp; Compare models</a>
+        <a class="sidelink" href="#methodology">◇ &nbsp; Data &amp; methodology</a>
         <div class="sidefoot">✦ <b>Inference only</b><br>Five saved classifiers · Six metrics<br>No model retraining</div>''', unsafe_allow_html=True)
 
 # ------------------------------ Header ------------------------------
@@ -289,108 +306,220 @@ if uploaded_file is not None:
         st.markdown(f'<div class="note">The <b>Revenue</b> column is the target used for model evaluation. '
                     f'The other {test_df.shape[1] - 1} columns are the inputs they use.</div>', unsafe_allow_html=True)
 
-# ------------------------------ Step 2: model + run ------------------------------
-st.markdown('<div id="evaluate"></div><div class="section-heading">Choose a model and run</div>', unsafe_allow_html=True)
+# ------------------------------ Step 2: evaluate saved model ------------------------------
+st.markdown('<div id="evaluate"></div><div class="section-heading">Evaluate purchase intent</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub">Select one of the five pretrained classifiers. Evaluation uses the uploaded CSV without fitting or retraining.</div>', unsafe_allow_html=True)
 with st.form("evaluation_form"):
     selected_model = st.selectbox("Active Classification model", list(MODEL_FILES))
     run_evaluation = st.form_submit_button("Run Evaluation", type="primary")
 
-if not run_evaluation:
-    st.markdown('<div class="hint">Upload <b>test_data.csv</b>, choose a model, then press '
-                '<b>Run Evaluation</b> to see the scores and the confusion matrix.</div>',
+
+def prepare_data(df):
+    if "Revenue" not in df.columns:
+        raise ValueError("CSV must contain a Revenue target column.")
+    target = df["Revenue"].astype(str).str.strip().str.lower().map({"true": 1, "false": 0, "1": 1, "0": 0})
+    if target.isna().any():
+        raise ValueError("Revenue must contain only True/False or 1/0, without missing values.")
+    if target.nunique() != 2:
+        raise ValueError("Both Revenue classes must be present to calculate AUC.")
+    return df.drop(columns=["Revenue"]), target.astype(int)
+
+
+def evaluate_saved_model(name, features, actual):
+    path = BASE_DIR / MODEL_FILES[name]
+    if not path.is_file():
+        raise FileNotFoundError(f"Missing saved model: {MODEL_FILES[name]}")
+    model = load_model(str(path))
+    expected = getattr(model, "feature_names_in_", None)
+    if expected is None and hasattr(model, "named_steps"):
+        for step in model.named_steps.values():
+            expected = getattr(step, "feature_names_in_", None)
+            if expected is not None:
+                break
+    aligned = features
+    if expected is not None:
+        missing = [col for col in expected if col not in features.columns]
+        if missing:
+            raise ValueError(f"Missing columns for {name}: {', '.join(missing)}")
+        aligned = features[list(expected)]
+    predicted = model.predict(aligned)
+    if not hasattr(model, "predict_proba"):
+        raise ValueError(f"{name} has no predict_proba method; AUC cannot be calculated.")
+    classes = list(model.classes_)
+    positive_index = next((i for i, label in enumerate(classes) if str(label).lower() in ("1", "true")), None)
+    if positive_index is None:
+        raise ValueError(f"{name} has no positive class 1.")
+    probabilities = model.predict_proba(aligned)[:, positive_index]
+    scores = {
+        "Accuracy": accuracy_score(actual, predicted),
+        "AUC": roc_auc_score(actual, probabilities),
+        "Precision": precision_score(actual, predicted, zero_division=0),
+        "Recall": recall_score(actual, predicted, zero_division=0),
+        "F1 Score": f1_score(actual, predicted, zero_division=0),
+        "MCC": matthews_corrcoef(actual, predicted),
+    }
+    tn, fp, fn, tp = (int(v) for v in confusion_matrix(actual, predicted, labels=[0, 1]).ravel())
+    return {"scores": scores, "predicted": predicted, "probabilities": probabilities,
+            "counts": (tn, fp, fn, tp), "features": aligned.shape[1]}
+
+
+# Store the evaluation request, not stale predictions; recompute against the current CSV.
+if run_evaluation:
+    st.session_state["shop_evaluated_model"] = selected_model
+    st.session_state["shop_evaluated_file"] = (uploaded_file.name, uploaded_file.size) if uploaded_file else None
+
+active_name = st.session_state.get("shop_evaluated_model")
+active_file = st.session_state.get("shop_evaluated_file")
+current_file = (uploaded_file.name, uploaded_file.size) if uploaded_file else None
+results = None
+X = y = None
+if test_df is not None:
+    try:
+        X, y = prepare_data(test_df)
+    except ValueError as exc:
+        st.info(str(exc))
+
+if active_name and active_file == current_file and X is not None:
+    try:
+        with st.spinner("Evaluating saved model..."):
+            results = evaluate_saved_model(active_name, X, y)
+    except Exception as exc:
+        st.error(f"Evaluation failed: {exc}")
+elif not active_name:
+    st.info("Upload a labelled CSV, choose a classifier, and select Run Evaluation to view its results.")
+
+if test_df is not None and len(test_df) != 2466:
+    st.warning(f"Uploaded {len(test_df):,} rows. For the assignment, use the held-out test_data.csv (2,466 rows).")
+
+if results is not None:
+    st.markdown('<div id="results"></div><div class="section-heading">Model evaluation results</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="chips"><span class="chip">{_html.escape(active_name)}</span>'
+                f'<span class="chip">{len(test_df):,} test rows</span>'
+                f'<span class="chip">{results["features"]} input features</span></div>', unsafe_allow_html=True)
+    scores = results["scores"]
+    st.markdown(metric_cards(list(scores.items())), unsafe_allow_html=True)
+    tab_matrix, tab_report, tab_roc, tab_predictions = st.tabs(
+        ["Confusion matrix", "Classification report", "ROC curve", "Test predictions"]
+    )
+    tn, fp, fn, tp = results["counts"]
+    with tab_matrix:
+        st.markdown('<div class="sub">Rows are actual outcomes; columns are model predictions.</div>', unsafe_allow_html=True)
+        st.markdown(confusion_html(tn, fp, fn, tp), unsafe_allow_html=True)
+        st.caption(f"TN = {tn:,} · FP = {fp:,} · FN = {fn:,} · TP = {tp:,}")
+    with tab_report:
+        report = classification_report(y, results["predicted"], labels=[0, 1],
+                                       target_names=["No purchase", "Purchase"],
+                                       output_dict=True, zero_division=0)
+        rows = []
+        for label in ["No purchase", "Purchase", "macro avg", "weighted avg"]:
+            d = report[label]
+            rows.append({"Class": label, "Precision": d["precision"], "Recall": d["recall"],
+                         "F1": d["f1-score"], "Support": int(d["support"])})
+        st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True)
+        st.caption("Precision, recall and F1 are calculated separately for each actual class.")
+    with tab_roc:
+        fpr, tpr, _ = roc_curve(y, results["probabilities"])
+        fig, ax = plt.subplots(figsize=(7.2, 3.8))
+        ax.plot(fpr, tpr, color="#176b91", lw=2.6, label=f"{active_name} · AUC {scores['AUC']:.3f}")
+        ax.plot([0, 1], [0, 1], color="#9ca9b7", ls="--", lw=1.3, label="Random baseline")
+        ax.set(xlabel="False positive rate", ylabel="True positive rate", xlim=(0, 1), ylim=(0, 1.02))
+        ax.legend(frameon=False, loc="lower right", fontsize=9)
+        ax.grid(alpha=.17)
+        fig.tight_layout()
+        st.pyplot(fig, clear_figure=True)
+        plt.close(fig)
+    with tab_predictions:
+        prediction_table = test_df.copy()
+        prediction_table["Predicted_Revenue"] = results["predicted"].astype(bool)
+        prediction_table["Purchase_Probability"] = np.round(results["probabilities"], 4)
+        st.caption("Original CSV values are preserved. The two prediction columns are appended at the end.")
+        st.dataframe(prediction_table.head(100), hide_index=True, use_container_width=True)
+        st.download_button("Download test predictions (CSV)",
+                           prediction_table.to_csv(index=False).encode("utf-8"),
+                           file_name="shopsense_test_predictions.csv", mime="text/csv")
+    with st.expander("Evaluation metric formulas", expanded=False):
+        st.latex(r"Accuracy = \frac{TP+TN}{TP+TN+FP+FN}")
+        st.latex(r"Precision = \frac{TP}{TP+FP}")
+        st.latex(r"Recall = \frac{TP}{TP+FN}")
+        st.latex(r"F1 = \frac{2\cdot Precision\cdot Recall}{Precision+Recall}")
+        st.latex(r"MCC = \frac{TP\cdot TN-FP\cdot FN}{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}")
+        st.markdown("**AUC:** Area under the ROC curve, calculated using predicted probabilities.")
+
+# ------------------------------ Five-model comparison ------------------------------
+st.markdown('<div id="comparison"></div><div class="section-heading">Compare all five models</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub">Evaluate the five saved classifiers on the same uploaded records, without retraining.</div>', unsafe_allow_html=True)
+compare_clicked = st.button("Run five-model comparison", disabled=X is None, type="secondary")
+if compare_clicked and X is not None:
+    comparison_rows = []
+    comparison_errors = []
+    with st.spinner("Comparing saved classifiers..."):
+        for name in MODEL_FILES:
+            try:
+                result = evaluate_saved_model(name, X, y)
+                comparison_rows.append({"ML Model Name": name, **result["scores"]})
+            except Exception as exc:
+                comparison_errors.append(f"{name}: {exc}")
+    st.session_state["shop_comparison"] = pd.DataFrame(comparison_rows)
+    st.session_state["shop_comparison_errors"] = comparison_errors
+    st.session_state["shop_comparison_file"] = current_file
+
+comparison = st.session_state.get("shop_comparison")
+if isinstance(comparison, pd.DataFrame) and not comparison.empty and st.session_state.get("shop_comparison_file") == current_file:
+    st.dataframe(comparison.style.format({col: "{:.4f}" for col in comparison.columns if col != "ML Model Name"})
+                 .highlight_max(subset=[col for col in comparison.columns if col != "ML Model Name"], color="#dceff0"),
+                 hide_index=True, use_container_width=True)
+    st.download_button("Download model comparison (CSV)", comparison.to_csv(index=False).encode("utf-8"),
+                       file_name="shopsense_model_comparison.csv", mime="text/csv")
+    available_metrics = [col for col in comparison.columns if col != "ML Model Name"]
+    chosen_metrics = st.multiselect("Metrics to compare", available_metrics,
+                                    default=["Accuracy", "AUC", "F1 Score", "MCC"])
+    if chosen_metrics:
+        # Side-by-side bars preserve metric meaning; negative MCC remains visible.
+        fig, axes = plt.subplots(len(chosen_metrics), 1, figsize=(9, 2.35 * len(chosen_metrics)))
+        axes = np.atleast_1d(axes)
+        for ax, metric in zip(axes, chosen_metrics):
+            vals = comparison[metric].to_numpy()
+            best = np.argmax(vals)
+            colors = ["#168e9a" if i == best else "#adcce3" for i in range(len(vals))]
+            ax.barh(comparison["ML Model Name"], vals, color=colors, height=.58)
+            ax.invert_yaxis()
+            ax.set_title(metric, loc="left", fontweight="bold", fontsize=11)
+            ax.axvline(0, color="#64748b", lw=.7)
+            ax.tick_params(labelsize=8)
+            ax.grid(axis="x", alpha=.15)
+            ax.set_axisbelow(True)
+        fig.tight_layout(h_pad=1.7)
+        st.pyplot(fig, clear_figure=True)
+        plt.close(fig)
+    st.markdown('<div class="data-note"><b>Interpretation:</b> The highest value depends on the chosen metric. '
+                'AUC measures ranking, recall measures caught purchases, and MCC balances all four confusion-matrix outcomes.</div>',
                 unsafe_allow_html=True)
-    st.stop()
+    for error in st.session_state.get("shop_comparison_errors", []):
+        st.warning(error)
+elif X is not None:
+    st.caption("Select Run five-model comparison to generate the benchmark table and charts.")
 
-if test_df is None:
-    st.error("Please upload a test CSV before running the evaluation.")
-    st.stop()
-
-if "Revenue" not in test_df.columns:
-    st.error("CSV must contain a Revenue target column.")
-    st.stop()
-
-raw_target = test_df["Revenue"].astype(str).str.strip().str.lower()
-y = raw_target.map({"true": 1, "false": 0, "1": 1, "0": 0})
-if y.isna().any():
-    st.error("Revenue must contain only True/False or 1/0, without missing values.")
-    st.stop()
-y = y.astype(int)
-if y.nunique() != 2:
-    st.error("Test CSV must include both Revenue classes (0 and 1) to calculate AUC.")
-    st.stop()
-
-X = test_df.drop(columns=["Revenue"])
-if len(test_df) != 2466:
-    st.warning(f"Uploaded {len(test_df):,} rows. Use the held-out test_data.csv (2,466 rows) for assignment results.")
-
-model_path = BASE_DIR / MODEL_FILES[selected_model]
-if not model_path.is_file():
-    st.error(f"Model file missing: {MODEL_FILES[selected_model]}")
-    st.stop()
-
-try:
-    with st.spinner("Evaluating saved model..."):
-        model = load_model(str(model_path))
-        if hasattr(model, "feature_names_in_"):
-            expected = list(model.feature_names_in_)
-        elif hasattr(model, "named_steps") and hasattr(model.named_steps.get("preprocessing"), "feature_names_in_"):
-            expected = list(model.named_steps["preprocessing"].feature_names_in_)
-        else:
-            expected = None
-        if expected is not None:
-            missing = [name for name in expected if name not in X.columns]
-            if missing:
-                st.error("Missing input columns: " + ", ".join(missing))
-                st.stop()
-            X = X[expected]
-        predictions = model.predict(X)
-        class_labels = list(model.classes_)
-        if 1 not in class_labels:
-            st.error("Saved model does not contain positive class 1.")
-            st.stop()
-        probabilities = model.predict_proba(X)[:, class_labels.index(1)]
-except Exception as exc:
-    st.error(f"Model loading or prediction failed: {exc}")
-    st.stop()
-
-scores = [
-    ("Accuracy", accuracy_score(y, predictions)),
-    ("AUC", roc_auc_score(y, probabilities)),
-    ("Precision", precision_score(y, predictions, zero_division=0)),
-    ("Recall", recall_score(y, predictions, zero_division=0)),
-    ("F1 Score", f1_score(y, predictions, zero_division=0)),
-    ("MCC", matthews_corrcoef(y, predictions)),
-]
-tn, fp, fn, tp = (int(v) for v in confusion_matrix(y, predictions, labels=[0, 1]).ravel())
-
-# ------------------------------ Results ------------------------------
-st.markdown('<div id="results"></div><div class="section-heading">Model Evaluation</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub">Six scores for the selected model on your uploaded test data. Most scores range from 0 to 1 '
-            '(MCC from -1 to 1), and higher is better.</div>', unsafe_allow_html=True)
-st.markdown(
-    f'<div class="chips"><span class="chip">{selected_model}</span><span class="chip">{len(test_df):,} rows</span>'
-    f'<span class="chip">{X.shape[1]} features</span></div>', unsafe_allow_html=True)
-
-summary = []
-if tp + fn > 0:
-    summary.append(f"Out of <b>{tp + fn:,}</b> real purchases, it caught <b>{tp:,}</b> ({tp / (tp + fn):.1%}).")
-if tp + fp > 0:
-    summary.append(f"Of the <b>{tp + fp:,}</b> sessions it flagged as purchases, <b>{tp:,}</b> were real ({tp / (tp + fp):.1%}).")
-if summary:
-    st.markdown(f'<div class="verdict">{" ".join(summary)}</div>', unsafe_allow_html=True)
-
-st.markdown(metric_cards(scores), unsafe_allow_html=True)
-
-st.markdown('<div class="section-heading">Confusion Matrix</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub">Each row shows what really happened and each column shows what the model predicted, '
-            'so the tiles count the four possible outcomes.</div>', unsafe_allow_html=True)
-st.markdown(confusion_html(tn, fp, fn, tp), unsafe_allow_html=True)
-st.caption(f"TN = {tn:,} · FP = {fp:,} · FN = {fn:,} · TP = {tp:,}")
-
-with st.expander("Evaluation metric formulas", expanded=False):
-    st.latex(r"Accuracy = \frac{TP+TN}{TP+TN+FP+FN}")
-    st.latex(r"Precision = \frac{TP}{TP+FP}")
-    st.latex(r"Recall = \frac{TP}{TP+FN}")
-    st.latex(r"F1 = \frac{2\cdot Precision\cdot Recall}{Precision+Recall}")
-    st.latex(r"MCC = \frac{TP\cdot TN-FP\cdot FN}{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}")
-    st.markdown("**AUC:** Area under the ROC curve across decision thresholds; calculated from predicted probabilities.")
+# ------------------------------ Dataset & methodology ------------------------------
+st.markdown('<div id="methodology"></div><div class="section-heading">Dataset & methodology</div>', unsafe_allow_html=True)
+st.markdown('<div class="insight-panel"><strong>Online Shoppers Purchasing Intention</strong><br>'
+            'This binary classification task predicts whether an online browsing session ends in a purchase. '
+            'The target column is <b>Revenue</b>; the remaining columns describe the session. '
+            'All evaluation is performed using saved model artifacts—no training takes place in this app.</div>',
+            unsafe_allow_html=True)
+if test_df is not None:
+    summary_rows = [{"Property": "Uploaded records", "Value": f"{len(test_df):,}"},
+                    {"Property": "CSV columns", "Value": str(test_df.shape[1])},
+                    {"Property": "Input columns", "Value": str(test_df.shape[1] - int("Revenue" in test_df.columns))},
+                    {"Property": "Missing values", "Value": f"{int(test_df.isna().sum().sum()):,}"},
+                    {"Property": "Target column", "Value": "Revenue" if "Revenue" in test_df.columns else "Not found"}]
+    st.dataframe(pd.DataFrame(summary_rows), hide_index=True, use_container_width=True)
+    with st.expander("View column types and missing values"):
+        schema = pd.DataFrame({"Column": test_df.columns, "Data type": test_df.dtypes.astype(str).values,
+                               "Missing": test_df.isna().sum().values})
+        st.dataframe(schema, hide_index=True, use_container_width=True)
+else:
+    st.caption("Upload your labelled test CSV to see its actual structure and data-quality summary.")
+st.markdown('<div class="data-note">Evaluation workflow: read the labelled CSV → validate Revenue → '
+            'align input features to the saved pipeline → predict classes and probabilities → calculate '
+            'Accuracy, AUC, Precision, Recall, F1 and MCC. The uploaded CSV is never modified.</div>',
+            unsafe_allow_html=True)
