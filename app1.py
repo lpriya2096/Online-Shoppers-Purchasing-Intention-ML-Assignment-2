@@ -261,34 +261,6 @@ html, body, .stApp, [data-testid="stApp"],
   color:#14243d;
   color-scheme:light;
 }
-/* The native uploaded-file chip contains nested elements with their own dark
-   backgrounds. Make its inner layers transparent over one powder-blue card. */
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
-  background:#dceafb!important;
-  border:1px solid #b9d2ee!important;
-  border-radius:11px!important;
-  box-shadow:none!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"]
-  :is(div,span,p,small,strong,section,article) {
-  background:transparent!important;
-  background-color:transparent!important;
-  background-image:none!important;
-  box-shadow:none!important;
-  color:#203b59!important;
-  -webkit-text-fill-color:#203b59!important;
-  font-family:'DM Sans',sans-serif!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"]
-  [data-testid="stFileUploaderFileSize"] {
-  color:#60758d!important;-webkit-text-fill-color:#60758d!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button {
-  background:#fff!important;color:#285487!important;border-radius:50%!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] svg {
-  color:#285487!important;
-}
 /* Match both the select's text and its right-hand arrow area. */
 [data-testid="stSelectbox"] [data-baseweb="select"],
 [data-testid="stSelectbox"] [data-baseweb="select"] > div,
@@ -326,50 +298,39 @@ html, body, .stApp, [data-testid="stApp"],
   .section-heading {color:#274d8b!important;}
   .mc,.cmw,[data-testid="stExpander"] {break-inside:avoid;}
 }
-
-/* Final isolated fix: the native uploaded CSV file item and its icon wrapper.
-   Streamlit versions may use different internal wrappers; scope all rules to
-   the uploaded file item, never to the dataset preview or model controls. */
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] *:not(svg):not(path) {
-  background-color:transparent!important;
-  background-image:none!important;
+/* FINAL: solid upload outline, never a dotted/dashed line. */
+[data-testid="stFileUploader"] section {
+  background:#e9f3ff!important;
+  border:1px solid #b9d2ee!important;
+  border-radius:13px!important;
   box-shadow:none!important;
 }
+/* Hide only the native dark file chip, not the upload/drop area. */
+[data-testid="stFileUploaderFile"],
+[data-testid="stFileUploaderFileData"],
 [data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
-  background-color:#dceafb!important;
-  border:1px solid #b9d2ee!important;
-  border-radius:11px!important;
+  display:none!important;
 }
-/* Streamlit's file icon is often a separate, dark-coloured wrapper. */
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(
-  [data-testid="stFileUploaderFileIcon"],
-  [data-testid="stFileUploaderFileIcon"] *,
-  [data-testid="stFileUploaderFileData"] > div:first-child,
-  div:has(> svg[data-testid="stFileUploaderFileIcon"])
-) {
-  background-color:#fff!important;
-  color:#285487!important;
-  border-radius:8px!important;
+.uploaded-file-summary {
+  display:inline-flex;align-items:center;gap:11px;
+  background:#dceafb;color:#203b59;border:1px solid #b9d2ee;
+  border-radius:11px;padding:9px 13px;margin:7px 0 4px;
+  font-family:'DM Sans',sans-serif;
 }
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] svg,
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] svg * {
-  color:#285487!important;
-  fill:currentColor!important;
+.uploaded-file-icon {
+  display:flex;align-items:center;justify-content:center;
+  width:37px;height:37px;border-radius:8px;background:#fff;
+  color:#285487;font-size:23px;font-weight:700;
 }
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(p,span,small,strong) {
-  color:#203b59!important;
-  -webkit-text-fill-color:#203b59!important;
-  font-family:'DM Sans',sans-serif!important;
+.uploaded-file-details {display:flex;flex-direction:column;gap:2px;}
+.uploaded-file-details strong {font-size:13px;color:#203b59;font-weight:700;}
+.uploaded-file-details small {font-size:12px;color:#60758d;font-weight:500;}
+/* Flatten the number control's heavy black focus ring. */
+[data-testid="stNumberInput"] [data-baseweb="input"] {
+  outline:0!important;box-shadow:none!important;border:1px solid #b9d2ee!important;
 }
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] [data-testid="stFileUploaderFileSize"] {
-  color:#60758d!important;
-  -webkit-text-fill-color:#60758d!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button {
-  background-color:#fff!important;
-  color:#285487!important;
-  border-radius:50%!important;
+[data-testid="stNumberInput"] [data-baseweb="input"]:focus-within {
+  border-color:#7aa8dc!important;box-shadow:0 0 0 1px #7aa8dc!important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -398,26 +359,16 @@ def fmt_num(v) -> str:
 
 
 def preview_table(df: pd.DataFrame, n: int) -> str:
-    """Simple, readable table with an outer frame and uncoloured data cells."""
+    """Display CSV records as uploaded, without translating Revenue values."""
     view = df.head(n)
-    if "Revenue" in view.columns:          # show the target first so it is never hidden by scrolling
-        view = view[["Revenue"] + [c for c in view.columns if c != "Revenue"]]
-    head = "".join(
-        f'<th class="{"tg" if c == "Revenue" else ""}">{_html.escape(str(c))}</th>' for c in view.columns)
+    head = "".join(f"<th>{_html.escape(str(c))}</th>" for c in view.columns)
     rows = []
     for _, row in view.iterrows():
         cells = []
-        for c in view.columns:
-            v = row[c]
-            if c == "Revenue":
-                key = str(v).strip().lower()
-                label = "Purchase" if key in ("true", "1") else "No purchase" if key in ("false", "0") else str(v)
-                cells.append(f'<td class="{"revenue-purchase" if label == "Purchase" else "revenue-no-purchase" if label == "No purchase" else ""}">{_html.escape(label)}</td>')
-            elif pd.api.types.is_number(v) and not pd.api.types.is_bool(v):
-                cells.append(f'<td class="num">{fmt_num(v)}</td>')
-            else:
-                cells.append(f'<td>{_html.escape(str(v))}</td>')
-        rows.append(f'<tr>{"".join(cells)}</tr>')
+        for value in row:
+            shown = "" if pd.isna(value) else str(value)
+            cells.append(f"<td>{_html.escape(shown)}</td>")
+        rows.append(f"<tr>{''.join(cells)}</tr>")
     return f'<div class="tw"><table class="dt"><thead><tr>{head}</tr></thead><tbody>{"".join(rows)}</tbody></table></div>'
 
 
@@ -499,6 +450,20 @@ uploaded_file = st.file_uploader(
     "Upload CSV", type=["csv"], label_visibility="collapsed"
 )
 
+# The native Streamlit uploaded-file chip is styled internally and remains dark
+# in some Streamlit versions. Show one stable, light-blue file summary instead.
+if uploaded_file is not None:
+    file_name = _html.escape(uploaded_file.name)
+    file_size = uploaded_file.size
+    size_text = f"{file_size / 1024:.1f} KB" if file_size < 1024 * 1024 else f"{file_size / (1024 * 1024):.1f} MB"
+    st.markdown(
+        f'<div class="uploaded-file-summary">'
+        f'<span class="uploaded-file-icon">▦</span>'
+        f'<span class="uploaded-file-details"><strong>{file_name}</strong>'
+        f'<small>{size_text}</small></span></div>',
+        unsafe_allow_html=True,
+    )
+
 test_df = None
 if uploaded_file is not None:
     try:
@@ -541,7 +506,7 @@ if uploaded_file is not None:
     )
     st.markdown(preview_table(preview_rows, len(preview_rows)), unsafe_allow_html=True)
     if "Revenue" in test_df.columns:
-        st.markdown(f'<div class="note">The <b>Revenue</b> column (shown first) is what the models predict: Purchase or No purchase. '
+        st.markdown(f'<div class="note">The <b>Revenue</b> column is the target used for model evaluation. '
                     f'The other {test_df.shape[1] - 1} columns are the inputs they use.</div>', unsafe_allow_html=True)
 
 # ------------------------------ Step 2: model + run ------------------------------
