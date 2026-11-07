@@ -285,6 +285,47 @@ ul[role="listbox"] li:hover {
   background:#dceafb;color:#285487;border:1px solid #b9d2ee;
   font-family:'DM Sans',sans-serif;font-weight:700;
 }
+
+/* FINAL UI FINISHING: native file-chip, selector arrow and compact controls. */
+/* Streamlit's uploaded file chip may be rendered as a BaseWeb tag or file-row wrapper. */
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(div,section,article),
+[data-testid="stFileUploader"] [data-baseweb="tag"],
+[data-testid="stFileUploader"] [data-baseweb="tag"] :is(div,span),
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFileData"] {
+  background-color:#dceafb!important;
+  background-image:none!important;
+  color:#203b59!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(p,span,small,strong),
+[data-testid="stFileUploader"] [data-baseweb="tag"] :is(p,span,small,strong) {
+  color:#203b59!important;-webkit-text-fill-color:#203b59!important;
+  font-family:'DM Sans',sans-serif!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(button,[role="button"]) {
+  background:#fff!important;color:#285487!important;border-color:#b9d2ee!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] svg {
+  color:#285487!important;fill:none;
+}
+/* The arrow container is a sibling inside BaseWeb's select, not always the combobox. */
+[data-testid="stSelectbox"] [data-baseweb="select"] > div,
+[data-testid="stSelectbox"] [data-baseweb="select"] [data-baseweb="select-arrow"],
+[data-testid="stSelectbox"] [data-baseweb="select"] [aria-hidden="true"],
+[data-testid="stSelectbox"] [data-baseweb="select"] > div > div {
+  background-color:#e4f2ff!important;color:#213f60!important;
+}
+[data-testid="stSelectbox"] [data-baseweb="select"] svg {color:#213f60!important;fill:currentColor!important;}
+/* Number input: light border across outer frame and +/- controls. */
+[data-testid="stNumberInput"] [data-baseweb="input"],
+[data-testid="stNumberInput"] [data-baseweb="input"] > div,
+[data-testid="stNumberInput"] [data-baseweb="base-input"] {
+  border-color:#b9d2ee!important;box-shadow:none!important;
+  background-color:#dceafb!important;
+}
+[data-testid="stNumberInput"] button {border-color:#b9d2ee!important;box-shadow:none!important;}
+/* Compact formula spacing; preserve every equation and its font colour. */
+[data-testid="stExpander"] [data-testid="stLatex"] {margin-block:0!important;padding-block:0!important;}
+[data-testid="stExpander"] [data-testid="stLatex"] .katex-display {margin:.45em 0!important;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -439,7 +480,7 @@ if uploaded_file is not None:
             st.markdown(balance_bar(int(flags.sum()), len(flags)), unsafe_allow_html=True)
 
     # Keep the original row-count input, aligned beside its label.
-    label_col, count_col, _ = st.columns([2.2, 1.5, 3], vertical_alignment="center")
+    label_col, count_col, _ = st.columns([1.45, 1.25, 4.3], vertical_alignment="center")
     with label_col:
         st.markdown('<div class="preview-inline-label">Rows to preview</div>', unsafe_allow_html=True)
     with count_col:
