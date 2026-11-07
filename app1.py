@@ -197,6 +197,44 @@ ul[role="listbox"] li:hover {
 [data-baseweb="menu"] li:hover {
  background:#cfe6ff!important;
 }
+
+/* Uploaded CSV: recolor Streamlit's nested file-pill surfaces. */
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] > div,
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] > div > div,
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFileData"],
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFileName"],
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFileSize"],
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] [data-baseweb="tag"] {
+ background:#e4f2ff!important;background-color:#e4f2ff!important;
+ color:#203957!important;box-shadow:none!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
+ border:1px solid #abccec!important;border-radius:12px!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] * {
+ color:#203957!important;-webkit-text-fill-color:#203957!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button {
+ background:#cce5fc!important;border-radius:9px!important;
+}
+/* Medium-size, polished confusion matrix; four distinct outcome colors. */
+.cmw{max-width:620px!important;padding:17px!important;border:1px solid #d7e5f2!important;
+ box-shadow:0 8px 25px rgba(35,75,116,.09)!important;border-radius:18px!important;}
+.cm{border-spacing:7px!important;font-family:'DM Sans',sans-serif!important;}
+.cm th{background:#e8f1fc!important;color:#254565!important;
+ font-size:.75rem!important;padding:10px 5px!important;}
+.cm td{padding:14px 5px!important;border-radius:12px!important;}
+.cm td.tn{background:#daf4ec!important;border-color:#9edecb!important;}
+.cm td.tp{background:#dceaff!important;border-color:#a6c7fa!important;}
+.cm td.fp{background:#fff0d9!important;border-color:#efcb8c!important;}
+.cm td.fn{background:#fce4ec!important;border-color:#edb2c9!important;}
+.cm .n{font-size:1.7rem!important;font-weight:800!important;color:#1b3857!important;}
+.cm .l{font-size:.76rem!important;color:#294867!important;}
+.cm .t{font-size:.61rem!important;color:#5a728a!important;}
+.cm .p{font-size:.67rem!important;color:#5a728a!important;}
+@media(max-width:700px){.cmw{padding:7px!important}.cm{border-spacing:4px!important}
+ .cm td{padding:9px 3px!important}.cm .n{font-size:1.3rem!important}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -307,7 +345,9 @@ def confusion_html(tn, fp, fn, tp):
         f'<tr><th>Purchase (1)</th>{cell(fn, "Missed purchase", "FALSE NEGATIVE · FN", "fn")}'
         f'{cell(tp, "Correctly detected", "TRUE POSITIVE · TP", "tp")}</tr>'
         '</table><div class="key"><i style="background:#9bdacb;"></i>Correct prediction'
-        '<i style="background:#f2c7a7;"></i>Incorrect prediction</div></div>'
+        '<i style="background:#efcb8c;"></i>False positive'
+        '<i style="background:#edb2c9;"></i>False negative'
+        '<i style="background:#a6c7fa;"></i>True positive</div></div>'
     )
 
 
