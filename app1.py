@@ -265,6 +265,37 @@ div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
 div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(svg,path) {
  color:#203957!important;fill:currentColor!important;
 }
+
+/* Evaluation formulas: preserve existing layout; only match navy-blue colours. */
+[data-testid="stExpander"] details > summary {
+ background:#e9f2ff!important;
+ color:#28518a!important;
+}
+[data-testid="stExpander"] details > summary *,
+[data-testid="stExpander"] details > summary svg {
+ color:#28518a!important;
+ -webkit-text-fill-color:#28518a!important;
+}
+[data-testid="stExpander"] details > summary p {
+ font-family:'DM Sans',sans-serif!important;
+ font-weight:800!important;
+}
+[data-testid="stExpander"] [data-testid="stLatex"],
+[data-testid="stExpander"] [data-testid="stLatex"] .katex,
+[data-testid="stExpander"] [data-testid="stLatex"] .katex *,
+[data-testid="stExpander"] .katex,
+[data-testid="stExpander"] .katex * {
+ color:#28518a!important;
+ border-color:#28518a!important;
+}
+[data-testid="stExpander"] .katex svg,
+[data-testid="stExpander"] .katex svg * {
+ fill:#28518a!important;
+ stroke:#28518a!important;
+}
+[data-testid="stExpander"] [data-testid="stMarkdownContainer"] p {
+ color:#314e6e!important;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -540,7 +571,7 @@ st.markdown('<div class="sub">Each row shows what really happened and each colum
 st.markdown(confusion_html(tn, fp, fn, tp), unsafe_allow_html=True)
 st.caption(f"TN = {tn:,} · FP = {fp:,} · FN = {fn:,} · TP = {tp:,}")
 
-with st.expander("Evaluation metric formulas"):
+with st.expander("Evaluation metric formulas", expanded=False):
     st.latex(r"Accuracy = \frac{TP+TN}{TP+TN+FP+FN}")
     st.latex(r"Precision = \frac{TP}{TP+FP}")
     st.latex(r"Recall = \frac{TP}{TP+FN}")
