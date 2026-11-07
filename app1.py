@@ -393,6 +393,39 @@ div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(svg,pat
 }
 [data-testid="stNumberInput"] [data-baseweb="input"] {border:1px solid #b9d2ee!important;border-radius:10px!important;}
 .preview-inline-label {font-family:'DM Sans',sans-serif!important;color:#285487!important;font-size:.91rem!important;font-weight:700!important;}
+
+/* Approved uploaded CSV card: powder-blue, with matching DM Sans typography. */
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
+  background:#dceafb!important;background-color:#dceafb!important;
+  border:1px solid #b9d2ee!important;border-radius:14px!important;
+  box-shadow:none!important;color:#203b59!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(div,span,p,small),
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFileName"] {
+  background-color:transparent!important;color:#203b59!important;
+  -webkit-text-fill-color:#203b59!important;
+  font-family:'DM Sans',sans-serif!important;font-weight:650!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFileSize"] {
+  color:#60758d!important;-webkit-text-fill-color:#60758d!important;
+  font-family:'DM Sans',sans-serif!important;font-weight:500!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] svg {
+  color:#285487!important;fill:none!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button {
+  background:#ffffff!important;color:#285487!important;
+  border:1px solid #b9d2ee!important;border-radius:50%!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button:hover {
+  background:#c7dff8!important;
+}
+/* Dataset record-count badges: same font and palette as the preview controls. */
+.dataset-records .chip,.dataset-records .chip.sun {
+  background:#dceafb!important;color:#285487!important;
+  border:1px solid #b9d2ee!important;
+  font-family:'DM Sans',sans-serif!important;font-weight:700!important;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -539,7 +572,7 @@ if uploaded_file is not None:
     chips = (f'<span class="chip">{len(test_df):,} rows</span>'
              f'<span class="chip">{test_df.shape[1]} columns</span>'
              f'<span class="chip sun">{int(test_df.isna().sum().sum())} missing values</span>')
-    st.markdown(f'<div class="chips">{chips}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="chips dataset-records">{chips}</div>', unsafe_allow_html=True)
 
     if "Revenue" in test_df.columns:
         flags = test_df["Revenue"].astype(str).str.strip().str.lower().map({"true": 1, "false": 0, "1": 1, "0": 0})
