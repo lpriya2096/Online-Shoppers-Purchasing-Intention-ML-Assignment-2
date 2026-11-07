@@ -85,64 +85,32 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 .hint {background:#fff;border:1px solid #d8e4f6;border-radius:14px;padding:18px 20px;color:#4a6080;font-size:.94rem;}
 @media(max-width:700px){.block-container{padding:1rem .85rem 3rem;}.hero{padding:25px 22px;border-radius:16px;}.hero .cart{display:none!important;}.hero td:last-child{display:none;}.mt{border-spacing:6px;margin:0 -6px;}.mc{padding:12px 8px!important;}.mc .nm{font-size:.66rem;}.mc .ht{font-size:.7rem;}.cm{border-spacing:4px;}.cm th{font-size:.65rem;}.cm .n{font-size:1.25rem;}.cmw{padding:7px;}}
 
-/* Uploaded file: recolor the actual inner chip and every nested wrapper. */
-[data-testid="stFileUploaderFile"],
-[data-testid="stFileUploaderFile"] > div,
-[data-testid="stFileUploaderFile"] > div > div,
-[data-testid="stFileUploaderFile"] [data-baseweb="tag"],
-[data-testid="stFileUploaderFile"] [data-baseweb="tag"] * {
-    background-color:#E8F2FF !important;
-    color:#203957 !important;
-    -webkit-text-fill-color:#203957 !important;
-}
-[data-testid="stFileUploaderFile"] {
-    border:1px solid #AFC9E9 !important;
-    border-radius:12px !important;
-}
-[data-testid="stFileUploaderFile"] button,
-[data-testid="stFileUploaderFile"] button * {
-    background-color:#D4E6FA !important;
-    color:#315D8E !important;
-    -webkit-text-fill-color:#315D8E !important;
-}
-[data-testid="stFileUploaderFile"] svg {color:#315D8E !important;fill:#315D8E !important;}
-/* Streamlit's BaseWeb combobox contains several nested dark wrappers. */
-[data-testid="stSelectbox"] [data-baseweb="select"],
-[data-testid="stSelectbox"] [data-baseweb="select"] > div,
-[data-testid="stSelectbox"] [role="combobox"],
-[data-testid="stSelectbox"] [role="combobox"] div {
-    background-color:#E8F2FF !important;
-    background-image:none !important;
-    color:#203957 !important;
-    -webkit-text-fill-color:#203957 !important;
-}
-[data-testid="stSelectbox"] [role="combobox"] {
-    border:1px solid #AFC9E9 !important;
-    border-radius:12px !important;
-}
-[data-testid="stSelectbox"] [role="combobox"] *,
-[data-testid="stSelectbox"] [data-baseweb="select"] input {
-    color:#203957 !important;
-    -webkit-text-fill-color:#203957 !important;
-}
-[data-testid="stSelectbox"] svg {fill:#315D8E !important;color:#315D8E !important;}
-[data-baseweb="popover"] [role="option"] {background:#fff !important;color:#203957 !important;}
-[data-baseweb="popover"] [role="option"]:hover {background:#E8F2FF !important;}
-/* Confusion matrix: soft and consistent with the navy dashboard. */
-.cmw {max-width:790px;margin:14px auto 0;padding:20px;background:#fff;border:1px solid #dce6f2;border-radius:18px;box-shadow:0 6px 24px rgba(20,36,61,.045);}
-.cm {width:100%;border-collapse:separate;border-spacing:8px;table-layout:fixed;font-family:'DM Sans',sans-serif;}
-.cm th {background:#edf3fb !important;color:#294466 !important;font-size:.82rem !important;font-weight:750 !important;padding:13px 7px !important;border:0 !important;border-radius:10px !important;line-height:1.4;}
-.cm th.e {background:#fff !important;}
-.cm td {text-align:center;border-radius:13px !important;padding:21px 9px !important;vertical-align:middle;}
-.cm td.correct {background:#e8f6f0 !important;border:1px solid #b9e3d2 !important;}
-.cm td.incorrect {background:#fff1ed !important;border:1px solid #f4d1c7 !important;}
-.cm .n {font-size:2.05rem !important;font-weight:800 !important;line-height:1.2;color:#18324f !important;}
-.cm .l {font-size:.87rem !important;font-weight:750 !important;color:#284360 !important;margin-top:7px;}
-.cm .t {font-size:.68rem !important;font-weight:750 !important;letter-spacing:.06em;color:#5b718a !important;margin-top:5px;}
-.cm .p {font-size:.76rem !important;color:#61758d !important;margin-top:7px;}
-.key {text-align:center;font-size:.81rem;color:#64748b;margin:14px 0 2px;}
-@media(max-width:700px){.cmw{padding:8px;}.cm{border-spacing:4px;}.cm th{font-size:.67rem !important;padding:8px 3px !important;}.cm td{padding:12px 3px !important;}.cm .n{font-size:1.35rem !important;}.cm .l{font-size:.68rem !important;}.cm .t,.cm .p{font-size:.59rem !important;}}
 
+/* Use a visible light card instead of Streamlit's dark native upload pill. */
+[data-testid="stFileUploaderFile"], [data-testid="stFileUploader"] ul {display:none!important;}
+.upload-card{display:flex;align-items:center;gap:12px;background:#e7f3ff;border:1px solid #abcdf0;border-radius:13px;padding:12px 16px;margin:10px 0 12px;}
+.upload-card .file-icon{background:#d2e8ff;padding:9px;border-radius:10px;font-size:1.25rem;}
+.upload-card .file-name{font-weight:800;color:#1d3957;font-size:.94rem;}
+.upload-card .file-meta{color:#52718e;font-size:.78rem;margin-top:2px;}
+[data-testid="stSelectbox"] [data-baseweb="select"]>div,[data-testid="stSelectbox"] [role="combobox"],[data-testid="stSelectbox"] [role="combobox"]>div{background:#e7f3ff!important;background-color:#e7f3ff!important;color:#1d3957!important;border-color:#abcdf0!important;}
+[data-testid="stSelectbox"] [role="combobox"]{border:1px solid #abcdf0!important;border-radius:12px!important;}
+[data-testid="stSelectbox"] [role="combobox"] *,[data-testid="stSelectbox"] [data-baseweb="select"] input{color:#1d3957!important;-webkit-text-fill-color:#1d3957!important;}
+[data-testid="stSelectbox"] svg{color:#265780!important;fill:#265780!important;}
+.sect{display:inline-block;color:#1b4e75!important;background:#e5f2fc;border-left:5px solid #58a5d5;border-radius:0 10px 10px 0;padding:10px 17px;margin-top:30px;margin-bottom:12px;}
+.sect.blue{background:#e9f0ff;color:#274d8b!important;border-left-color:#6488d8;}
+.step:not(.up){color:#236184;}.step:not(.up) b{background:#d9f1f2;color:#1b7377;}
+.cmw{max-width:790px;background:#fff;border:1px solid #dbe6f0;box-shadow:0 10px 30px rgba(23,53,89,.07);padding:19px;border-radius:20px;}
+.cm{font-family:'DM Sans',sans-serif;border-spacing:9px;}
+.cm th{background:#eaf1fa!important;color:#254564!important;border-radius:11px!important;font-size:.81rem!important;padding:13px 6px!important;}
+.cm th.e{background:#fff!important;}.cm td{padding:20px 8px!important;border-radius:15px!important;text-align:center;}
+.cm td.tn{background:#e5f5f0!important;border:1px solid #b4e2d1!important;}
+.cm td.tp{background:#e7f0ff!important;border:1px solid #b7d0f7!important;}
+.cm td.fp{background:#fff0e6!important;border:1px solid #f5d3b5!important;}
+.cm td.fn{background:#fbeafa!important;border:1px solid #edc6e8!important;}
+.cm .n{font-size:2rem!important;font-weight:800!important;color:#193955!important;}
+.cm .l{font-size:.84rem!important;font-weight:800!important;color:#294963!important;}
+.cm .t{font-size:.67rem!important;color:#56728a!important;}.cm .p{font-size:.73rem!important;color:#56728a!important;}
+@media(max-width:700px){.cmw{padding:6px}.cm{border-spacing:4px}.cm td{padding:10px 3px!important}.cm .n{font-size:1.3rem!important}.cm .l{font-size:.67rem!important}.cm .t,.cm .p{font-size:.57rem!important}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -235,8 +203,7 @@ def confusion_html(tn, fp, fn, tp):
     """Compact 2×2 matrix with consistent colors and clear axis labels."""
     total = tn + fp + fn + tp
 
-    def cell(value, label, tag, correct):
-        status = "correct" if correct else "incorrect"
+    def cell(value, label, tag, status):
         share = value / total if total else 0
         return (
             f'<td class="{status}"><div class="n">{value:,}</div>'
@@ -249,10 +216,10 @@ def confusion_html(tn, fp, fn, tp):
         '<colgroup><col style="width:23%"><col style="width:38.5%"><col style="width:38.5%"></colgroup>'
         '<tr><th class="e">Actual ↓ / Predicted →</th>'
         '<th>No purchase (0)</th><th>Purchase (1)</th></tr>'
-        f'<tr><th>No purchase (0)</th>{cell(tn, "Correctly rejected", "TRUE NEGATIVE · TN", True)}'
-        f'{cell(fp, "False alarm", "FALSE POSITIVE · FP", False)}</tr>'
-        f'<tr><th>Purchase (1)</th>{cell(fn, "Missed purchase", "FALSE NEGATIVE · FN", False)}'
-        f'{cell(tp, "Correctly detected", "TRUE POSITIVE · TP", True)}</tr>'
+        f'<tr><th>No purchase (0)</th>{cell(tn, "Correctly rejected", "TRUE NEGATIVE · TN", "tn")}'
+        f'{cell(fp, "False alarm", "FALSE POSITIVE · FP", "fp")}</tr>'
+        f'<tr><th>Purchase (1)</th>{cell(fn, "Missed purchase", "FALSE NEGATIVE · FN", "fn")}'
+        f'{cell(tp, "Correctly detected", "TRUE POSITIVE · TP", "tp")}</tr>'
         '</table><div class="key"><i style="background:#a8dfc9;"></i>Correct prediction'
         '<i style="background:#fac7bc;"></i>Incorrect prediction</div></div>'
     )
@@ -274,6 +241,16 @@ st.markdown(
 # ------------------------------ Step 1: upload + preview ------------------------------
 st.markdown('<div class="step up"><b>1</b>Upload your test data</div>', unsafe_allow_html=True)
 uploaded_file = st.file_uploader("Test CSV (including Revenue)", type=["csv"])
+if uploaded_file is not None:
+    safe_name = _html.escape(uploaded_file.name)
+    file_kb = uploaded_file.size / 1024
+    st.markdown(
+        '<div class="upload-card"><span class="file-icon">📄</span>'
+        f'<div><div class="file-name">{safe_name}</div>'
+        f'<div class="file-meta">{file_kb:,.1f} KB · CSV uploaded</div>'
+        '</div></div>', unsafe_allow_html=True
+    )
+
 
 test_df = None
 if uploaded_file is not None:
