@@ -85,61 +85,49 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 .hint {background:#fff;border:1px solid #d8e4f6;border-radius:14px;padding:18px 20px;color:#4a6080;font-size:.94rem;}
 @media(max-width:700px){.block-container{padding:1rem .85rem 3rem;}.hero{padding:25px 22px;border-radius:16px;}.hero .cart{display:none!important;}.hero td:last-child{display:none;}.mt{border-spacing:6px;margin:0 -6px;}.mc{padding:12px 8px!important;}.mc .nm{font-size:.66rem;}.mc .ht{font-size:.7rem;}.cm{border-spacing:4px;}.cm th{font-size:.65rem;}.cm .n{font-size:1.25rem;}.cmw{padding:7px;}}
 
-/* Uploaded CSV: Streamlit versions use either a file row or a BaseWeb tag.
-   Target BOTH, including the dark inner pill visible in the screenshot. */
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] > div,
-[data-testid="stFileUploader"] [data-baseweb="tag"],
-[data-testid="stFileUploader"] [data-baseweb="tag"] > div,
-[data-testid="stFileUploader"] [data-baseweb="tag"] > span {
-    background:#e8f2ff !important;
-    background-color:#e8f2ff !important;
-    color:#203957 !important;
-    border-radius:10px !important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
-    border:1px solid #b5cee9 !important;
-    padding:8px 10px !important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] span,
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] small,
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] p,
-[data-testid="stFileUploader"] [data-baseweb="tag"] span,
-[data-testid="stFileUploader"] [data-baseweb="tag"] p {
+/* Uploaded file: recolor the actual inner chip and every nested wrapper. */
+[data-testid="stFileUploaderFile"],
+[data-testid="stFileUploaderFile"] > div,
+[data-testid="stFileUploaderFile"] > div > div,
+[data-testid="stFileUploaderFile"] [data-baseweb="tag"],
+[data-testid="stFileUploaderFile"] [data-baseweb="tag"] * {
+    background-color:#E8F2FF !important;
     color:#203957 !important;
     -webkit-text-fill-color:#203957 !important;
 }
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] svg,
-[data-testid="stFileUploader"] [data-baseweb="tag"] svg {color:#315d8e !important;}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button,
-[data-testid="stFileUploader"] [data-baseweb="tag"] button {
-    background:#d4e6fa !important;
-    color:#315d8e !important;
-    border-radius:50% !important;
+[data-testid="stFileUploaderFile"] {
+    border:1px solid #AFC9E9 !important;
+    border-radius:12px !important;
 }
-/* BaseWeb select control: override the inner combobox, not just its outer shell. */
+[data-testid="stFileUploaderFile"] button,
+[data-testid="stFileUploaderFile"] button * {
+    background-color:#D4E6FA !important;
+    color:#315D8E !important;
+    -webkit-text-fill-color:#315D8E !important;
+}
+[data-testid="stFileUploaderFile"] svg {color:#315D8E !important;fill:#315D8E !important;}
+/* Streamlit's BaseWeb combobox contains several nested dark wrappers. */
+[data-testid="stSelectbox"] [data-baseweb="select"],
 [data-testid="stSelectbox"] [data-baseweb="select"] > div,
-[data-testid="stSelectbox"] [data-baseweb="select"] [role="combobox"],
-[data-testid="stSelectbox"] [data-baseweb="select"] [role="combobox"] > div,
-[data-testid="stSelectbox"] [data-baseweb="select"] [role="combobox"] > div > div {
-    background:#f0edfa !important;
-    background-color:#f0edfa !important;
-    color:#283653 !important;
-    -webkit-text-fill-color:#283653 !important;
+[data-testid="stSelectbox"] [role="combobox"],
+[data-testid="stSelectbox"] [role="combobox"] div {
+    background-color:#E8F2FF !important;
+    background-image:none !important;
+    color:#203957 !important;
+    -webkit-text-fill-color:#203957 !important;
 }
-[data-testid="stSelectbox"] [data-baseweb="select"] > div {
-    border:1px solid #bcb4de !important;
-    border-radius:11px !important;
+[data-testid="stSelectbox"] [role="combobox"] {
+    border:1px solid #AFC9E9 !important;
+    border-radius:12px !important;
 }
-[data-testid="stSelectbox"] [data-baseweb="select"] span,
-[data-testid="stSelectbox"] [data-baseweb="select"] input,
-[data-testid="stSelectbox"] [data-baseweb="select"] svg {
-    color:#283653 !important;
-    -webkit-text-fill-color:#283653 !important;
-    fill:currentColor !important;
+[data-testid="stSelectbox"] [role="combobox"] *,
+[data-testid="stSelectbox"] [data-baseweb="select"] input {
+    color:#203957 !important;
+    -webkit-text-fill-color:#203957 !important;
 }
-[data-baseweb="popover"] [role="option"] {background:#fff !important;color:#283653 !important;}
-[data-baseweb="popover"] [role="option"]:hover {background:#f0edfa !important;}
+[data-testid="stSelectbox"] svg {fill:#315D8E !important;color:#315D8E !important;}
+[data-baseweb="popover"] [role="option"] {background:#fff !important;color:#203957 !important;}
+[data-baseweb="popover"] [role="option"]:hover {background:#E8F2FF !important;}
 /* Confusion matrix: soft and consistent with the navy dashboard. */
 .cmw {max-width:790px;margin:14px auto 0;padding:20px;background:#fff;border:1px solid #dce6f2;border-radius:18px;box-shadow:0 6px 24px rgba(20,36,61,.045);}
 .cm {width:100%;border-collapse:separate;border-spacing:8px;table-layout:fixed;font-family:'DM Sans',sans-serif;}
@@ -154,43 +142,6 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 .cm .p {font-size:.76rem !important;color:#61758d !important;margin-top:7px;}
 .key {text-align:center;font-size:.81rem;color:#64748b;margin:14px 0 2px;}
 @media(max-width:700px){.cmw{padding:8px;}.cm{border-spacing:4px;}.cm th{font-size:.67rem !important;padding:8px 3px !important;}.cm td{padding:12px 3px !important;}.cm .n{font-size:1.35rem !important;}.cm .l{font-size:.68rem !important;}.cm .t,.cm .p{font-size:.59rem !important;}}
-
-
-/* Hide Streamlit's theme-dependent uploaded-file chip; show our own below. */
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFileData"],
-[data-testid="stFileUploader"] [data-testid="stFileUploaderDeleteBtn"],
-[data-testid="stFileUploader"] ul {
-    display: none !important;
-}
-.uploaded-file-card {
-    display:flex; align-items:center; gap:12px; background:#e8f2ff;
-    border:1px solid #adc9eb; border-radius:12px; padding:13px 16px;
-    margin:8px 0 12px; color:#203957; font-family:'DM Sans',sans-serif;
-}
-.uploaded-file-icon {font-size:1.35rem;background:#d2e6fc;border-radius:9px;padding:8px;}
-.uploaded-file-name {font-size:.94rem;font-weight:800;color:#203957;}
-.uploaded-file-size {font-size:.78rem;color:#526d8a;margin-top:2px;}
-/* Force a light model select control, including BaseWeb's inner layer. */
-div[data-testid="stSelectbox"] div[data-baseweb="select"],
-div[data-testid="stSelectbox"] div[data-baseweb="select"] > div,
-div[data-testid="stSelectbox"] div[data-baseweb="select"] div[role="combobox"],
-div[data-testid="stSelectbox"] div[data-baseweb="select"] div[role="combobox"] > div,
-div[data-testid="stSelectbox"] div[data-baseweb="select"] div[role="combobox"] > div > div,
-div[data-testid="stSelectbox"] div[data-baseweb="select"] div[data-baseweb="select"] {
-    background:#f0edfa !important; background-color:#f0edfa !important;
-    color:#283653 !important; border-color:#bcb4de !important;
-}
-div[data-testid="stSelectbox"] div[role="combobox"] {
-    background:#f0edfa !important; color:#283653 !important;
-    border:1px solid #bcb4de !important; border-radius:11px !important;
-}
-div[data-testid="stSelectbox"] div[role="combobox"] *,
-div[data-testid="stSelectbox"] div[data-baseweb="select"] *,
-div[data-testid="stSelectbox"] input {
-    color:#283653 !important; -webkit-text-fill-color:#283653 !important;
-}
-div[data-testid="stSelectbox"] svg {fill:#283653 !important;color:#283653 !important;}
 
 </style>
 """, unsafe_allow_html=True)
@@ -323,18 +274,6 @@ st.markdown(
 # ------------------------------ Step 1: upload + preview ------------------------------
 st.markdown('<div class="step up"><b>1</b>Upload your test data</div>', unsafe_allow_html=True)
 uploaded_file = st.file_uploader("Test CSV (including Revenue)", type=["csv"])
-if uploaded_file is not None:
-    safe_name = _html.escape(uploaded_file.name)
-    file_size = f"{uploaded_file.size / 1024:,.1f} KB"
-    st.markdown(
-        '<div class="uploaded-file-card">'
-        '<div class="uploaded-file-icon">📄</div>'
-        f'<div><div class="uploaded-file-name">{safe_name}</div>'
-        f'<div class="uploaded-file-size">{file_size} · CSV uploaded</div></div>'
-        '</div>',
-        unsafe_allow_html=True,
-    )
-
 
 test_df = None
 if uploaded_file is not None:
@@ -370,7 +309,7 @@ if uploaded_file is not None:
 # ------------------------------ Step 2: model + run ------------------------------
 st.markdown('<div class="step"><b>2</b>Choose a model and run</div>', unsafe_allow_html=True)
 with st.form("evaluation_form"):
-    selected_model = st.selectbox("Classification model", list(MODEL_FILES), key="classification_model")
+    selected_model = st.selectbox("Classification model", list(MODEL_FILES))
     run_evaluation = st.form_submit_button("Run Evaluation", type="primary")
 
 if not run_evaluation:
