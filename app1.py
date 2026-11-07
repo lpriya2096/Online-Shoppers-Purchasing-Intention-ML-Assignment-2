@@ -145,6 +145,17 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 [data-testid="stTabs"] [data-baseweb="tab-border"] {background:#d4e2f0!important;}
 [data-testid="stTabs"] [data-baseweb="tab-panel"] {background:#fff!important;color:#203b59!important;padding-top:15px!important;}
 
+
+/* Dataset & methodology tables: light surfaces and consistent dashboard typography. */
+.schema-table-wrap{background:#fff;border:1px solid #d5e2ef;border-radius:12px;overflow:hidden;margin:12px 0 18px;box-shadow:0 3px 12px rgba(24,57,89,.035)}
+.schema-scroll{max-height:460px;overflow:auto}
+.schema-table{width:100%;border-collapse:collapse;font-family:'DM Sans',sans-serif!important;font-size:13px;color:#334155;background:#fff}
+.schema-table th{background:#edf4fc!important;color:#285487!important;text-align:left;font-size:13px;font-weight:750;padding:13px 16px;border-bottom:1px solid #d5e2ef;white-space:nowrap}
+.schema-table td{background:#fff!important;color:#334155!important;padding:12px 16px;border-bottom:1px solid #e8eef5;line-height:1.4;overflow-wrap:anywhere}
+.schema-table tr:last-child td{border-bottom:0}
+.schema-table tbody tr:nth-child(even) td{background:#fafcff!important}
+.schema-table td:last-child{text-align:left}
+.schema-scroll .schema-table th{position:sticky;top:0;z-index:1}
 </style>
 """, unsafe_allow_html=True)
 
@@ -532,8 +543,7 @@ if comparison is not None:
                 + header + '</tr></thead><tbody>' + ''.join(body_rows)
                 + '</tbody></table></div>', unsafe_allow_html=True)
     st.caption("Light-blue numbers indicate the highest value for that metric. All metrics are higher-is-better.")
-    st.download_button("Download comparison CSV", comparison[display_cols].to_csv(index=False).encode("utf-8"),
-                       file_name="model_comparison.csv", mime="text/csv")
+
 
     st.markdown('<div class="section-heading comparison-chart-title">Metric comparison charts</div>', unsafe_allow_html=True)
     chosen_metrics = st.multiselect("Metrics to display", metrics, default=["Accuracy", "AUC", "F1", "MCC"])
@@ -582,11 +592,29 @@ if test_df is not None:
                     {"Property": "Input columns", "Value": str(test_df.shape[1] - int("Revenue" in test_df.columns))},
                     {"Property": "Missing values", "Value": f"{int(test_df.isna().sum().sum()):,}"},
                     {"Property": "Target column", "Value": "Revenue" if "Revenue" in test_df.columns else "Not found"}]
-    st.dataframe(pd.DataFrame(summary_rows), hide_index=True, use_container_width=True)
+    # Render as a light, readable HTML table instead of Streamlit's dark dataframe grid.
+    summary_body = "".join(
+        f'<tr><td>{_html.escape(str(item["Property"]))}</td>'
+        f'<td>{_html.escape(str(item["Value"]))}</td></tr>'
+        for item in summary_rows
+    )
+    st.markdown(
+        '<div class="schema-table-wrap"><table class="schema-table">'
+        '<thead><tr><th>Property</th><th>Value</th></tr></thead><tbody>'
+        + summary_body + '</tbody></table></div>', unsafe_allow_html=True
+    )
     with st.expander("View column types and missing values"):
         schema = pd.DataFrame({"Column": test_df.columns, "Data type": test_df.dtypes.astype(str).values,
                                "Missing": test_df.isna().sum().values})
-        st.dataframe(schema, hide_index=True, use_container_width=True)
+        schema_body = "".join(
+            '<tr>' + ''.join(f'<td>{_html.escape(str(value))}</td>' for value in record) + '</tr>'
+            for record in schema.itertuples(index=False, name=None)
+        )
+        st.markdown(
+            '<div class="schema-table-wrap schema-scroll"><table class="schema-table">'
+            '<thead><tr><th>Column</th><th>Data type</th><th>Missing</th></tr></thead><tbody>'
+            + schema_body + '</tbody></table></div>', unsafe_allow_html=True
+        )
 else:
     st.caption("Upload your labelled test CSV to see its actual structure and data-quality summary.")
 st.markdown('<div class="data-note">Evaluation workflow: read the labelled CSV → validate Revenue → '
