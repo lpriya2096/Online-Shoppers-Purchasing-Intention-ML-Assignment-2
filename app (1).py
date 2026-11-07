@@ -7,7 +7,7 @@ from sklearn.metrics import (
     matthews_corrcoef, roc_auc_score, confusion_matrix
 )
 
-st.set_page_config(page_title="Shopper Intent Lab", page_icon="🛒", layout="centered")
+st.set_page_config(page_title="Purchase Intent Predictor", page_icon="🛒", layout="centered")
 
 # Palette: plum + violet (brand), coral (mistakes), mint (correct), sun (accent), cream (background)
 st.markdown("""
@@ -36,13 +36,15 @@ h1, h2, h3, .pop {font-family: 'Poppins', 'Segoe UI', sans-serif;}
 
 .step {font-family: 'Poppins', 'Segoe UI', sans-serif; font-size: 1.15rem; font-weight: 700; color: #231942;
        line-height: 1.2; margin: 26px 0 10px;}
-.step.up {color: #0b6b6b;}
-.step.up b {background: #0fa3a3; color: #ffffff;}
+.step.up {color: #1e40af;}
+.step.up b {background: #2563eb; color: #ffffff;}
 .step b {display: inline-block; width: 32px; height: 32px; line-height: 32px; text-align: center; border-radius: 50%;
          background: #ffc845; color: #2d1b4e; margin-right: 10px; font-size: .95rem;}
 
-[data-testid="stFileUploader"] section {background: #e8f8f7; border: 2px dashed #0fa3a3; border-radius: 18px;}
-[data-testid="stFileUploader"] section button {border-color: #0fa3a3; color: #0b6b6b;}
+[data-testid="stFileUploader"] section {background: #eaf2ff; border: 2px dashed #2563eb; border-radius: 18px;}
+[data-testid="stFileUploader"] * {color: #1e3a8a !important;}
+[data-testid="stFileUploader"] svg {fill: #2563eb !important;}
+[data-testid="stFileUploader"] section button {background: #ffffff; border: 1px solid #2563eb; border-radius: 10px;}
 [data-testid="stForm"] {border: 1px solid #e3d9f5; border-radius: 20px; padding: 18px 22px 14px; background: #ffffff;
                         box-shadow: 0 4px 16px rgba(91,47,160,.07);}
 [data-testid="stFormSubmitButton"] button {background: linear-gradient(135deg, #ff6f61, #ff8a5c); color: #ffffff; border: 0;
@@ -58,7 +60,7 @@ h1, h2, h3, .pop {font-family: 'Poppins', 'Segoe UI', sans-serif;}
 
 .sect {font-family: 'Poppins', 'Segoe UI', sans-serif; font-size: 1.25rem; font-weight: 800; color: #231942;
        line-height: 1.15; margin: 26px 0 10px; padding: 3px 0 3px 12px; border-left: 6px solid #ff6f61;}
-.sect.teal {border-left-color: #0fa3a3;}
+.sect.blue {border-left-color: #2563eb;}
 
 .verdict {background: #2d1b4e; color: #f4ecff; border-radius: 18px; padding: 16px 22px; margin: 6px 0 14px;
           font-size: .98rem; line-height: 1.6;}
@@ -76,7 +78,7 @@ h1, h2, h3, .pop {font-family: 'Poppins', 'Segoe UI', sans-serif;}
 
 .cmw {max-width: 600px; margin: 0 auto;}
 .cm {width: 100%; border-collapse: separate; border-spacing: 8px; table-layout: fixed;}
-.cm th {background: #2d1b4e; color: #ffffff; font-size: .74rem; font-weight: 700; padding: 8px 5px; border-radius: 10px;}
+.cm th {background: #ece5f8; color: #3b1f5e; font-size: .74rem; font-weight: 700; padding: 8px 5px; border-radius: 10px;}
 .cm th.e {background: transparent;}
 .cm td {border-radius: 14px; text-align: center; padding: 11px 6px; color: #231942;}
 .cm .ic {font-size: 1rem; line-height: 1.1;}
@@ -150,7 +152,7 @@ def confusion_html(tn, fp, fn, tp):
     def cell(value, icon, label, tag, good):
         share = value / total
         base = "#12b886" if good else "#ff6f61"
-        bg = blend(base, 0.20 + 0.75 * min(1.0, share * (1.15 if good else 6)))
+        bg = blend(base, 0.14 + 0.24 * min(1.0, share * (1.15 if good else 6)))   # mild pastel shades
         return (f'<td style="background:{bg};"><div class="ic">{icon}</div><div class="n">{value:,}</div>'
                 f'<div class="l">{label}</div><div class="t">{tag}</div>'
                 f'<div class="p">{share:.1%} of all sessions</div></td>')
@@ -168,10 +170,10 @@ def confusion_html(tn, fp, fn, tp):
 # ------------------------------ Header ------------------------------
 st.markdown(
     '<div class="hero"><table><tr><td>'
-    '<div class="kick">SHOPPER INTENT LAB</div>'
+    '<div class="kick">ONLINE SHOPPERS PURCHASING INTENTION</div>'
     "<h1>Will this visit end in a purchase?</h1>"
-    "<p>Online Shoppers' Purchasing Intention: pick a trained model, upload your test data "
-    "and see how well it tells buyers from browsers.</p>"
+    "<p>Pick a trained classification model, upload your test data and see how well it "
+    "tells buyers from browsers.</p>"
     '<span class="tag">5 trained models</span><span class="tag">6 evaluation metrics</span>'
     '<span class="tag">No retraining</span>'
     '</td><td style="width:120px;text-align:right;"><div class="cart" style="display:inline-block;">🛒</div></td>'
@@ -194,7 +196,7 @@ if uploaded_file is not None:
         st.error("The uploaded CSV has no rows.")
         st.stop()
 
-    st.markdown('<div class="sect teal">Dataset Preview</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sect blue">Dataset Preview</div>', unsafe_allow_html=True)
     chips = (f'<span class="chip">{len(test_df):,} rows</span>'
              f'<span class="chip">{test_df.shape[1]} columns</span>'
              f'<span class="chip sun">{int(test_df.isna().sum().sum())} missing values</span>')
