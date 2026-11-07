@@ -491,7 +491,7 @@ if uploaded_file is not None:
 # ------------------------------ Step 2: model + run ------------------------------
 st.markdown('<div class="section-heading">Choose a model and run</div>', unsafe_allow_html=True)
 with st.form("evaluation_form"):
-    selected_model = st.selectbox("Classification model", list(MODEL_FILES))
+    selected_model = st.selectbox("Active Classification model", list(MODEL_FILES))
     run_evaluation = st.form_submit_button("Run Evaluation", type="primary")
 
 if not run_evaluation:
