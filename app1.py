@@ -51,7 +51,7 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 .bal td {padding:10px 12px!important;font-size:.81rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;border:0!important;}
 .tw {max-height:340px;overflow:auto;border:1px solid #93b9fa;border-radius:13px;background:#fff;}
 .dt {border-collapse:separate;border-spacing:0;width:100%;font-size:.82rem;margin:0;}
-.dt th {position:sticky;top:0;background:#315f99;color:#ffffff;font-weight:750;padding:11px 12px!important;text-align:left;white-space:nowrap;border:0!important;border-bottom:1px solid var(--line)!important;}
+.dt th {position:static;background:#315f99;color:#ffffff;font-weight:750;padding:11px 12px!important;text-align:left;white-space:nowrap;border:0!important;border-bottom:1px solid var(--line)!important;}
 .dt th.tg {background:#315f99;color:#ffffff;}
 .dt td {padding:9px 12px!important;white-space:nowrap;color:#27364a;background:#fff;border:0!important;border-bottom:1px solid #edf1f6!important;}
 .dt td.num {text-align:right;}
@@ -220,7 +220,7 @@ ul[role="listbox"] li:hover {
 .matrix-cell .l {font-size:.79rem;font-weight:700;color:#294967;margin-top:9px;}
 .matrix-foot {text-align:center;color:#64748b;font-size:.75rem;margin-top:15px;}
 /* Dataset preview: balanced typography and distinct column headings. */
-.tw {border:1px solid #c6d9f1;border-radius:13px;overflow:auto;max-height:430px;}
+.tw {border:1px solid #c6d9f1;border-radius:13px;overflow:auto;max-height:520px;}
 .dt {font-family:'DM Sans',sans-serif!important;font-size:.86rem!important;}
 .dt th {background:#315f99!important;color:#fff!important;font-size:.78rem!important;
  letter-spacing:.01em;font-weight:750!important;padding:12px 14px!important;}
@@ -237,6 +237,16 @@ ul[role="listbox"] li:hover {
  .matrix-cell{min-height:100px;padding:10px 4px}
  .matrix-cell .n{font-size:1.35rem}.matrix-cell .l{font-size:.65rem}
 }
+
+/* Preview row selection: mild blue pills, independent of the model dropdown. */
+[data-testid="stRadio"] [role="radiogroup"] {gap:9px;flex-wrap:wrap;}
+[data-testid="stRadio"] label {font-family:'DM Sans',sans-serif;color:#234363;
+ background:#eaf3ff;border:1px solid #c9dbf2;border-radius:10px;padding:7px 11px;}
+[data-testid="stRadio"] label:has(input:checked) {background:#d8eaff;border-color:#78a9e5;}
+/* Keep table headers above, not overlapping, the body rows. */
+.tw .dt th {position:static!important;top:auto!important;z-index:auto!important;}
+.tw .dt {border-collapse:separate!important;border-spacing:0!important;}
+.tw .dt tbody tr {height:42px;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -395,18 +405,21 @@ if uploaded_file is not None:
         if flags.notna().all():
             st.markdown(balance_bar(int(flags.sum()), len(flags)), unsafe_allow_html=True)
 
-    preview_count = st.selectbox(
+    # A horizontal radio avoids the model dropdown CSS and makes the selected count explicit.
+    preview_count = st.radio(
         "Rows to preview",
         options=[5, 10, 20, 50, 100],
         index=0,
-        help="Display more rows without changing the uploaded dataset or model evaluation.",
-        key="preview_rows",
+        horizontal=True,
+        key="dataset_preview_row_count",
     )
+    preview_rows = test_df.head(preview_count)
     st.markdown(
-        f'<div class="preview-caption">Showing first {min(preview_count, len(test_df)):,} '
-        f'of {len(test_df):,} rows</div>', unsafe_allow_html=True
+        f'<div class="preview-caption">Showing {len(preview_rows):,} of '
+        f'{len(test_df):,} rows</div>',
+        unsafe_allow_html=True,
     )
-    st.markdown(preview_table(test_df, preview_count), unsafe_allow_html=True)
+    st.markdown(preview_table(preview_rows, len(preview_rows)), unsafe_allow_html=True)
     if "Revenue" in test_df.columns:
         st.markdown(f'<div class="note">The highlighted <b>Revenue</b> column (shown first) is what the models predict: Purchase or No purchase. '
                     f'The other {test_df.shape[1] - 1} columns are the inputs they use.</div>', unsafe_allow_html=True)
