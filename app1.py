@@ -215,39 +215,6 @@ ul[role="listbox"] li:hover {
 }
 
 
-/* Uploaded file: style Streamlit's real file row, including the dark tag layer.
-   Do not create a duplicate filename card or alter uploader behavior. */
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] > div,
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] > div > div,
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] [data-baseweb="tag"],
-[data-testid="stFileUploader"] [data-baseweb="tag"],
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFileData"] {
-  background:#dceafb!important;background-color:#dceafb!important;
-  background-image:none!important;box-shadow:none!important;
-  color:#203b59!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],
-[data-testid="stFileUploader"] [data-baseweb="tag"] {
-  border:1px solid #b9d2ee!important;border-radius:14px!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(p,span,small),
-[data-testid="stFileUploader"] [data-baseweb="tag"] :is(p,span,small) {
-  font-family:'DM Sans',sans-serif!important;
-  color:#203b59!important;-webkit-text-fill-color:#203b59!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFileSize"] {
-  color:#60758d!important;-webkit-text-fill-color:#60758d!important;
-  font-weight:500!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] svg {
-  color:#285487!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button {
-  background:#fff!important;border:1px solid #b9d2ee!important;
-  border-radius:50%!important;color:#285487!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button:hover {background:#c7dff8!important;}
 /* White dataset table, with restrained navy typography and no coloured data badges. */
 .tw {width:100%;max-height:440px;overflow:auto;background:#fff;
   border:1px solid #d5e0ec;border-radius:12px;box-shadow:0 3px 12px rgba(30,62,95,.055);}
@@ -286,46 +253,79 @@ ul[role="listbox"] li:hover {
   font-family:'DM Sans',sans-serif;font-weight:700;
 }
 
-/* FINAL UI FINISHING: native file-chip, selector arrow and compact controls. */
-/* Streamlit's uploaded file chip may be rendered as a BaseWeb tag or file-row wrapper. */
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(div,section,article),
-[data-testid="stFileUploader"] [data-baseweb="tag"],
-[data-testid="stFileUploader"] [data-baseweb="tag"] :is(div,span),
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFileData"] {
-  background-color:#dceafb!important;
-  background-image:none!important;
-  color:#203b59!important;
+/* Keep Streamlit's full app surface light, including print/PDF capture. */
+html, body, .stApp, [data-testid="stApp"],
+[data-testid="stAppViewContainer"], [data-testid="stMain"],
+[data-testid="stMainBlockContainer"] {
+  background-color:#f5f7fb!important;
+  color:#14243d;
+  color-scheme:light;
 }
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(p,span,small,strong),
-[data-testid="stFileUploader"] [data-baseweb="tag"] :is(p,span,small,strong) {
-  color:#203b59!important;-webkit-text-fill-color:#203b59!important;
+/* The native uploaded-file chip contains nested elements with their own dark
+   backgrounds. Make its inner layers transparent over one powder-blue card. */
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
+  background:#dceafb!important;
+  border:1px solid #b9d2ee!important;
+  border-radius:11px!important;
+  box-shadow:none!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"]
+  :is(div,span,p,small,strong,section,article) {
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  color:#203b59!important;
+  -webkit-text-fill-color:#203b59!important;
   font-family:'DM Sans',sans-serif!important;
 }
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(button,[role="button"]) {
-  background:#fff!important;color:#285487!important;border-color:#b9d2ee!important;
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"]
+  [data-testid="stFileUploaderFileSize"] {
+  color:#60758d!important;-webkit-text-fill-color:#60758d!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button {
+  background:#fff!important;color:#285487!important;border-radius:50%!important;
 }
 [data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] svg {
-  color:#285487!important;fill:none;
+  color:#285487!important;
 }
-/* The arrow container is a sibling inside BaseWeb's select, not always the combobox. */
+/* Match both the select's text and its right-hand arrow area. */
+[data-testid="stSelectbox"] [data-baseweb="select"],
 [data-testid="stSelectbox"] [data-baseweb="select"] > div,
-[data-testid="stSelectbox"] [data-baseweb="select"] [data-baseweb="select-arrow"],
-[data-testid="stSelectbox"] [data-baseweb="select"] [aria-hidden="true"],
-[data-testid="stSelectbox"] [data-baseweb="select"] > div > div {
-  background-color:#e4f2ff!important;color:#213f60!important;
+[data-testid="stSelectbox"] [data-baseweb="select"] > div > div,
+[data-testid="stSelectbox"] [data-baseweb="select"] [data-baseweb="select-arrow"] {
+  background:#e4f2ff!important;
+  background-color:#e4f2ff!important;
+  color:#213f60!important;
+  border-color:#b5d4ef!important;
 }
-[data-testid="stSelectbox"] [data-baseweb="select"] svg {color:#213f60!important;fill:currentColor!important;}
-/* Number input: light border across outer frame and +/- controls. */
+[data-testid="stSelectbox"] [data-baseweb="select"] svg {
+  color:#213f60!important;fill:currentColor!important;
+}
+/* Remove dark outlines while retaining visible accessible focus. */
 [data-testid="stNumberInput"] [data-baseweb="input"],
-[data-testid="stNumberInput"] [data-baseweb="input"] > div,
 [data-testid="stNumberInput"] [data-baseweb="base-input"] {
-  border-color:#b9d2ee!important;box-shadow:none!important;
-  background-color:#dceafb!important;
+  background:#dceafb!important;border:1px solid #b9d2ee!important;
+  border-radius:9px!important;box-shadow:none!important;
 }
-[data-testid="stNumberInput"] button {border-color:#b9d2ee!important;box-shadow:none!important;}
-/* Compact formula spacing; preserve every equation and its font colour. */
+[data-testid="stNumberInput"] button {
+  background:#dceafb!important;color:#285487!important;
+  border-color:#b9d2ee!important;box-shadow:none!important;
+}
+[data-testid="stNumberInput"] button:hover {background:#bfd9f6!important;}
+[data-testid="stNumberInput"] :focus-within {outline-color:#7aa8dc!important;}
+/* Keep the formula panel compact without changing the equations. */
 [data-testid="stExpander"] [data-testid="stLatex"] {margin-block:0!important;padding-block:0!important;}
-[data-testid="stExpander"] [data-testid="stLatex"] .katex-display {margin:.45em 0!important;}
+[data-testid="stExpander"] .katex-display {margin:.45em 0!important;}
+@media print {
+  html,body,.stApp,[data-testid="stAppViewContainer"],
+  [data-testid="stMain"],[data-testid="stMainBlockContainer"] {
+    background:#f5f7fb!important;color:#14243d!important;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .section-heading {color:#274d8b!important;}
+  .mc,.cmw,[data-testid="stExpander"] {break-inside:avoid;}
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -467,7 +467,7 @@ if uploaded_file is not None:
         st.stop()
 
     st.markdown('<div class="section-heading">Dataset Preview</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub">A quick look at your file. The bar shows how many sessions ended in a purchase.</div>',
+    st.markdown('<div class="sub">Preview your uploaded records and their purchase distribution when available.</div>',
                 unsafe_allow_html=True)
     chips = (f'<span class="chip">{len(test_df):,} rows</span>'
              f'<span class="chip">{test_df.shape[1]} columns</span>'
