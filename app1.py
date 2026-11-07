@@ -297,55 +297,45 @@ div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(svg,pat
  color:#314e6e!important;
 }
 
-/* Dataset Preview only: compact, consistent typography and clean spacing. */
-.tw {overflow-x:auto!important;overflow-y:auto!important;max-width:100%!important;}
-.tw .dt {width:max-content!important;min-width:100%!important;table-layout:auto!important;
- font-family:'DM Sans',sans-serif!important;border-spacing:0!important;}
-.tw .dt th {font-family:'DM Sans',sans-serif!important;font-size:12px!important;
- font-weight:700!important;letter-spacing:0!important;line-height:1.35!important;
- padding:12px 13px!important;white-space:nowrap!important;text-align:left!important;
- background:#315f99!important;color:#fff!important;}
-.tw .dt td {font-family:'DM Sans',sans-serif!important;font-size:12.5px!important;
- font-weight:450!important;line-height:1.4!important;padding:10px 13px!important;
- white-space:nowrap!important;vertical-align:middle!important;}
-.tw .dt td.num {text-align:right!important;font-variant-numeric:tabular-nums;}
-.tw .dt .bd {font-family:'DM Sans',sans-serif!important;font-size:11.5px!important;
- font-weight:700!important;padding:5px 9px!important;border-radius:7px!important;}
-
-/* Dataset preview refresh: compact, readable, restrained teal-blue palette. */
-.tw {background:#fff!important;border:1px solid #c9dce9!important;
- border-radius:14px!important;overflow:auto!important;max-height:480px!important;}
-.tw table.dt {width:max-content!important;min-width:100%!important;
- border-collapse:separate!important;border-spacing:0!important;table-layout:auto!important;
- font-family:'DM Sans',sans-serif!important;}
-.tw table.dt thead th {position:static!important;top:auto!important;z-index:auto!important;
- background:#285d78!important;color:#fff!important;font-size:12px!important;
- font-weight:700!important;letter-spacing:0!important;line-height:1.35!important;
- padding:12px 16px!important;border:0!important;border-bottom:2px solid #427f99!important;
- white-space:nowrap!important;text-align:left!important;}
+/* Dataset Preview — one consistent style, matching the dashboard's blue palette. */
+.tw {
+  width:100%;max-width:100%;max-height:440px;overflow:auto;
+  background:#fff;border:1px solid #c8d9ed;border-radius:12px;
+}
+.tw table.dt {
+  width:max-content;min-width:100%;border-collapse:separate;border-spacing:0;
+  table-layout:auto;font-family:'DM Sans',sans-serif;
+}
+.tw table.dt thead th {
+  position:static!important;top:auto!important;
+  background:#37648f!important;color:#fff!important;
+  font-family:'DM Sans',sans-serif!important;font-size:12px!important;
+  font-weight:700!important;letter-spacing:0!important;
+  padding:12px 15px!important;line-height:1.35!important;
+  white-space:nowrap!important;text-align:left!important;border:0!important;
+}
 .tw table.dt tbody tr {height:auto!important;}
-.tw table.dt tbody td {font-family:'DM Sans',sans-serif!important;font-size:12.5px!important;
- font-weight:500!important;line-height:1.4!important;color:#263e56!important;
- padding:12px 16px!important;border:0!important;border-bottom:1px solid #e5edf2!important;
- white-space:nowrap!important;vertical-align:middle!important;}
-.tw table.dt tbody tr:nth-child(odd) td {background:#fff!important;}
-.tw table.dt tbody tr:nth-child(even) td {background:#f0f7fa!important;}
-.tw table.dt tbody tr:hover td {background:#e5f2f7!important;}
-.tw table.dt tbody td.tg {background:#e8f2f9!important;}
+.tw table.dt tbody td {
+  font-family:'DM Sans',sans-serif!important;font-size:12.5px!important;
+  font-weight:500!important;line-height:1.4!important;
+  padding:11px 15px!important;color:#233b57!important;
+  border:0!important;border-bottom:1px solid #e4edf5!important;
+  white-space:nowrap!important;vertical-align:middle!important;
+}
+.tw table.dt tbody tr:nth-child(odd) td {background:#ffffff!important;}
+.tw table.dt tbody tr:nth-child(even) td {background:#edf4fb!important;}
+.tw table.dt tbody tr:hover td {background:#e2effb!important;}
+.tw table.dt tbody td.tg {background:#e3eefb!important;}
 .tw table.dt tbody td.num {text-align:right!important;font-variant-numeric:tabular-nums;}
-.tw table.dt .bd {display:inline-block!important;font-size:11px!important;font-weight:700!important;
- padding:5px 9px!important;border-radius:7px!important;color:#fff!important;}
-.tw table.dt .bd.n {background:#60788e!important;}
-.tw table.dt .bd.p {background:#2878b8!important;}
-/* One-row segmented selector, visually distinct from model dropdown. */
-[data-testid="stSegmentedControl"] [role="radiogroup"],
-[data-testid="stSegmentedControl"] [role="group"] {display:flex!important;flex-direction:row!important;
- flex-wrap:nowrap!important;gap:6px!important;overflow-x:auto!important;}
-[data-testid="stSegmentedControl"] button {font-family:'DM Sans',sans-serif!important;
- min-width:52px!important;font-weight:700!important;}
-
-
-.preview-inline-label {font-family:"DM Sans",sans-serif;font-size:.91rem;font-weight:750;color:#263e56;white-space:nowrap;}
+.tw table.dt .bd {
+  display:inline-block;font-family:'DM Sans',sans-serif!important;
+  font-size:11px!important;font-weight:700!important;
+  padding:5px 9px!important;border-radius:7px!important;color:#fff!important;
+}
+.tw table.dt .bd.n {background:#60758d!important;}
+.tw table.dt .bd.p {background:#2864c9!important;}
+/* Original compact number input, not radio or segmented buttons. */
+.preview-inline-label {font-family:'DM Sans',sans-serif;font-size:.91rem;font-weight:750;color:#263e56;white-space:nowrap;}
 </style>
 """, unsafe_allow_html=True)
 
