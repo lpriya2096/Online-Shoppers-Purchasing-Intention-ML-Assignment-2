@@ -156,6 +156,20 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 .schema-table tbody tr:nth-child(even) td{background:#fafcff!important}
 .schema-table td:last-child{text-align:left}
 .schema-scroll .schema-table th{position:sticky;top:0;z-index:1}
+
+/* Requested: light comparison action and readable evaluation report. */
+[data-testid="stButton"] button[kind="secondary"] {
+  background:#e6f2ff!important;color:#285487!important;
+  -webkit-text-fill-color:#285487!important;
+  border:1px solid #b9d2ee!important;
+  font-family:'DM Sans',sans-serif!important;font-weight:700!important;
+  box-shadow:none!important;
+}
+[data-testid="stButton"] button[kind="secondary"]:hover {background:#d2e8fc!important;border-color:#83b5e0!important;}
+[data-testid="stButton"] button[kind="secondary"]:disabled {background:#edf3f9!important;color:#7b8ea5!important;opacity:1!important;}
+.classification-table th:first-child,.classification-table td:first-child{text-align:left}
+.classification-table th:not(:first-child),.classification-table td:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -432,8 +446,8 @@ if results is not None:
                 f'<span class="chip">{results["features"]} input features</span></div>', unsafe_allow_html=True)
     scores = results["scores"]
     st.markdown(metric_cards(list(scores.items())), unsafe_allow_html=True)
-    tab_matrix, tab_report, tab_roc, tab_predictions = st.tabs(
-        ["Confusion matrix", "Classification report", "ROC curve", "Test predictions"]
+    tab_matrix, tab_report, tab_roc = st.tabs(
+        ["Confusion matrix", "Classification report", "ROC curve"]
     )
     tn, fp, fn, tp = results["counts"]
     with tab_matrix:
@@ -449,7 +463,16 @@ if results is not None:
             d = report[label]
             rows.append({"Class": label, "Precision": d["precision"], "Recall": d["recall"],
                          "F1": d["f1-score"], "Support": int(d["support"])})
-        st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True)
+        report_head = "".join(f"<th>{_html.escape(label)}</th>" for label in ["Class", "Precision", "Recall", "F1", "Support"])
+        report_body = "".join(
+            "<tr>" + "".join(
+                f"<td>{_html.escape(str(item[column])) if column in ('Class', 'Support') else f'{item[column]:.4f}'}</td>"
+                for column in ["Class", "Precision", "Recall", "F1", "Support"]
+            ) + "</tr>" for item in rows
+        )
+        st.markdown('<div class="schema-table-wrap"><table class="schema-table classification-table">'
+                    f'<thead><tr>{report_head}</tr></thead><tbody>{report_body}</tbody></table></div>',
+                    unsafe_allow_html=True)
         st.caption("Precision, recall and F1 are calculated separately for each actual class.")
     with tab_roc:
         fpr, tpr, _ = roc_curve(y, results["probabilities"])
@@ -462,15 +485,6 @@ if results is not None:
         fig.tight_layout()
         st.pyplot(fig, clear_figure=True)
         plt.close(fig)
-    with tab_predictions:
-        prediction_table = test_df.copy()
-        prediction_table["Predicted_Revenue"] = results["predicted"].astype(bool)
-        prediction_table["Purchase_Probability"] = np.round(results["probabilities"], 4)
-        st.caption("Original CSV values are preserved. The two prediction columns are appended at the end.")
-        st.dataframe(prediction_table.head(100), hide_index=True, use_container_width=True)
-        st.download_button("Download test predictions (CSV)",
-                           prediction_table.to_csv(index=False).encode("utf-8"),
-                           file_name="shopsense_test_predictions.csv", mime="text/csv")
     with st.expander("Evaluation metric formulas", expanded=False):
         st.latex(r"Accuracy = \frac{TP+TN}{TP+TN+FP+FN}")
         st.latex(r"Precision = \frac{TP}{TP+FP}")
@@ -587,22 +601,6 @@ st.markdown('<div class="insight-panel"><strong>Online Shoppers Purchasing Inten
             'All evaluation is performed using saved model artifacts—no training takes place in this app.</div>',
             unsafe_allow_html=True)
 if test_df is not None:
-    summary_rows = [{"Property": "Uploaded records", "Value": f"{len(test_df):,}"},
-                    {"Property": "CSV columns", "Value": str(test_df.shape[1])},
-                    {"Property": "Input columns", "Value": str(test_df.shape[1] - int("Revenue" in test_df.columns))},
-                    {"Property": "Missing values", "Value": f"{int(test_df.isna().sum().sum()):,}"},
-                    {"Property": "Target column", "Value": "Revenue" if "Revenue" in test_df.columns else "Not found"}]
-    # Render as a light, readable HTML table instead of Streamlit's dark dataframe grid.
-    summary_body = "".join(
-        f'<tr><td>{_html.escape(str(item["Property"]))}</td>'
-        f'<td>{_html.escape(str(item["Value"]))}</td></tr>'
-        for item in summary_rows
-    )
-    st.markdown(
-        '<div class="schema-table-wrap"><table class="schema-table">'
-        '<thead><tr><th>Property</th><th>Value</th></tr></thead><tbody>'
-        + summary_body + '</tbody></table></div>', unsafe_allow_html=True
-    )
     with st.expander("View column types and missing values"):
         schema = pd.DataFrame({"Column": test_df.columns, "Data type": test_df.dtypes.astype(str).values,
                                "Missing": test_df.isna().sum().values})
