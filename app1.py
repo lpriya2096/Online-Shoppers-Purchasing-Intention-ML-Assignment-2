@@ -88,18 +88,22 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 @media(max-width:700px){.block-container{padding:1rem .85rem 3rem;}.hero{padding:25px 22px;border-radius:16px;}.hero .cart{display:none!important;}.hero td:last-child{display:none;}.mt{border-spacing:6px;margin:0 -6px;}.mc{padding:12px 8px!important;}.mc .nm{font-size:.66rem;}.mc .ht{font-size:.7rem;}.cm{border-spacing:4px;}.cm th{font-size:.65rem;}.cm .n{font-size:1.25rem;}.cmw{padding:7px;}}
 
 
-/* The native filename chip has an internal dark surface in this Streamlit version.
-   Hide only that chip; a custom powder-blue filename card is rendered below. */
+/* Recolour the real uploaded-file widget. No duplicate filename card. */
 [data-testid="stFileUploaderFile"],
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
- display:none!important;
+[data-testid="stFileUploaderFile"] > div,
+[data-testid="stFileUploaderFile"] > div > div,
+[data-testid="stFileUploaderFile"] [data-testid="stFileUploaderFileData"],
+[data-testid="stFileUploaderFile"] [data-testid="stFileUploaderFileName"],
+[data-testid="stFileUploaderFile"] [data-testid="stFileUploaderFileSize"],
+[data-testid="stFileUploaderFile"] [data-baseweb="tag"] {
+  background:#e3f1ff!important;background-color:#e3f1ff!important;
+  color:#203957!important;box-shadow:none!important;
 }
-.csv-file-card {display:flex;align-items:center;gap:12px;background:#e4f2ff;
- border:1px solid #abccec;border-radius:12px;padding:12px 15px;margin:9px 0 12px;
- font-family:'DM Sans',sans-serif;color:#203957;}
-.csv-file-icon{font-size:1.3rem;background:#d2e8fd;border-radius:9px;padding:8px;}
-.csv-file-name{font-size:.95rem;font-weight:750;color:#203957;overflow-wrap:anywhere;}
-.csv-file-meta{font-size:.78rem;color:#52718e;margin-top:2px;}
+[data-testid="stFileUploaderFile"] {display:flex!important;border:1px solid #a9cbea!important;border-radius:11px!important;}
+[data-testid="stFileUploaderFile"] :is(p,span,small,div,svg) {
+  color:#203957!important;-webkit-text-fill-color:#203957!important;
+}
+[data-testid="stFileUploaderFile"] button {background:#d0e6fc!important;border-radius:8px!important;}
 /* Closed model selector */
 [data-testid="stSelectbox"] [data-baseweb="select"] > div,
 [data-testid="stSelectbox"] [role="combobox"] {
@@ -224,6 +228,17 @@ ul[role="listbox"] li:hover {
 .cm .p{font-size:.67rem!important;color:#5a728a!important;}
 @media(max-width:700px){.cmw{padding:7px!important}.cm{border-spacing:4px!important}
  .cm td{padding:9px 3px!important}.cm .n{font-size:1.3rem!important}}
+
+/* Clean medium-size confusion matrix; large counts and short labels. */
+.cmw{max-width:650px!important;margin:16px auto!important;padding:18px!important;}
+.matrix-axis{text-align:center;font-size:.85rem;font-weight:750;color:#426185;margin-bottom:10px;}
+.cm{border-spacing:8px!important;}
+.cm th{font-size:.82rem!important;padding:12px 8px!important;}
+.cm td{padding:24px 7px!important;}
+.cm .n{font-size:2.05rem!important;line-height:1.2!important;}
+.cm .l{font-size:.82rem!important;margin-top:8px!important;}
+.matrix-foot{text-align:center;color:#61748b;font-size:.76rem;margin-top:12px;}
+@media(max-width:600px){.cmw{padding:8px!important}.cm td{padding:13px 3px!important}.cm .n{font-size:1.4rem!important}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -313,30 +328,24 @@ def metric_cards(scores):
 
 
 def confusion_html(tn, fp, fn, tp):
-    """Compact 2×2 matrix with consistent colors and clear axis labels."""
-    total = tn + fp + fn + tp
-
-    def cell(value, label, tag, status):
-        share = value / total if total else 0
+    """Readable 2×2 confusion matrix with clearly labeled axes."""
+    def cell(value, title, kind):
         return (
-            f'<td class="{status}"><div class="n">{value:,}</div>'
-            f'<div class="l">{label}</div><div class="t">{tag}</div>'
-            f'<div class="p">{share:.1%} of sessions</div></td>'
+            f'<td class="{kind}"><div class="n">{value:,}</div>'
+            f'<div class="l">{title}</div></td>'
         )
 
     return (
-        '<div class="cmw"><table class="cm">'
-        '<colgroup><col style="width:23%"><col style="width:38.5%"><col style="width:38.5%"></colgroup>'
-        '<tr><th class="e">Actual ↓ / Predicted →</th>'
-        '<th>No purchase (0)</th><th>Purchase (1)</th></tr>'
-        f'<tr><th>No purchase (0)</th>{cell(tn, "Correctly rejected", "TRUE NEGATIVE · TN", "tn")}'
-        f'{cell(fp, "False alarm", "FALSE POSITIVE · FP", "fp")}</tr>'
-        f'<tr><th>Purchase (1)</th>{cell(fn, "Missed purchase", "FALSE NEGATIVE · FN", "fn")}'
-        f'{cell(tp, "Correctly detected", "TRUE POSITIVE · TP", "tp")}</tr>'
-        '</table><div class="key"><i style="background:#9bdacb;"></i>Correct prediction'
-        '<i style="background:#efcb8c;"></i>False positive'
-        '<i style="background:#edb2c9;"></i>False negative'
-        '<i style="background:#a6c7fa;"></i>True positive</div></div>'
+        '<div class="cmw"><div class="matrix-axis">Predicted outcome →</div>'
+        '<table class="cm"><colgroup><col style="width:25%">'
+        '<col style="width:37.5%"><col style="width:37.5%"></colgroup>'
+        '<tr><th>Actual outcome ↓</th><th>No purchase</th><th>Purchase</th></tr>'
+        f'<tr><th>No purchase</th>{cell(tn,"True negative","tn")}'
+        f'{cell(fp,"False positive","fp")}</tr>'
+        f'<tr><th>Purchase</th>{cell(fn,"False negative","fn")}'
+        f'{cell(tp,"True positive","tp")}</tr></table>'
+        '<div class="matrix-foot">Green / blue = correct predictions'
+        ' · Amber / rose = incorrect predictions</div></div>'
     )
 
 
@@ -356,27 +365,9 @@ st.markdown(
 # ------------------------------ Step 1: upload + preview ------------------------------
 st.markdown('<div class="step up">Upload your test data</div>', unsafe_allow_html=True)
 st.caption("Upload a labeled CSV containing the Revenue column to evaluate the saved models.")
-if "csv_upload_version" not in st.session_state:
-    st.session_state.csv_upload_version = 0
 uploaded_file = st.file_uploader(
-    "Upload CSV", type=["csv"], label_visibility="collapsed",
-    key=f"csv_upload_{st.session_state.csv_upload_version}",
+    "Upload CSV", type=["csv"], label_visibility="collapsed"
 )
-if uploaded_file is not None:
-    file_name = _html.escape(uploaded_file.name)
-    file_size = uploaded_file.size / 1024
-    card_col, clear_col = st.columns([9, 1], vertical_alignment="center")
-    with card_col:
-        st.markdown(
-            '<div class="csv-file-card"><span class="csv-file-icon">📄</span>'
-            f'<div><div class="csv-file-name">{file_name}</div>'
-            f'<div class="csv-file-meta">{file_size:,.1f} KB · CSV file</div></div></div>',
-            unsafe_allow_html=True,
-        )
-    with clear_col:
-        if st.button("✕", key="clear_csv", help="Remove uploaded CSV"):
-            st.session_state.csv_upload_version += 1
-            st.rerun()
 
 test_df = None
 if uploaded_file is not None:
