@@ -40,20 +40,9 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 .sub {color:var(--muted);font-size:.91rem;line-height:1.5;margin:0 0 16px;}
 [data-testid="stFileUploader"] section {background:#e9f3ff;border:1.5px dashed #3b82f6;border-radius:16px;padding:12px;}
 [data-testid="stFileUploader"] section button {background:#fff;border:1px solid #cbdaf5;border-radius:9px;}
-/* Uploaded CSV: readable filename and file details on a light blue surface */
-[data-testid="stFileUploaderFile"] {background:#dbeafe!important;border:1px solid #60a5fa!important;border-radius:12px;padding:7px 10px;}
-[data-testid="stFileUploaderFile"] span,[data-testid="stFileUploaderFile"] small,[data-testid="stFileUploaderFile"] p {color:#17365d!important;opacity:1!important;font-weight:650;}
-[data-testid="stFileUploaderFile"] svg {color:#1d4ed8!important;}
-[data-testid="stFileUploaderFile"] button {color:#1e40af!important;}
-[data-testid="stFileUploader"] section {background:#eff6ff!important;}
 [data-testid="stForm"] {background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px 18px;box-shadow:0 5px 18px rgba(20,36,61,.035);}
 [data-testid="stFormSubmitButton"] button {background:#2563eb;color:#fff;border:0;border-radius:10px;font-weight:800;padding:.65rem 1.5rem;min-height:44px;}
 [data-testid="stFormSubmitButton"] button:hover {background:#1d4ed8;color:#fff;}
-[data-baseweb="select"] > div {background:#eee9ff!important;border:1.5px solid #7c3aed!important;border-radius:10px!important;}
-[data-baseweb="select"] [data-testid="stMarkdownContainer"], [data-baseweb="select"] span, [data-baseweb="select"] input {color:#281451!important;font-weight:700!important;}
-[data-baseweb="select"] svg {fill:#5b21b6!important;color:#5b21b6!important;}
-[data-baseweb="popover"] [role="option"] {color:#281451!important;background:#fff!important;}
-[data-baseweb="popover"] [role="option"]:hover {background:#eee9ff!important;}
 [data-testid="stExpander"] {background:#fff;border:1px solid var(--line);border-radius:12px;}
 .chips {margin:8px 0 14px;}
 .chip {display:inline-block;background:#eaf1ff;color:#254b84;font-size:.79rem;font-weight:750;padding:7px 13px;border-radius:9px;margin:0 7px 7px 0;}
@@ -96,50 +85,46 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 .hint {background:#fff;border:1px solid #d8e4f6;border-radius:14px;padding:18px 20px;color:#4a6080;font-size:.94rem;}
 @media(max-width:700px){.block-container{padding:1rem .85rem 3rem;}.hero{padding:25px 22px;border-radius:16px;}.hero .cart{display:none!important;}.hero td:last-child{display:none;}.mt{border-spacing:6px;margin:0 -6px;}.mc{padding:12px 8px!important;}.mc .nm{font-size:.66rem;}.mc .ht{font-size:.7rem;}.cm{border-spacing:4px;}.cm th{font-size:.65rem;}.cm .n{font-size:1.25rem;}.cmw{padding:7px;}}
 
-/* Only the two controls shown in the screenshots are recoloured.
-   Keep the existing navy/blue dashboard theme unchanged. */
-[data-testid="stFileUploaderFile"] {
-  background: #e9f3ff !important;
-  border: 1px solid #a9c9ee !important;
-  border-radius: 12px !important;
-  color: #203957 !important;
-}
+/* Uploaded file: override Streamlit's dark file chip and its nested elements. */
+[data-testid="stFileUploaderFile"],
 [data-testid="stFileUploaderFile"] > div,
 [data-testid="stFileUploaderFile"] [data-testid="stFileUploaderFileData"],
-[data-testid="stFileUploaderFile"] [data-testid="stFileUploaderFileName"] {
-  background: transparent !important;
-  color: #203957 !important;
+[data-testid="stFileUploaderFile"] [data-testid="stFileUploaderFileName"],
+[data-testid="stFileUploaderFile"] [data-testid="stFileUploaderFileSize"],
+[data-testid="stFileUploaderFile"] [data-testid="stFileUploaderFileName"] > div {
+    background-color:#e9f3ff!important;color:#203957!important;
 }
-[data-testid="stFileUploaderFile"] span,
-[data-testid="stFileUploaderFile"] small,
-[data-testid="stFileUploaderFile"] p {
-  color: #203957 !important;
-  opacity: 1 !important;
-}
-[data-testid="stFileUploaderFile"] button {
-  background: #d7e8fc !important;
-  color: #24588d !important;
-  border-radius: 50% !important;
-}
-/* Light lavender model selector, including the inner BaseWeb control. */
+[data-testid="stFileUploaderFile"] {border:1px solid #b4d0ef!important;border-radius:12px!important;padding:8px 12px!important;}
+[data-testid="stFileUploaderFile"] :is(span,p,small,div) {color:#203957!important;-webkit-text-fill-color:#203957!important;opacity:1!important;}
+[data-testid="stFileUploaderFile"] svg {color:#24588d!important;fill:none;}
+[data-testid="stFileUploaderFile"] button {background:#d7e8fc!important;color:#24588d!important;border-radius:9px!important;}
+/* Model select: override dark BaseWeb input, including its interior. */
 [data-testid="stSelectbox"] [data-baseweb="select"] > div,
-[data-testid="stSelectbox"] [data-baseweb="select"] [data-baseweb="select"] > div,
-[data-testid="stSelectbox"] [data-baseweb="select"] [role="combobox"] {
-  background: #f0edfa !important;
-  color: #283653 !important;
-  border-color: #bcb4de !important;
-  border-radius: 11px !important;
+[data-testid="stSelectbox"] [data-baseweb="select"] [role="combobox"],
+[data-testid="stSelectbox"] [data-baseweb="select"] [data-baseweb="select"] > div {
+    background-color:#f0edfa!important;border-color:#bcb4de!important;
+    color:#283653!important;border-radius:11px!important;
 }
-[data-testid="stSelectbox"] [data-baseweb="select"] span,
-[data-testid="stSelectbox"] [data-baseweb="select"] input,
-[data-testid="stSelectbox"] [data-baseweb="select"] div[aria-selected] {
-  color: #283653 !important;
-  -webkit-text-fill-color: #283653 !important;
+[data-testid="stSelectbox"] [data-baseweb="select"] :is(span,input) {
+    color:#283653!important;-webkit-text-fill-color:#283653!important;font-weight:650!important;
 }
-[data-testid="stSelectbox"] [data-baseweb="select"] svg {
-  color: #625a91 !important;
-  fill: #625a91 !important;
-}
+[data-testid="stSelectbox"] [data-baseweb="select"] svg {color:#625a91!important;fill:#625a91!important;}
+[data-baseweb="popover"] [role="option"] {background:#fff!important;color:#283653!important;}
+[data-baseweb="popover"] [role="option"]:hover {background:#f0edfa!important;}
+/* Confusion matrix: quiet, consistent navy labels and accessible soft fills. */
+.cmw {max-width:790px;margin:14px auto 0;padding:20px;background:#fff;border:1px solid #dce6f2;border-radius:18px;box-shadow:0 6px 24px rgba(20,36,61,.045);}
+.cm {width:100%;border-collapse:separate;border-spacing:8px;table-layout:fixed;font-family:'DM Sans',sans-serif;}
+.cm th {background:#edf3fb!important;color:#294466!important;font-size:.82rem!important;font-weight:750!important;padding:13px 7px!important;border:0!important;border-radius:10px!important;line-height:1.4;}
+.cm th.e {background:#fff!important;color:#71839a!important;font-size:.72rem!important;}
+.cm td {text-align:center;border-radius:13px!important;padding:21px 9px!important;vertical-align:middle;}
+.cm td.correct {background:#e8f6f0!important;border:1px solid #b9e3d2!important;}
+.cm td.incorrect {background:#fff1ed!important;border:1px solid #f4d1c7!important;}
+.cm .n {font-size:2.05rem!important;font-weight:800!important;line-height:1.2;color:#18324f!important;}
+.cm .l {font-size:.87rem!important;font-weight:750!important;color:#284360!important;margin-top:7px;}
+.cm .t {font-size:.68rem!important;font-weight:750!important;letter-spacing:.06em;color:#5b718a!important;margin-top:5px;}
+.cm .p {font-size:.76rem!important;color:#61758d!important;margin-top:7px;}
+.key {text-align:center;font-size:.81rem;color:#64748b;margin:14px 0 2px;}
+@media(max-width:700px){.cmw{padding:8px;}.cm{border-spacing:4px;}.cm th{font-size:.67rem!important;padding:8px 3px!important;}.cm td{padding:12px 3px!important;}.cm .n{font-size:1.35rem!important;}.cm .l{font-size:.68rem!important;}.cm .t,.cm .p{font-size:.59rem!important;}}
 
 </style>
 """, unsafe_allow_html=True)
