@@ -155,6 +155,48 @@ ul[role="listbox"] li:hover {
  font-family:'DM Sans',sans-serif;font-size:1.27rem;font-weight:800;
  letter-spacing:-.025em;color:#274d8b!important;margin:28px 0 13px;
 }
+
+/* Streamlit virtual dropdown is rendered OUTSIDE stSelectbox.
+   Target the portal and menu layers, including Streamlit's own test IDs. */
+[data-testid="stSelectboxVirtualDropdown"],
+[data-testid="stSelectboxVirtualDropdown"] > div,
+[data-testid="stSelectboxVirtualDropdown"] [data-baseweb="popover"],
+[data-testid="stSelectboxVirtualDropdown"] [data-baseweb="menu"],
+[data-testid="stSelectboxVirtualDropdown"] [role="listbox"],
+[data-testid="stVirtualDropdown"],
+[data-testid="stVirtualDropdown"] > div,
+[data-baseweb="popover"] [data-baseweb="menu"] > div,
+[data-baseweb="popover"] ul,
+[data-baseweb="menu"],
+[data-baseweb="menu"] > div {
+ background:#e8f3ff!important;
+ background-color:#e8f3ff!important;
+ color:#213f60!important;
+}
+[data-testid="stSelectboxVirtualDropdown"] [role="option"],
+[data-testid="stSelectboxVirtualDropdown"] li,
+[data-testid="stVirtualDropdown"] [role="option"],
+[data-testid="stVirtualDropdown"] li,
+[data-baseweb="menu"] [role="option"],
+[data-baseweb="menu"] li {
+ background:#e8f3ff!important;
+ color:#213f60!important;
+ -webkit-text-fill-color:#213f60!important;
+}
+[data-testid="stSelectboxVirtualDropdown"] [role="option"] *,
+[data-testid="stSelectboxVirtualDropdown"] li *,
+[data-testid="stVirtualDropdown"] [role="option"] *,
+[data-baseweb="menu"] li * {
+ color:#213f60!important;
+ -webkit-text-fill-color:#213f60!important;
+}
+[data-testid="stSelectboxVirtualDropdown"] [aria-selected="true"],
+[data-testid="stSelectboxVirtualDropdown"] [role="option"]:hover,
+[data-testid="stVirtualDropdown"] [aria-selected="true"],
+[data-baseweb="menu"] [aria-selected="true"],
+[data-baseweb="menu"] li:hover {
+ background:#cfe6ff!important;
+}
 </style>
 """, unsafe_allow_html=True)
 
