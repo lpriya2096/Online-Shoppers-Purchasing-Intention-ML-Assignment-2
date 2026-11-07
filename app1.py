@@ -86,19 +86,15 @@ h1,h2,h3,p {font-family:'DM Sans',sans-serif;}
 @media(max-width:700px){.block-container{padding:1rem .85rem 3rem;}.hero{padding:25px 22px;border-radius:16px;}.hero .cart{display:none!important;}.hero td:last-child{display:none;}.mt{border-spacing:6px;margin:0 -6px;}.mc{padding:12px 8px!important;}.mc .nm{font-size:.66rem;}.mc .ht{font-size:.7rem;}.cm{border-spacing:4px;}.cm th{font-size:.65rem;}.cm .n{font-size:1.25rem;}.cmw{padding:7px;}}
 
 
-/* Use a visible light card instead of Streamlit's dark native upload pill. */
+/* Hide the native uploaded filename chip; keep the upload widget functional. */
 [data-testid="stFileUploaderFile"], [data-testid="stFileUploader"] ul {display:none!important;}
-.upload-card{display:flex;align-items:center;gap:12px;background:#e7f3ff;border:1px solid #abcdf0;border-radius:13px;padding:12px 16px;margin:10px 0 12px;}
-.upload-card .file-icon{background:#d2e8ff;padding:9px;border-radius:10px;font-size:1.25rem;}
-.upload-card .file-name{font-weight:800;color:#1d3957;font-size:.94rem;}
-.upload-card .file-meta{color:#52718e;font-size:.78rem;margin-top:2px;}
 [data-testid="stSelectbox"] [data-baseweb="select"]>div,[data-testid="stSelectbox"] [role="combobox"],[data-testid="stSelectbox"] [role="combobox"]>div{background:#e7f3ff!important;background-color:#e7f3ff!important;color:#1d3957!important;border-color:#abcdf0!important;}
 [data-testid="stSelectbox"] [role="combobox"]{border:1px solid #abcdf0!important;border-radius:12px!important;}
 [data-testid="stSelectbox"] [role="combobox"] *,[data-testid="stSelectbox"] [data-baseweb="select"] input{color:#1d3957!important;-webkit-text-fill-color:#1d3957!important;}
 [data-testid="stSelectbox"] svg{color:#265780!important;fill:#265780!important;}
 .sect{display:inline-block;color:#1b4e75!important;background:#e5f2fc;border-left:5px solid #58a5d5;border-radius:0 10px 10px 0;padding:10px 17px;margin-top:30px;margin-bottom:12px;}
 .sect.blue{background:#e9f0ff;color:#274d8b!important;border-left-color:#6488d8;}
-.step:not(.up){color:#236184;}.step:not(.up) b{background:#d9f1f2;color:#1b7377;}
+.step.up{font-family:'DM Sans',sans-serif;font-size:1.27rem;font-weight:800;letter-spacing:-.025em;color:#274d8b!important;margin:28px 0 13px;} .step:not(.up){color:#236184;}.step:not(.up) b{background:#d9f1f2;color:#1b7377;}
 .cmw{max-width:790px;background:#fff;border:1px solid #dbe6f0;box-shadow:0 10px 30px rgba(23,53,89,.07);padding:19px;border-radius:20px;}
 .cm{font-family:'DM Sans',sans-serif;border-spacing:9px;}
 .cm th{background:#eaf1fa!important;color:#254564!important;border-radius:11px!important;font-size:.81rem!important;padding:13px 6px!important;}
@@ -241,16 +237,6 @@ st.markdown(
 # ------------------------------ Step 1: upload + preview ------------------------------
 st.markdown('<div class="step up"><b>1</b>Upload your test data</div>', unsafe_allow_html=True)
 uploaded_file = st.file_uploader("Test CSV (including Revenue)", type=["csv"])
-if uploaded_file is not None:
-    safe_name = _html.escape(uploaded_file.name)
-    file_kb = uploaded_file.size / 1024
-    st.markdown(
-        '<div class="upload-card"><span class="file-icon">📄</span>'
-        f'<div><div class="file-name">{safe_name}</div>'
-        f'<div class="file-meta">{file_kb:,.1f} KB · CSV uploaded</div>'
-        '</div></div>', unsafe_allow_html=True
-    )
-
 
 test_df = None
 if uploaded_file is not None:
