@@ -235,8 +235,8 @@ st.markdown(
     unsafe_allow_html=True)
 
 # ------------------------------ Step 1: upload + preview ------------------------------
-st.markdown('<div class="step up"><b>1</b>Upload your test data</div>', unsafe_allow_html=True)
-uploaded_file = st.file_uploader("Test CSV (including Revenue)", type=["csv"])
+st.markdown('<div class="step up">Upload your test data</div>', unsafe_allow_html=True)
+uploaded_file = st.file_uploader("Upload CSV", type=["csv"], label_visibility="collapsed")
 
 test_df = None
 if uploaded_file is not None:
