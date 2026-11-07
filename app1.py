@@ -354,6 +354,45 @@ div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(svg,pat
   color:#285487 !important;
   fill:currentColor !important;
 }
+
+/* Approved Dataset Preview: decorate the table frame, not the data cells. */
+.tw {
+  border:1px solid #d5e0ec!important;
+  border-radius:12px!important;
+  overflow:auto!important;
+  max-height:440px!important;
+  background:#fff!important;
+  box-shadow:0 3px 12px rgba(30,62,95,.055)!important;
+}
+.tw table.dt {font-family:'DM Sans',sans-serif!important;border-collapse:collapse!important;}
+.tw table.dt thead th {
+  background:#f5f8fc!important;color:#315e87!important;
+  border-bottom:1px solid #dce5ee!important;
+  font-family:'DM Sans',sans-serif!important;font-size:12px!important;
+  font-weight:700!important;padding:12px 15px!important;
+}
+.tw table.dt tbody td,
+.tw table.dt tbody td.tg,
+.tw table.dt tbody td.num,
+.tw table.dt tbody tr:nth-child(even) td,
+.tw table.dt tbody tr:nth-child(odd) td,
+.tw table.dt tbody tr:hover td {
+  background:#fff!important;background-color:#fff!important;
+  color:#334155!important;font-family:'DM Sans',sans-serif!important;
+  font-size:12.5px!important;font-weight:400!important;
+  border-bottom:1px solid #edf1f5!important;padding:11px 15px!important;
+}
+.tw table.dt tbody td.num {text-align:right!important;font-variant-numeric:tabular-nums;}
+/* Coordinated light-blue row count, including its number and +/- buttons. */
+[data-testid="stNumberInput"] [data-baseweb="input"],
+[data-testid="stNumberInput"] [data-baseweb="base-input"],
+[data-testid="stNumberInput"] input {
+  background:#dceafb!important;background-color:#dceafb!important;
+  color:#285487!important;-webkit-text-fill-color:#285487!important;
+  font-family:'DM Sans',sans-serif!important;font-weight:700!important;
+}
+[data-testid="stNumberInput"] [data-baseweb="input"] {border:1px solid #b9d2ee!important;border-radius:10px!important;}
+.preview-inline-label {font-family:'DM Sans',sans-serif!important;color:#285487!important;font-size:.91rem!important;font-weight:700!important;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -381,7 +420,7 @@ def fmt_num(v) -> str:
 
 
 def preview_table(df: pd.DataFrame, n: int) -> str:
-    """Light, readable HTML table; the Revenue (target) column is highlighted with badges."""
+    """Simple, readable table with an outer frame and uncoloured data cells."""
     view = df.head(n)
     if "Revenue" in view.columns:          # show the target first so it is never hidden by scrolling
         view = view[["Revenue"] + [c for c in view.columns if c != "Revenue"]]
@@ -394,13 +433,8 @@ def preview_table(df: pd.DataFrame, n: int) -> str:
             v = row[c]
             if c == "Revenue":
                 key = str(v).strip().lower()
-                if key in ("true", "1"):
-                    cell = '<span class="bd p">Purchase</span>'
-                elif key in ("false", "0"):
-                    cell = '<span class="bd n">No purchase</span>'
-                else:
-                    cell = _html.escape(str(v))
-                cells.append(f'<td class="tg">{cell}</td>')
+                label = "Purchase" if key in ("true", "1") else "No purchase" if key in ("false", "0") else str(v)
+                cells.append(f'<td>{_html.escape(label)}</td>')
             elif pd.api.types.is_number(v) and not pd.api.types.is_bool(v):
                 cells.append(f'<td class="num">{fmt_num(v)}</td>')
             else:
@@ -529,7 +563,7 @@ if uploaded_file is not None:
     )
     st.markdown(preview_table(preview_rows, len(preview_rows)), unsafe_allow_html=True)
     if "Revenue" in test_df.columns:
-        st.markdown(f'<div class="note">The highlighted <b>Revenue</b> column (shown first) is what the models predict: Purchase or No purchase. '
+        st.markdown(f'<div class="note">The <b>Revenue</b> column (shown first) is what the models predict: Purchase or No purchase. '
                     f'The other {test_df.shape[1] - 1} columns are the inputs they use.</div>', unsafe_allow_html=True)
 
 # ------------------------------ Step 2: model + run ------------------------------
