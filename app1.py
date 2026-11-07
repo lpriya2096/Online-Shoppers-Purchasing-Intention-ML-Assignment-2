@@ -296,6 +296,21 @@ div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(svg,pat
 [data-testid="stExpander"] [data-testid="stMarkdownContainer"] p {
  color:#314e6e!important;
 }
+
+/* Dataset Preview only: compact, consistent typography and clean spacing. */
+.tw {overflow-x:auto!important;overflow-y:auto!important;max-width:100%!important;}
+.tw .dt {width:max-content!important;min-width:100%!important;table-layout:auto!important;
+ font-family:'DM Sans',sans-serif!important;border-spacing:0!important;}
+.tw .dt th {font-family:'DM Sans',sans-serif!important;font-size:12px!important;
+ font-weight:700!important;letter-spacing:0!important;line-height:1.35!important;
+ padding:12px 13px!important;white-space:nowrap!important;text-align:left!important;
+ background:#315f99!important;color:#fff!important;}
+.tw .dt td {font-family:'DM Sans',sans-serif!important;font-size:12.5px!important;
+ font-weight:450!important;line-height:1.4!important;padding:10px 13px!important;
+ white-space:nowrap!important;vertical-align:middle!important;}
+.tw .dt td.num {text-align:right!important;font-variant-numeric:tabular-nums;}
+.tw .dt .bd {font-family:'DM Sans',sans-serif!important;font-size:11.5px!important;
+ font-weight:700!important;padding:5px 9px!important;border-radius:7px!important;}
 </style>
 """, unsafe_allow_html=True)
 
