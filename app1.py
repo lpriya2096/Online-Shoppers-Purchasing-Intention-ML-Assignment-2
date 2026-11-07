@@ -336,6 +336,24 @@ div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(svg,pat
 .tw table.dt .bd.p {background:#2864c9!important;}
 /* Original compact number input, not radio or segmented buttons. */
 .preview-inline-label {font-family:'DM Sans',sans-serif;font-size:.91rem;font-weight:750;color:#263e56;white-space:nowrap;}
+
+/* Dataset preview number-input +/- controls only: muted blue, readable icons. */
+[data-testid="stNumberInput"] button,
+[data-testid="stNumberInput"] [data-baseweb="button"] {
+  background-color:#dceafb !important;
+  color:#285487 !important;
+  border-color:#b9d2ee !important;
+}
+[data-testid="stNumberInput"] button:hover,
+[data-testid="stNumberInput"] [data-baseweb="button"]:hover {
+  background-color:#bfd9f6 !important;
+  color:#193d68 !important;
+}
+[data-testid="stNumberInput"] button svg,
+[data-testid="stNumberInput"] [data-baseweb="button"] svg {
+  color:#285487 !important;
+  fill:currentColor !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
