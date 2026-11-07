@@ -80,6 +80,45 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 [data-testid="stSelectbox"] [role="combobox"]{border:1px solid #bdd4eb!important;border-radius:10px!important;box-shadow:none!important}
 [data-baseweb="popover"],[data-baseweb="menu"],[data-baseweb="popover"] [role="listbox"],[data-testid="stSelectboxVirtualDropdown"],[data-baseweb="menu"] li,[data-baseweb="menu"] [role="option"]{background:#eaf4ff!important;color:#25496c!important}
 [data-baseweb="menu"] li:hover,[data-baseweb="menu"] [aria-selected="true"]{background:#cfe6ff!important}
+/* Active model dropdown: consistent light-blue menu and legible options.
+   BaseWeb mounts the open menu in a portal outside stSelectbox. */
+[data-testid="stSelectbox"] [data-baseweb="select"] > div,
+[data-testid="stSelectbox"] [role="combobox"],
+[data-testid="stSelectbox"] [data-baseweb="select"] [data-baseweb="select-arrow"] {
+  background-color:#e7f2ff!important;color:#25496c!important;
+  border-color:#bdd4eb!important;box-shadow:none!important;
+}
+[data-testid="stSelectbox"] [role="combobox"]:focus-within {
+  outline:2px solid #8ab9e8!important;outline-offset:0!important;
+  border-color:#8ab9e8!important;box-shadow:none!important;
+}
+[data-baseweb="popover"] [data-baseweb="menu"],
+[data-baseweb="popover"] [role="listbox"],
+[data-testid="stSelectboxVirtualDropdown"],
+[data-testid="stSelectboxVirtualDropdown"] [role="listbox"],
+[data-testid="stVirtualDropdown"] [role="listbox"] {
+  background:#eaf4ff!important;color:#25496c!important;
+  border:1px solid #bdd4eb!important;border-radius:10px!important;
+}
+[data-baseweb="popover"] [role="option"],
+[data-baseweb="popover"] [role="option"] *,
+[data-baseweb="popover"] [data-baseweb="menu"] li,
+[data-baseweb="popover"] [data-baseweb="menu"] li *,
+[data-testid="stSelectboxVirtualDropdown"] [role="option"],
+[data-testid="stSelectboxVirtualDropdown"] [role="option"] *,
+[data-testid="stVirtualDropdown"] [role="option"],
+[data-testid="stVirtualDropdown"] [role="option"] * {
+  background-color:transparent!important;
+  color:#25496c!important;-webkit-text-fill-color:#25496c!important;
+  font-family:'DM Sans',sans-serif!important;font-weight:600!important;
+}
+[data-baseweb="popover"] [role="option"]:hover,
+[data-baseweb="popover"] [role="option"][aria-selected="true"],
+[data-baseweb="popover"] [data-baseweb="menu"] li:hover,
+[data-testid="stSelectboxVirtualDropdown"] [role="option"]:hover,
+[data-testid="stSelectboxVirtualDropdown"] [aria-selected="true"] {
+  background:#cfe6ff!important;
+}
 [data-testid="stFormSubmitButton"] button{background:#2563eb!important;color:#fff!important;border:0!important;border-radius:10px!important;font-weight:800!important;padding:.65rem 1.5rem!important;min-height:44px}
 [data-testid="stFormSubmitButton"] button:hover{background:#1d4ed8!important}
 .verdict{background:#eaf2ff;border:1px solid #cfe0ff;color:#26476d;border-radius:14px;padding:17px 20px;margin:10px 0 20px;font-size:.94rem;line-height:1.65}.verdict b{color:#164bb3}
