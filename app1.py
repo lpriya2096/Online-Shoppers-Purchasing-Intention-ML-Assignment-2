@@ -255,6 +255,26 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 .tw::-webkit-scrollbar,.compare-scroll::-webkit-scrollbar {height:9px;}
 .tw::-webkit-scrollbar-thumb,.compare-scroll::-webkit-scrollbar-thumb {background:#a8c5e3;border-radius:9px;}
 .tw::-webkit-scrollbar-track,.compare-scroll::-webkit-scrollbar-track {background:#edf4fb;}
+/* Metric selector: light blue in Streamlit 1.66, including the actual BaseWeb tags. */
+[data-testid="stMultiSelect"] [data-baseweb="select"] > div,
+[data-testid="stMultiSelect"] [data-baseweb="select"] [role="combobox"] {
+  background-color:#eaf4ff!important;border-color:#bdd4eb!important;color:#25496c!important;
+}
+[data-testid="stMultiSelect"] [data-baseweb="tag"],
+[data-testid="stMultiSelect"] [data-baseweb="tag"] > span,
+[data-testid="stMultiSelect"] span[data-baseweb="tag"] {
+  background-color:#d1e7fb!important;color:#24496e!important;
+  -webkit-text-fill-color:#24496e!important;border-color:#a9cde9!important;
+}
+[data-testid="stMultiSelect"] [data-baseweb="tag"] *,
+[data-testid="stMultiSelect"] [data-baseweb="select"] input,
+[data-testid="stMultiSelect"] [data-baseweb="select"] svg {
+  color:#24496e!important;-webkit-text-fill-color:#24496e!important;
+}
+[data-testid="stMultiSelect"] [data-baseweb="select"] [data-baseweb="select-arrow"] {
+  background-color:#eaf4ff!important;color:#24496e!important;
+}
+
 /* ===== Rows-to-preview box: ONE thin line, also while typing (outer border only, no inner border/shadow/outline) ===== */
 [data-testid="stNumberInput"] [data-baseweb="base-input"]{border:0!important;box-shadow:none!important;outline:0!important;background:transparent!important}
 [data-testid="stNumberInput"] [data-baseweb="input"]{border:1px solid #b9d2ee!important;box-shadow:none!important;outline:0!important}
@@ -730,7 +750,7 @@ if comparison is not None:
                 for spine in ("top", "right"):
                     ax.spines[spine].set_visible(False)
             fig.tight_layout(w_pad=2.8)
-            st.pyplot(fig, clear_figure=True, use_container_width=True)
+            st.pyplot(fig, clear_figure=True, width="stretch")
             plt.close(fig)
 
     for error in (st.session_state.get("shop_comparison_errors", []) if st.session_state.get("shop_comparison_file") == current_file else []):
