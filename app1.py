@@ -58,7 +58,8 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 /* Keep Streamlit's working uploader, but do not show the unstyleable native black chip. */
 [data-testid="stFileUploader"] section{background:#f1f7ff!important;border:1px solid #bad1e8!important;border-radius:13px!important;box-shadow:none!important}
 [data-testid="stFileUploader"] section button{background:#fff!important;border:1px solid #b8cde4!important;color:#254a73!important;border-radius:9px!important}
-[data-testid="stFileUploaderFile"],[data-testid="stFileUploaderFileData"]{display:none!important}
+[data-testid="stFileUploaderFile"]{background:#fff!important;border:1px solid #bad1e8!important;border-radius:10px!important}
+[data-testid="stFileUploaderFile"] *{color:#254a73!important;-webkit-text-fill-color:#254a73!important}
 .chips{margin:9px 0 14px}.chip{display:inline-block;background:#eaf3fc;border:1px solid #cfe0ef;color:#315c84;font-size:.77rem;font-weight:750;padding:8px 13px;border-radius:9px;margin:0 7px 7px 0}
 .bal{width:100%;border-collapse:collapse;margin:11px 0 15px;table-layout:fixed}.bal td{padding:11px 12px!important;font-size:.79rem;font-weight:750;color:#fff;white-space:nowrap;overflow:hidden;border:0!important}
 .preview-inline-label{font-family:'DM Sans',sans-serif;color:#285487;font-size:.91rem;font-weight:750;white-space:nowrap}
@@ -123,13 +124,13 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 [data-testid="stFormSubmitButton"] button{background:#2563eb!important;color:#fff!important;border:0!important;border-radius:10px!important;font-weight:800!important;padding:.65rem 1.5rem!important;min-height:44px}
 [data-testid="stFormSubmitButton"] button:hover{background:#1d4ed8!important}
 .verdict{background:#eaf2ff;border:1px solid #cfe0ff;color:#26476d;border-radius:14px;padding:17px 20px;margin:10px 0 20px;font-size:.94rem;line-height:1.65}.verdict b{color:#164bb3}
-.mt{width:100%;border-collapse:separate;border-spacing:12px;table-layout:fixed;margin:0 -12px}
-.mc{background:#fff;border:1px solid var(--line)!important;border-radius:15px;padding:19px 17px!important;box-shadow:0 5px 18px rgba(20,36,61,.045);vertical-align:top}
+.metric-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:8px 0 22px}
+.mc{background:#fff;border:1px solid var(--line);border-radius:15px;padding:19px 17px;box-shadow:0 5px 18px rgba(20,36,61,.045);min-width:0}
 .mc .nm{font-size:.78rem;color:#61728a;font-weight:800}.mc .vl{font-size:clamp(1.4rem,2.6vw,2rem);font-weight:800;color:var(--ink);line-height:1.3;margin:7px 0 12px}.mc .bar{height:7px;border-radius:8px;background:#edf2f7;overflow:hidden}.mc .bar i{display:block;height:100%;border-radius:8px}.mc .ht{font-size:.77rem;color:#718096;margin-top:11px;line-height:1.4}
 .cmw{max-width:620px;margin:18px auto 0;padding:22px;background:#fff;border:1px solid #dbe6f2;border-radius:18px;box-shadow:0 7px 22px rgba(23,53,89,.06)}
 .matrix-axis{text-align:center;font-size:.86rem;font-weight:750;color:#496682;margin-bottom:15px}.matrix-grid{display:grid;grid-template-columns:minmax(105px,1fr) minmax(0,1.3fr) minmax(0,1.3fr);gap:12px;align-items:stretch}.matrix-label{display:flex;align-items:center;justify-content:center;text-align:center;background:#edf3fb;color:#294967;font-size:.82rem;font-weight:750;border-radius:11px;padding:12px 8px;min-width:0}.matrix-label.row-label{justify-content:flex-start;text-align:left;padding-left:14px}.matrix-cell{min-width:0;min-height:125px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;border-radius:13px;padding:18px 8px;border:1px solid transparent}.matrix-cell.tn{background:#dff4ee;border-color:#b6e2d3}.matrix-cell.tp{background:#e0ecff;border-color:#b6cdf4}.matrix-cell.fp{background:#fff0dc;border-color:#f0d4aa}.matrix-cell.fn{background:#fae8ee;border-color:#eec6d4}.matrix-cell .n{font-size:1.9rem;font-weight:800;line-height:1.2;color:#193955}.matrix-cell .l{font-size:.79rem;font-weight:700;color:#294967;margin-top:9px}.matrix-foot{text-align:center;color:#64748b;font-size:.75rem;margin-top:15px}
 [data-testid="stExpander"]{background:#fff;border:1px solid var(--line);border-radius:12px}[data-testid="stExpander"] details>summary{background:#e9f2ff!important;color:#28518a!important}[data-testid="stExpander"] details>summary *{color:#28518a!important}[data-testid="stExpander"] .katex,[data-testid="stExpander"] .katex *{color:#28518a!important}[data-testid="stExpander"] .katex-display{margin:.5em 0!important}
-@media(max-width:700px){.block-container{padding:1rem .8rem 3rem}.hero{padding:25px 20px}.hero .cart{display:none!important}.hero td:last-child{display:none}.overview{grid-template-columns:1fr}.mt{border-spacing:5px;margin:0 -5px}.mc{padding:12px 8px!important}.mc .nm{font-size:.67rem}.mc .ht{font-size:.7rem}.cmw{padding:12px}.matrix-grid{gap:6px;grid-template-columns:minmax(75px,1fr) repeat(2,minmax(0,1.3fr))}.matrix-cell{min-height:100px;padding:10px 4px}.matrix-cell .n{font-size:1.35rem}}
+@media(max-width:700px){.block-container{padding:1rem .8rem 3rem}.hero{padding:25px 20px}.hero .cart{display:none!important}.hero td:last-child{display:none}.overview{grid-template-columns:1fr}.metric-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.mc{padding:12px 10px}.mc .nm{font-size:.67rem}.mc .ht{font-size:.7rem}.cmw{padding:12px}.matrix-grid{gap:6px;grid-template-columns:minmax(75px,1fr) repeat(2,minmax(0,1.3fr))}.matrix-cell{min-height:100px;padding:10px 4px}.matrix-cell .n{font-size:1.35rem}}
 
 
 /* Model comparison: restrained typography and an easy-to-scan table. */
@@ -154,8 +155,7 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 .insight-panel{background:#fff;border:1px solid #d8e5f0;border-left:4px solid #19a3aa;border-radius:12px;padding:17px 20px;margin:14px 0 24px;color:#34516e;line-height:1.6}
 .insight-panel strong{color:#1e486c}
 .data-note{background:#eef6fc;border:1px solid #d3e6f4;border-radius:12px;padding:14px 18px;margin:12px 0;color:#355b7a;font-size:.88rem}
-/* Hide default uploader chip only when our own accessible file summary is shown. */
-[data-testid="stFileUploaderFile"]{display:none!important}
+/* Uploaded-file chip: light surface (see the rule near the uploader). */
 
 /* Tabs: make labels and active indicator visible in light and dark browser themes. */
 [data-testid="stTabs"] [data-baseweb="tab-list"] {
@@ -241,6 +241,9 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 [data-testid="stNumberInput"] [data-baseweb="input"]:focus-within {
   border-color:#78a8d9!important;box-shadow:0 0 0 1px #78a8d9!important;
 }
+/* Select arrow area and every inner box of the model dropdown stay light. */
+[data-testid="stSelectbox"] [data-baseweb="select"] div{background-color:#e7f2ff!important;color:#25496c!important}
+[data-testid="stForm"]{overflow-x:hidden}
 /* Light surfaces for any portal-hosted metric choices. */
 [data-baseweb="popover"] [role="listbox"],
 [data-baseweb="popover"] [role="option"] {
@@ -266,7 +269,7 @@ MODEL_FILES = {
 }
 
 
-@st.cache_resource(show_spinner=False, max_entries=2)
+@st.cache_resource(show_spinner=False, max_entries=5)
 def load_model(model_path: str):
     return joblib.load(model_path)
 
@@ -313,17 +316,16 @@ def metric_cards(scores):
         "F1 Score": ("#7c3aed", "⚖️", "Balance between precision and recall"),
         "MCC": ("#475569", "🧩", "Quality across all four outcomes"),
     }
-    cells = []
+    cards = []
     for label, score in scores:
         color, icon, hint = meta[label]
         width = max(0.0, min(1.0, score)) * 100
-        cells.append(
-            f'<td class="mc" style="border-top:5px solid {color};">'
+        cards.append(
+            f'<div class="mc" style="border-top:5px solid {color};">'
             f'<div class="nm">{icon} {label}</div><div class="vl">{score:.4f}</div>'
             f'<div class="bar"><i style="width:{width:.1f}%;background:{color};"></i></div>'
-            f'<div class="ht">{hint}</div></td>')
-    rows = "".join(f"<tr>{''.join(cells[i:i + 3])}</tr>" for i in (0, 3))
-    return f'<table class="mt">{rows}</table>'
+            f'<div class="ht">{hint}</div></div>')
+    return f'<div class="metric-grid">{"".join(cards)}</div>'
 
 
 def confusion_html(tn, fp, fn, tp):
@@ -497,6 +499,17 @@ def evaluate_saved_model(name, features, actual):
             "counts": (tn, fp, fn, tp), "features": aligned.shape[1]}
 
 
+def cached_evaluation(name, features, actual, file_key):
+    """Evaluate once per (model, uploaded file) and reuse it when other widgets trigger a rerun."""
+    store = st.session_state.setdefault("shop_eval_cache", {})
+    key = (name, file_key)
+    if key not in store:
+        if len(store) >= 8:
+            store.pop(next(iter(store)))
+        store[key] = evaluate_saved_model(name, features, actual)
+    return store[key]
+
+
 # Store the evaluation request, not stale predictions; recompute against the current CSV.
 if run_evaluation:
     st.session_state["shop_evaluated_model"] = selected_model
@@ -515,7 +528,7 @@ if test_df is not None:
 if active_name and active_file == current_file and X is not None:
     try:
         with st.spinner("Evaluating saved model..."):
-            results = evaluate_saved_model(active_name, X, y)
+            results = cached_evaluation(active_name, X, y, current_file)
     except Exception as exc:
         st.error(f"Evaluation failed: {exc}")
 elif not active_name:
@@ -604,7 +617,7 @@ if compare_clicked and X is not None:
     with st.spinner("Evaluating saved classifiers..."):
         for name in MODEL_FILES:
             try:
-                result = evaluate_saved_model(name, X, y)
+                result = cached_evaluation(name, X, y, current_file)
                 comparison_rows.append({"ML Model Name": name, **{("F1" if key == "F1 Score" else key): value for key, value in result["scores"].items()}})
             except Exception as exc:
                 comparison_errors.append(f"{name}: {exc}")
