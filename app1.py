@@ -63,12 +63,6 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 .chips{margin:9px 0 14px}.chip{display:inline-block;background:#eaf3fc;border:1px solid #cfe0ef;color:#315c84;font-size:.77rem;font-weight:750;padding:8px 13px;border-radius:9px;margin:0 7px 7px 0}
 .bal{width:100%;border-collapse:collapse;margin:11px 0 15px;table-layout:fixed}.bal td{padding:11px 12px!important;font-size:.79rem;font-weight:750;color:#fff;white-space:nowrap;overflow:hidden;border:0!important}
 .preview-inline-label{font-family:'DM Sans',sans-serif;color:#285487;font-size:.91rem;font-weight:750;white-space:nowrap}
-[data-testid="stNumberInput"] [data-baseweb="input"],[data-testid="stNumberInput"] [data-baseweb="base-input"]{background:#dceafb!important;border:1px solid #b9d2ee!important;border-radius:9px!important;box-shadow:none!important;outline:none!important}
-[data-testid="stNumberInput"] input{background:#dceafb!important;color:#285487!important;-webkit-text-fill-color:#285487!important;font-family:'DM Sans',sans-serif!important;font-weight:700!important}
-[data-testid="stNumberInput"] button{background:#dceafb!important;color:#285487!important;border-color:#b9d2ee!important;box-shadow:none!important}
-[data-testid="stNumberInput"] button:hover{background:#c5def9!important}
-[data-testid="stNumberInput"] button svg{color:#285487!important}
-[data-testid="stNumberInput"] [data-baseweb="input"]:focus-within{border-color:#78a8d9!important;box-shadow:none!important}
 .preview-caption{color:#4c6686;font-size:.84rem;font-weight:700;margin:15px 0 10px}
 /* Raw dataset: plain text only. Never relabel True/False or reorder columns. */
 .tw{width:100%;max-height:440px;overflow:auto;background:#fff;border:1px solid #d5e0ec;border-radius:12px;box-shadow:0 4px 14px rgba(30,62,95,.05)}
@@ -233,14 +227,6 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 [data-testid="stSelectbox"] [data-baseweb="select"] [role="combobox"] svg {
   background:#e7f2ff!important;color:#25496c!important;
 }
-[data-testid="stNumberInput"] [data-baseweb="input"],
-[data-testid="stNumberInput"] [data-baseweb="base-input"],
-[data-testid="stNumberInput"] [data-baseweb="input"] > div {
-  border-color:#b9d2ee!important;outline:none!important;box-shadow:none!important;
-}
-[data-testid="stNumberInput"] [data-baseweb="input"]:focus-within {
-  border-color:#78a8d9!important;box-shadow:none!important;
-}
 /* Select arrow area and every inner box of the model dropdown stay light. */
 [data-testid="stSelectbox"] [data-baseweb="select"] div{background-color:#e7f2ff!important;color:#25496c!important}
 [data-testid="stForm"]{overflow-x:hidden}
@@ -275,15 +261,6 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
   background-color:#eaf4ff!important;color:#24496e!important;
 }
 
-/* ===== Rows-to-preview box: ONE thin line, also while typing (outer border only, no inner border/shadow/outline) ===== */
-[data-testid="stNumberInput"] [data-baseweb="base-input"]{border:0!important;box-shadow:none!important;outline:0!important;background:transparent!important}
-[data-testid="stNumberInput"] [data-baseweb="input"]{border:1px solid #b9d2ee!important;box-shadow:none!important;outline:0!important}
-[data-testid="stNumberInput"] [data-baseweb="input"]:focus-within{border:1px solid #6fa3d8!important;box-shadow:none!important;outline:0!important}
-[data-testid="stNumberInput"] input,[data-testid="stNumberInput"] input:focus,[data-testid="stNumberInput"] input:focus-visible,[data-testid="stNumberInput"] input:active{
-  border:0!important;box-shadow:none!important;outline:0!important;caret-color:#285487}
-[data-testid="stNumberInput"] button:focus,[data-testid="stNumberInput"] button:focus-visible,[data-testid="stNumberInput"] button:active{
-  outline:0!important;box-shadow:none!important}
-
 /* ===== File uploader: light before AND after a file is chosen (no black chip / black fill) ===== */
 [data-testid="stFileUploader"],[data-testid="stFileUploader"]>div{background:transparent!important}
 [data-testid="stFileUploader"] div,[data-testid="stFileUploader"] section,[data-testid="stFileUploader"] small,[data-testid="stFileUploader"] span,[data-testid="stFileUploader"] p{
@@ -308,37 +285,46 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 @media(max-width:560px){.schema-grid{grid-template-columns:1fr}}
 
 
-/* Number input: eliminate the segmented black focus outline and doubled borders.
-   Preserve the native +/- controls, DM Sans font and blue palette. */
-[data-testid="stNumberInput"] [data-baseweb="input"],
-[data-testid="stNumberInput"] [data-baseweb="base-input"],
-[data-testid="stNumberInput"] [data-baseweb="input"] > div {
-  border:0!important;outline:0!important;box-shadow:none!important;
-  background:#dceafb!important;
-}
-[data-testid="stNumberInput"] [data-baseweb="input"]::before,
-[data-testid="stNumberInput"] [data-baseweb="input"]::after,
-[data-testid="stNumberInput"] [data-baseweb="base-input"]::before,
-[data-testid="stNumberInput"] [data-baseweb="base-input"]::after {
-  content:none!important;display:none!important;
-}
-[data-testid="stNumberInput"] input,
-[data-testid="stNumberInput"] input:focus,
-[data-testid="stNumberInput"] input:focus-visible,
-[data-testid="stNumberInput"] button,
-[data-testid="stNumberInput"] button:focus,
-[data-testid="stNumberInput"] button:focus-visible {
-  outline:0!important;box-shadow:none!important;
-  border-color:transparent!important;
-}
-[data-testid="stNumberInput"] {
-  border:1px solid #b9d2ee!important;border-radius:10px!important;
-  background:#dceafb!important;box-shadow:none!important;
-}
-[data-testid="stNumberInput"]:focus-within {
-  border-color:#78a8d9!important;box-shadow:0 0 0 1px #78a8d9!important;
-}
+/* Model comparison success message: matching DM Sans, navy and powder blue. */
+.shop-success{display:flex;align-items:center;gap:12px;background:#eaf4ff;
+ border:1px solid #bcd7ef;border-left:4px solid #3c8dbd;border-radius:11px;
+ padding:13px 17px;color:#244b79;font-family:'DM Sans',sans-serif;
+ font-size:.92rem;font-weight:700;line-height:1.45;margin:10px 0 13px}
+.shop-success-icon{display:inline-flex;align-items:center;justify-content:center;
+ width:25px;height:25px;flex-shrink:0;background:#d4eaf9;color:#24648e;
+ border-radius:50%;font-size:15px;font-weight:800}
 
+
+/* Single-outline number stepper: remove BaseWeb nested focus borders. */
+[data-testid="stNumberInput"] { background:transparent!important; border:0!important; outline:0!important; box-shadow:none!important; }
+[data-testid="stNumberInput"] [data-baseweb="input"] {
+  background:#dceafb!important; border:1px solid #b9d2ee!important;
+  border-radius:10px!important; outline:0!important; box-shadow:none!important;
+  overflow:hidden!important;
+}
+[data-testid="stNumberInput"] [data-baseweb="input"]:focus-within {
+  border-color:#88b6df!important; outline:0!important; box-shadow:none!important;
+}
+[data-testid="stNumberInput"] [data-baseweb="input"] *,
+[data-testid="stNumberInput"] [data-baseweb="base-input"],
+[data-testid="stNumberInput"] input,
+[data-testid="stNumberInput"] button {
+  background-color:#dceafb!important; border:0!important;
+  outline:0!important; box-shadow:none!important;
+  color:#285487!important; -webkit-text-fill-color:#285487!important;
+  font-family:'DM Sans',sans-serif!important; font-weight:700!important;
+}
+[data-testid="stNumberInput"] [data-baseweb="input"] *:focus,
+[data-testid="stNumberInput"] [data-baseweb="input"] *:focus-visible,
+[data-testid="stNumberInput"] [data-baseweb="input"] *:focus-within {
+  outline:0!important; box-shadow:none!important; border-color:transparent!important;
+}
+[data-testid="stNumberInput"] [data-baseweb="input"] *::before,
+[data-testid="stNumberInput"] [data-baseweb="input"] *::after {
+  box-shadow:none!important; outline:0!important; border:0!important;
+}
+[data-testid="stNumberInput"] button:hover {background:#cce2fa!important;}
+[data-testid="stNumberInput"] svg {color:#285487!important;fill:#285487!important;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -710,7 +696,11 @@ if compare_clicked and X is not None:
     if comparison_errors:
         st.warning(f"Evaluated {len(comparison_rows)} of {len(MODEL_FILES)} models successfully. See model-specific errors below.")
     else:
-        st.success(f"All {len(MODEL_FILES)} models evaluated successfully.")
+        st.markdown(
+            f'<div class="shop-success"><span class="shop-success-icon">✓</span>'
+            f'<span>All {len(MODEL_FILES)} models evaluated successfully.</span></div>',
+            unsafe_allow_html=True,
+        )
 
 live_comparison = st.session_state.get("shop_comparison")
 if (isinstance(live_comparison, pd.DataFrame) and not live_comparison.empty
