@@ -307,6 +307,38 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 @media(max-width:900px){.schema-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.schema-grid{grid-template-columns:1fr}}
 
+
+/* Number input: eliminate the segmented black focus outline and doubled borders.
+   Preserve the native +/- controls, DM Sans font and blue palette. */
+[data-testid="stNumberInput"] [data-baseweb="input"],
+[data-testid="stNumberInput"] [data-baseweb="base-input"],
+[data-testid="stNumberInput"] [data-baseweb="input"] > div {
+  border:0!important;outline:0!important;box-shadow:none!important;
+  background:#dceafb!important;
+}
+[data-testid="stNumberInput"] [data-baseweb="input"]::before,
+[data-testid="stNumberInput"] [data-baseweb="input"]::after,
+[data-testid="stNumberInput"] [data-baseweb="base-input"]::before,
+[data-testid="stNumberInput"] [data-baseweb="base-input"]::after {
+  content:none!important;display:none!important;
+}
+[data-testid="stNumberInput"] input,
+[data-testid="stNumberInput"] input:focus,
+[data-testid="stNumberInput"] input:focus-visible,
+[data-testid="stNumberInput"] button,
+[data-testid="stNumberInput"] button:focus,
+[data-testid="stNumberInput"] button:focus-visible {
+  outline:0!important;box-shadow:none!important;
+  border-color:transparent!important;
+}
+[data-testid="stNumberInput"] {
+  border:1px solid #b9d2ee!important;border-radius:10px!important;
+  background:#dceafb!important;box-shadow:none!important;
+}
+[data-testid="stNumberInput"]:focus-within {
+  border-color:#78a8d9!important;box-shadow:0 0 0 1px #78a8d9!important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
