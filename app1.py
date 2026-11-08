@@ -287,6 +287,27 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 @media(max-width:900px){.schema-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.schema-grid{grid-template-columns:1fr}}
 
+
+/* Final targeted refinements: preview choices, success notice, comparison and schema. */
+[data-testid="stRadio"] [role="radiogroup"] {gap:9px!important;flex-wrap:wrap!important;}
+[data-testid="stRadio"] [role="radiogroup"] label {background:#e8f2ff!important;border:1px solid #bdd4eb!important;border-radius:9px!important;padding:7px 12px!important;min-width:48px!important;justify-content:center!important;cursor:pointer!important;}
+[data-testid="stRadio"] [role="radiogroup"] label p,
+[data-testid="stRadio"] [role="radiogroup"] label span {font-family:'DM Sans',sans-serif!important;color:#244b79!important;-webkit-text-fill-color:#244b79!important;font-size:14px!important;font-weight:750!important;opacity:1!important;visibility:visible!important;}
+[data-testid="stRadio"] [role="radiogroup"] label:has(input:checked) {background:#cde4fc!important;border-color:#609bcf!important;box-shadow:inset 0 0 0 1px #609bcf!important;}
+[data-testid="stRadio"] [role="radiogroup"] label:has(input:checked) p {color:#174577!important;-webkit-text-fill-color:#174577!important;}
+[data-testid="stRadio"] [role="radiogroup"] [data-baseweb="radio"] > div:first-child {background:#fff!important;border-color:#6e9ac6!important;}
+.shop-success {display:flex;align-items:center;gap:11px;background:#e8f4ff;border:1px solid #b9d7ee;border-left:4px solid #3c8dbd;border-radius:11px;padding:13px 16px;margin:12px 0;color:#244b79;font:700 14px 'DM Sans',sans-serif;}
+.shop-success .success-icon {display:inline-flex;align-items:center;justify-content:center;background:#cde9f8;color:#22678e;border-radius:50%;width:25px;height:25px;font-size:15px;flex-shrink:0;}
+.compare-table td,.compare-table td.model-name {color:#28445f!important;-webkit-text-fill-color:#28445f!important;font-family:'DM Sans',sans-serif!important;font-size:13px!important;}
+.compare-table td.best-score {color:#155d91!important;-webkit-text-fill-color:#155d91!important;background:#e8f3fd!important;font-weight:800!important;}
+.compare-table th {color:#244b79!important;-webkit-text-fill-color:#244b79!important;}
+.schema-grid {grid-template-columns:repeat(3,minmax(0,1fr));gap:6px!important;margin:5px 0 2px!important;}
+.sc {padding:5px 8px!important;gap:5px!important;border-radius:8px!important;}
+.sc .sn {font-size:11.5px!important;}
+.sc .sd,.sc .sm {font-size:10px!important;padding:2px 5px!important;}
+@media(max-width:900px){.schema-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:560px){.schema-grid{grid-template-columns:1fr;}}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -654,7 +675,7 @@ if compare_clicked and X is not None:
     if comparison_errors:
         st.warning(f"Evaluated {len(comparison_rows)} of {len(MODEL_FILES)} models successfully. See model-specific errors below.")
     else:
-        st.success(f"All {len(MODEL_FILES)} models evaluated successfully.")
+        st.markdown(f'<div class="shop-success"><span class="success-icon">✓</span><span>All {len(MODEL_FILES)} models evaluated successfully.</span></div>', unsafe_allow_html=True)
 
 live_comparison = st.session_state.get("shop_comparison")
 if (isinstance(live_comparison, pd.DataFrame) and not live_comparison.empty
