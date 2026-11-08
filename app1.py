@@ -71,8 +71,6 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 .tw table.dt tbody td{background:#fff!important;color:#334155!important;font-family:'DM Sans',sans-serif!important;font-size:12.5px!important;font-weight:400!important;padding:11px 15px!important;white-space:nowrap;border:0!important;border-bottom:1px solid #edf1f5!important}
 .note{color:#6b7e95;font-size:.82rem;margin:11px 0 0}
 [data-testid="stForm"]{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 23px 18px;box-shadow:0 5px 16px rgba(20,36,61,.04)}
-[data-testid="stSelectbox"] [data-baseweb="select"],[data-testid="stSelectbox"] [data-baseweb="select"]>div,[data-testid="stSelectbox"] [role="combobox"],[data-testid="stSelectbox"] [data-baseweb="select"]>div>div{background:#e7f2ff!important;color:#25496c!important;border-color:#bdd4eb!important}
-[data-testid="stSelectbox"] [data-baseweb="select"] svg{color:#25496c!important}
 [data-testid="stSelectbox"] [role="combobox"]{border:1px solid #bdd4eb!important;border-radius:10px!important;box-shadow:none!important}
 [data-baseweb="popover"],[data-baseweb="menu"],[data-baseweb="popover"] [role="listbox"],[data-testid="stSelectboxVirtualDropdown"],[data-baseweb="menu"] li,[data-baseweb="menu"] [role="option"]{background:#eaf4ff!important;color:#25496c!important}
 [data-baseweb="menu"] li:hover,[data-baseweb="menu"] [aria-selected="true"]{background:#cfe6ff!important}
@@ -205,66 +203,16 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 .classification-table th:not(:first-child),.classification-table td:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
 
 
-/* Final UI refinement: match multiselect chips, arrow, and number input to ShopSense blue. */
-[data-testid="stMultiSelect"] [data-baseweb="select"] > div,
-[data-testid="stMultiSelect"] [role="combobox"] {
-  background:#eaf4ff!important;color:#25496c!important;
-  border:1px solid #bdd4eb!important;border-radius:10px!important;
-  box-shadow:none!important;
-}
-[data-testid="stMultiSelect"] [data-baseweb="tag"] {
-  background:#d1e7fb!important;color:#24496e!important;
-  border:1px solid #a9cde9!important;border-radius:7px!important;
-}
-[data-testid="stMultiSelect"] [data-baseweb="tag"] *,
-[data-testid="stMultiSelect"] [data-baseweb="select"] svg,
-[data-testid="stMultiSelect"] input {
-  color:#24496e!important;-webkit-text-fill-color:#24496e!important;
-  font-family:'DM Sans',sans-serif!important;
-}
-[data-testid="stMultiSelect"] [data-baseweb="tag"] svg {fill:#24496e!important;}
-[data-testid="stSelectbox"] [data-baseweb="select"] [role="combobox"] > div,
-[data-testid="stSelectbox"] [data-baseweb="select"] [role="combobox"] svg {
-  background:#e7f2ff!important;color:#25496c!important;
-}
-/* Select arrow area and every inner box of the model dropdown stay light. */
-[data-testid="stSelectbox"] [data-baseweb="select"] div{background-color:#e7f2ff!important;color:#25496c!important}
-[data-testid="stForm"]{overflow-x:hidden}
-/* Light surfaces for any portal-hosted metric choices. */
-[data-baseweb="popover"] [role="listbox"],
-[data-baseweb="popover"] [role="option"] {
-  color:#25496c!important;-webkit-text-fill-color:#25496c!important;
-  font-family:'DM Sans',sans-serif!important;
-}
 /* Keep horizontal scrolling obvious, without changing original table values. */
 .tw,.compare-scroll {scrollbar-color:#a8c5e3 #edf4fb;scrollbar-width:thin;}
 .tw::-webkit-scrollbar,.compare-scroll::-webkit-scrollbar {height:9px;}
 .tw::-webkit-scrollbar-thumb,.compare-scroll::-webkit-scrollbar-thumb {background:#a8c5e3;border-radius:9px;}
 .tw::-webkit-scrollbar-track,.compare-scroll::-webkit-scrollbar-track {background:#edf4fb;}
-/* Metric selector: light blue in Streamlit 1.66, including the actual BaseWeb tags. */
-[data-testid="stMultiSelect"] [data-baseweb="select"] > div,
-[data-testid="stMultiSelect"] [data-baseweb="select"] [role="combobox"] {
-  background-color:#eaf4ff!important;border-color:#bdd4eb!important;color:#25496c!important;
-}
-[data-testid="stMultiSelect"] [data-baseweb="tag"],
-[data-testid="stMultiSelect"] [data-baseweb="tag"] > span,
-[data-testid="stMultiSelect"] span[data-baseweb="tag"] {
-  background-color:#d1e7fb!important;color:#24496e!important;
-  -webkit-text-fill-color:#24496e!important;border-color:#a9cde9!important;
-}
-[data-testid="stMultiSelect"] [data-baseweb="tag"] *,
-[data-testid="stMultiSelect"] [data-baseweb="select"] input,
-[data-testid="stMultiSelect"] [data-baseweb="select"] svg {
-  color:#24496e!important;-webkit-text-fill-color:#24496e!important;
-}
-[data-testid="stMultiSelect"] [data-baseweb="select"] [data-baseweb="select-arrow"] {
-  background-color:#eaf4ff!important;color:#24496e!important;
-}
-
 /* ===== File uploader: light before AND after a file is chosen (no black chip / black fill) ===== */
 [data-testid="stFileUploader"],[data-testid="stFileUploader"]>div{background:transparent!important}
-[data-testid="stFileUploader"] div,[data-testid="stFileUploader"] section,[data-testid="stFileUploader"] small,[data-testid="stFileUploader"] span,[data-testid="stFileUploader"] p{
-  background-color:#f1f7ff!important;color:#254a73!important;-webkit-text-fill-color:#254a73!important}
+[data-testid="stFileUploader"] section{background-color:#f1f7ff!important}
+[data-testid="stFileUploader"] small,[data-testid="stFileUploader"] p{
+  color:#254a73!important;-webkit-text-fill-color:#254a73!important}
 [data-testid="stFileUploader"] section{border:1px solid #bad1e8!important;border-radius:13px!important}
 [data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] div,[data-testid="stFileUploader"] [data-testid="stFileUploaderFileData"],[data-testid="stFileUploader"] [data-testid="stFileUploaderFileData"] div{
   background-color:#ffffff!important}
@@ -295,37 +243,6 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
  border-radius:50%;font-size:15px;font-weight:800}
 
 
-/* Single-outline number stepper: remove BaseWeb nested focus borders. */
-[data-testid="stNumberInput"] { background:transparent!important; border:0!important; outline:0!important; box-shadow:none!important; }
-[data-testid="stNumberInput"] [data-baseweb="input"] {
-  background:#dceafb!important; border:1px solid #b9d2ee!important;
-  border-radius:10px!important; outline:0!important; box-shadow:none!important;
-  overflow:hidden!important;
-}
-[data-testid="stNumberInput"] [data-baseweb="input"]:focus-within {
-  border-color:#88b6df!important; outline:0!important; box-shadow:none!important;
-}
-[data-testid="stNumberInput"] [data-baseweb="input"] *,
-[data-testid="stNumberInput"] [data-baseweb="base-input"],
-[data-testid="stNumberInput"] input,
-[data-testid="stNumberInput"] button {
-  background-color:#dceafb!important; border:0!important;
-  outline:0!important; box-shadow:none!important;
-  color:#285487!important; -webkit-text-fill-color:#285487!important;
-  font-family:'DM Sans',sans-serif!important; font-weight:700!important;
-}
-[data-testid="stNumberInput"] [data-baseweb="input"] *:focus,
-[data-testid="stNumberInput"] [data-baseweb="input"] *:focus-visible,
-[data-testid="stNumberInput"] [data-baseweb="input"] *:focus-within {
-  outline:0!important; box-shadow:none!important; border-color:transparent!important;
-}
-[data-testid="stNumberInput"] [data-baseweb="input"] *::before,
-[data-testid="stNumberInput"] [data-baseweb="input"] *::after {
-  box-shadow:none!important; outline:0!important; border:0!important;
-}
-[data-testid="stNumberInput"] button:hover {background:#cce2fa!important;}
-[data-testid="stNumberInput"] svg {color:#285487!important;fill:#285487!important;}
-
 /* Final typography alignment: native controls match the dashboard's DM Sans theme. */
 [data-testid="stSelectbox"] label p,
 [data-testid="stMultiSelect"] label p,
@@ -344,6 +261,67 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 [data-testid="stSelectbox"] [role="combobox"] * {
   color:#25496c!important;-webkit-text-fill-color:#25496c!important;
 }
+
+/* Final visual corrections — native select controls, metric chips and table text. */
+[data-testid="stSelectbox"] [data-baseweb="select"] > div,
+[data-testid="stSelectbox"] [data-baseweb="select"] > div > div,
+[data-testid="stSelectbox"] [data-baseweb="select"] [role="combobox"],
+[data-testid="stSelectbox"] [data-baseweb="select"] [data-baseweb="select-arrow"],
+[data-testid="stSelectbox"] [data-baseweb="select"] [data-baseweb="select-arrow"] > div {
+  background:#e7f2ff!important;color:#25496c!important;
+  -webkit-text-fill-color:#25496c!important;border-color:#bdd4eb!important;
+}
+[data-testid="stSelectbox"] [data-baseweb="select"] svg,
+[data-testid="stSelectbox"] [data-baseweb="select"] svg path {
+  color:#25496c!important;fill:#25496c!important;
+}
+/* BaseWeb uses an internal div for the arrow; remove the black end-cap. */
+[data-testid="stSelectbox"] [data-baseweb="select"] > div > div:last-child {
+  background:#e7f2ff!important;border-radius:0 9px 9px 0!important;
+}
+/* Metric selector: BaseWeb's selected pills can be buttons rather than tags. */
+[data-testid="stMultiSelect"] [data-baseweb="select"],
+[data-testid="stMultiSelect"] [data-baseweb="select"] > div,
+[data-testid="stMultiSelect"] [role="combobox"] {
+  background:#eaf4ff!important;color:#25496c!important;
+  border-color:#bdd4eb!important;box-shadow:none!important;
+}
+[data-testid="stMultiSelect"] [data-baseweb="tag"],
+[data-testid="stMultiSelect"] [data-baseweb="tag"] > span,
+[data-testid="stMultiSelect"] [data-baseweb="select"] button[aria-label*="Remove"],
+[data-testid="stMultiSelect"] [data-baseweb="select"] [data-baseweb="tag"] button {
+  background:#d1e7fb!important;color:#24496e!important;
+  -webkit-text-fill-color:#24496e!important;border-color:#a9cde9!important;
+}
+[data-testid="stMultiSelect"] [data-baseweb="tag"] *,
+[data-testid="stMultiSelect"] [data-baseweb="tag"] svg,
+[data-testid="stMultiSelect"] [data-baseweb="select"] svg,
+[data-testid="stMultiSelect"] [data-baseweb="select"] input {
+  color:#24496e!important;-webkit-text-fill-color:#24496e!important;
+  font-family:'DM Sans',sans-serif!important;
+}
+/* Make comparison, classification and raw dataset tables consistent. */
+.tw table.dt th,.tw table.dt td,
+.compare-table th,.compare-table td,
+.schema-table th,.schema-table td {
+  font-family:'DM Sans',sans-serif!important;
+  -webkit-text-fill-color:currentColor!important;
+}
+.compare-table th,.schema-table th,.tw table.dt th {color:#285487!important;}
+.compare-table td,.schema-table td,.tw table.dt td {color:#334155!important;}
+.compare-table td.model-name {color:#253d5a!important;}
+.compare-table td.best-score {color:#205f91!important;background:#eef6fd!important;}
+/* Full column names in methodology, without clipping or ellipsis. */
+.schema-grid {grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;}
+.schema-grid .sc {align-items:flex-start!important;flex-wrap:wrap!important;gap:6px 9px!important;}
+.schema-grid .sc .sn {
+  flex:1 1 100%!important;white-space:normal!important;overflow:visible!important;
+  text-overflow:clip!important;overflow-wrap:anywhere!important;
+  line-height:1.4!important;font-size:12.5px!important;
+}
+.schema-grid .sc .sd,.schema-grid .sc .sm {font-family:'DM Sans',sans-serif!important;}
+@media(max-width:650px){.schema-grid{grid-template-columns:1fr!important;}}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -361,13 +339,6 @@ MODEL_FILES = {
 def load_model(model_path: str):
     return joblib.load(model_path)
 
-
-def fmt_num(v) -> str:
-    if pd.isna(v):
-        return ""
-    if float(v).is_integer():
-        return f"{int(v):,}" if abs(v) >= 10000 else str(int(v))
-    return f"{v:,.3f}".rstrip("0").rstrip(".")
 
 
 def preview_table(df: pd.DataFrame, n: int) -> str:
@@ -530,7 +501,7 @@ if uploaded_file is not None:
         unsafe_allow_html=True,
     )
     st.caption("Scroll horizontally inside the table to view all CSV columns.")
-    st.markdown(preview_table(preview_rows, len(preview_rows)), unsafe_allow_html=True)
+    st.markdown(preview_table(test_df, preview_count), unsafe_allow_html=True)
     if "Revenue" in test_df.columns:
         st.markdown(f'<div class="note">The <b>Revenue</b> column is the target used for model evaluation. '
                     f'The other {test_df.shape[1] - 1} columns are the inputs they use.</div>', unsafe_allow_html=True)
