@@ -68,7 +68,7 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 [data-testid="stNumberInput"] button{background:#dceafb!important;color:#285487!important;border-color:#b9d2ee!important;box-shadow:none!important}
 [data-testid="stNumberInput"] button:hover{background:#c5def9!important}
 [data-testid="stNumberInput"] button svg{color:#285487!important}
-[data-testid="stNumberInput"] [data-baseweb="input"]:focus-within{border-color:#78a8d9!important;box-shadow:0 0 0 1px #78a8d9!important}
+[data-testid="stNumberInput"] [data-baseweb="input"]:focus-within{border-color:#78a8d9!important;box-shadow:none!important}
 .preview-caption{color:#4c6686;font-size:.84rem;font-weight:700;margin:15px 0 10px}
 /* Raw dataset: plain text only. Never relabel True/False or reorder columns. */
 .tw{width:100%;max-height:440px;overflow:auto;background:#fff;border:1px solid #d5e0ec;border-radius:12px;box-shadow:0 4px 14px rgba(30,62,95,.05)}
@@ -239,7 +239,7 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
   border-color:#b9d2ee!important;outline:none!important;box-shadow:none!important;
 }
 [data-testid="stNumberInput"] [data-baseweb="input"]:focus-within {
-  border-color:#78a8d9!important;box-shadow:0 0 0 1px #78a8d9!important;
+  border-color:#78a8d9!important;box-shadow:none!important;
 }
 /* Select arrow area and every inner box of the model dropdown stay light. */
 [data-testid="stSelectbox"] [data-baseweb="select"] div{background-color:#e7f2ff!important;color:#25496c!important}
@@ -255,6 +255,37 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 .tw::-webkit-scrollbar,.compare-scroll::-webkit-scrollbar {height:9px;}
 .tw::-webkit-scrollbar-thumb,.compare-scroll::-webkit-scrollbar-thumb {background:#a8c5e3;border-radius:9px;}
 .tw::-webkit-scrollbar-track,.compare-scroll::-webkit-scrollbar-track {background:#edf4fb;}
+/* ===== Rows-to-preview box: ONE thin line, also while typing (outer border only, no inner border/shadow/outline) ===== */
+[data-testid="stNumberInput"] [data-baseweb="base-input"]{border:0!important;box-shadow:none!important;outline:0!important;background:transparent!important}
+[data-testid="stNumberInput"] [data-baseweb="input"]{border:1px solid #b9d2ee!important;box-shadow:none!important;outline:0!important}
+[data-testid="stNumberInput"] [data-baseweb="input"]:focus-within{border:1px solid #6fa3d8!important;box-shadow:none!important;outline:0!important}
+[data-testid="stNumberInput"] input,[data-testid="stNumberInput"] input:focus,[data-testid="stNumberInput"] input:focus-visible,[data-testid="stNumberInput"] input:active{
+  border:0!important;box-shadow:none!important;outline:0!important;caret-color:#285487}
+[data-testid="stNumberInput"] button:focus,[data-testid="stNumberInput"] button:focus-visible,[data-testid="stNumberInput"] button:active{
+  outline:0!important;box-shadow:none!important}
+
+/* ===== File uploader: light before AND after a file is chosen (no black chip / black fill) ===== */
+[data-testid="stFileUploader"],[data-testid="stFileUploader"]>div{background:transparent!important}
+[data-testid="stFileUploader"] div,[data-testid="stFileUploader"] section,[data-testid="stFileUploader"] small,[data-testid="stFileUploader"] span,[data-testid="stFileUploader"] p{
+  background-color:#f1f7ff!important;color:#254a73!important;-webkit-text-fill-color:#254a73!important}
+[data-testid="stFileUploader"] section{border:1px solid #bad1e8!important;border-radius:13px!important}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] div,[data-testid="stFileUploader"] [data-testid="stFileUploaderFileData"],[data-testid="stFileUploader"] [data-testid="stFileUploaderFileData"] div{
+  background-color:#ffffff!important}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"]{border:1px solid #bad1e8!important;border-radius:10px!important}
+[data-testid="stFileUploader"] button{background-color:#ffffff!important;border:1px solid #b8cde4!important;color:#254a73!important;border-radius:9px!important}
+[data-testid="stFileUploader"] svg,[data-testid="stFileUploader"] svg *{fill:#2a5d9f!important;color:#2a5d9f!important}
+[data-testid="stFileUploader"] button:hover{background-color:#e7f2ff!important}
+
+/* ===== Compact column summary (no scrolling) ===== */
+.schema-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:8px 0 4px}
+.sc{display:flex;align-items:center;gap:7px;background:#f8fbff;border:1px solid #dbe7f3;border-radius:10px;padding:7px 10px;min-width:0}
+.sc .sn{flex:1 1 auto;min-width:0;font-size:12.5px;font-weight:700;color:#244b79;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc .sd{flex:0 0 auto;font-size:11px;font-weight:700;color:#475f7a;background:#e4edf8;border-radius:6px;padding:2px 7px}
+.sc .sm{flex:0 0 auto;font-size:11px;font-weight:700;border-radius:6px;padding:2px 7px;white-space:nowrap}
+.sc .sm.ok{background:#dff3e8;color:#17744a}
+.sc .sm.bad{background:#ffe6d1;color:#9a4b00}
+@media(max-width:900px){.schema-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.schema-grid{grid-template-columns:1fr}}
 
 </style>
 """, unsafe_allow_html=True)
@@ -663,7 +694,8 @@ if comparison is not None:
 
 
     st.markdown('<div class="section-heading comparison-chart-title">Metric comparison charts</div>', unsafe_allow_html=True)
-    chosen_metrics = st.multiselect("Metrics to display", metrics, default=["Accuracy", "AUC", "F1", "MCC"])
+    chosen_metrics = st.multiselect("Metrics to display", metrics,
+                                    default=[m for m in ["Accuracy", "AUC", "F1", "MCC"] if m in metrics])
     if chosen_metrics:
         # Two small, separate charts per row. Keep the labels horizontal and legible.
         for start in range(0, len(chosen_metrics), 2):
@@ -713,17 +745,22 @@ st.markdown('<div class="insight-panel"><strong>Online Shoppers Purchasing Inten
             unsafe_allow_html=True)
 if test_df is not None:
     with st.expander("View column types and missing values"):
-        schema = pd.DataFrame({"Column": test_df.columns, "Data type": test_df.dtypes.astype(str).values,
-                               "Missing": test_df.isna().sum().values})
-        schema_body = "".join(
-            '<tr>' + ''.join(f'<td>{_html.escape(str(value))}</td>' for value in record) + '</tr>'
-            for record in schema.itertuples(index=False, name=None)
-        )
+        dtype_counts = test_df.dtypes.astype(str).value_counts()
+        dtype_chips = "".join(f'<span class="chip">{_html.escape(k)} × {int(v)}</span>' for k, v in dtype_counts.items())
+        total_missing = int(test_df.isna().sum().sum())
         st.markdown(
-            '<div class="schema-table-wrap schema-scroll"><table class="schema-table">'
-            '<thead><tr><th>Column</th><th>Data type</th><th>Missing</th></tr></thead><tbody>'
-            + schema_body + '</tbody></table></div>', unsafe_allow_html=True
-        )
+            f'<div class="chips"><span class="chip">{test_df.shape[1]} columns</span>'
+            f'<span class="chip">{total_missing:,} missing values in total</span>{dtype_chips}</div>',
+            unsafe_allow_html=True)
+        cards = []
+        for col_name, dtype_name, n_missing in zip(test_df.columns, test_df.dtypes.astype(str), test_df.isna().sum()):
+            name = _html.escape(str(col_name))
+            missing_ok = int(n_missing) == 0
+            cards.append(
+                f'<div class="sc"><span class="sn" title="{name}">{name}</span>'
+                f'<span class="sd">{_html.escape(dtype_name)}</span>'
+                f'<span class="sm {"ok" if missing_ok else "bad"}">{"0 missing" if missing_ok else f"{int(n_missing):,} missing"}</span></div>')
+        st.markdown(f'<div class="schema-grid">{"".join(cards)}</div>', unsafe_allow_html=True)
 else:
     st.caption("Upload your labelled test CSV to see its actual structure and data-quality summary.")
 st.markdown('<div class="data-note">Evaluation workflow: read the labelled CSV → validate Revenue → '
