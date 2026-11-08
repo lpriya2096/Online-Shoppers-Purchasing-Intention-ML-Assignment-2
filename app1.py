@@ -55,11 +55,6 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 .sub{color:var(--muted);font-size:.9rem;line-height:1.55;margin:0 0 15px}
 .workflow{background:#edf6fc;border:1px solid #cce3f1;border-radius:12px;padding:12px 16px;color:#355d7c;font-size:.83rem;margin:6px 0 18px}
 .workflow b{color:#1d547b}
-/* Keep Streamlit's working uploader, but do not show the unstyleable native black chip. */
-[data-testid="stFileUploader"] section{background:#f1f7ff!important;border:1px solid #bad1e8!important;border-radius:13px!important;box-shadow:none!important}
-[data-testid="stFileUploader"] section button{background:#fff!important;border:1px solid #b8cde4!important;color:#254a73!important;border-radius:9px!important}
-[data-testid="stFileUploaderFile"]{background:#fff!important;border:1px solid #bad1e8!important;border-radius:10px!important}
-[data-testid="stFileUploaderFile"] *{color:#254a73!important;-webkit-text-fill-color:#254a73!important}
 .chips{margin:9px 0 14px}.chip{display:inline-block;background:#eaf3fc;border:1px solid #cfe0ef;color:#315c84;font-size:.77rem;font-weight:750;padding:8px 13px;border-radius:9px;margin:0 7px 7px 0}
 .bal{width:100%;border-collapse:collapse;margin:11px 0 15px;table-layout:fixed}.bal td{padding:11px 12px!important;font-size:.79rem;font-weight:750;color:#fff;white-space:nowrap;overflow:hidden;border:0!important}
 .preview-inline-label{font-family:'DM Sans',sans-serif;color:#285487;font-size:.91rem;font-weight:750;white-space:nowrap}
@@ -208,18 +203,43 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 .tw::-webkit-scrollbar,.compare-scroll::-webkit-scrollbar {height:9px;}
 .tw::-webkit-scrollbar-thumb,.compare-scroll::-webkit-scrollbar-thumb {background:#a8c5e3;border-radius:9px;}
 .tw::-webkit-scrollbar-track,.compare-scroll::-webkit-scrollbar-track {background:#edf4fb;}
-/* ===== File uploader: light before AND after a file is chosen (no black chip / black fill) ===== */
-[data-testid="stFileUploader"],[data-testid="stFileUploader"]>div{background:transparent!important}
-[data-testid="stFileUploader"] section{background-color:#f1f7ff!important}
-[data-testid="stFileUploader"] small,[data-testid="stFileUploader"] p{
-  color:#254a73!important;-webkit-text-fill-color:#254a73!important}
-[data-testid="stFileUploader"] section{border:1px solid #bad1e8!important;border-radius:13px!important}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] div,[data-testid="stFileUploader"] [data-testid="stFileUploaderFileData"],[data-testid="stFileUploader"] [data-testid="stFileUploaderFileData"] div{
-  background-color:#ffffff!important}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"]{border:1px solid #bad1e8!important;border-radius:10px!important}
-[data-testid="stFileUploader"] button{background-color:#ffffff!important;border:1px solid #b8cde4!important;color:#254a73!important;border-radius:9px!important}
-[data-testid="stFileUploader"] svg,[data-testid="stFileUploader"] svg *{fill:#2a5d9f!important;color:#2a5d9f!important}
-[data-testid="stFileUploader"] button:hover{background-color:#e7f2ff!important}
+/* CSV uploader: light file row, readable filename and original icon shape. */
+[data-testid="stFileUploader"] section {
+  background:#f1f7ff!important;
+  border:1px solid #bad1e8!important;
+  border-radius:13px!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
+  background:#e7f2ff!important;
+  border:1px solid #bad1e8!important;
+  border-radius:10px!important;
+  color:#254a73!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(div,span,p,small) {
+  background-color:transparent!important;
+  color:#254a73!important;
+  -webkit-text-fill-color:#254a73!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button {
+  background:#ffffff!important;
+  border:1px solid #bad1e8!important;
+  border-radius:50%!important;
+  color:#285487!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] svg {
+  color:#285487!important;
+  fill:none!important;
+}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] svg path {
+  fill:none!important;
+  stroke:currentColor!important;
+}
+[data-testid="stFileUploader"] section button {
+  background:#ffffff!important;
+  border:1px solid #bad1e8!important;
+  color:#285487!important;
+  border-radius:9px!important;
+}
 
 /* ===== Compact column summary (no scrolling) ===== */
 .schema-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:8px 0 4px}
