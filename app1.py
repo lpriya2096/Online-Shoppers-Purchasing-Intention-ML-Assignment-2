@@ -331,6 +331,27 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
   overflow-wrap:anywhere;line-height:1.25}
 .sc .sb{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
 
+/* Sidebar brand details */
+.sidebrand .branddesc{color:#c5daf2;font-size:.78rem;line-height:1.5;margin-top:11px}
+.sidebrand .brandmeta{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.sidebrand .brandmeta span{background:#19324d;border:1px solid #2d506e;color:#c9e2ff;font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:999px}
+
+/* ===== Table text: dark navy, clear hierarchy, readable in any browser theme ===== */
+table.classification-table th, table.compare-table th,
+[data-testid="stMarkdownContainer"] table.classification-table th, [data-testid="stMarkdownContainer"] table.compare-table th{
+  color:#1f4c80!important;-webkit-text-fill-color:#1f4c80!important;font-weight:800!important}
+table.classification-table td, table.compare-table td,
+table.classification-table td *, table.compare-table td *,
+[data-testid="stMarkdownContainer"] table.classification-table td, [data-testid="stMarkdownContainer"] table.compare-table td{
+  color:#1d3a5a!important;-webkit-text-fill-color:#1d3a5a!important;font-weight:600!important;opacity:1!important}
+table.classification-table td:first-child, table.compare-table td.model-name,
+[data-testid="stMarkdownContainer"] table.classification-table td:first-child, [data-testid="stMarkdownContainer"] table.compare-table td.model-name{
+  color:#12304f!important;-webkit-text-fill-color:#12304f!important;font-weight:800!important}
+table.classification-table td:last-child{color:#4a6785!important;-webkit-text-fill-color:#4a6785!important}
+table.compare-table td.best-score,
+[data-testid="stMarkdownContainer"] table.compare-table td.best-score{
+  color:#0b5a9c!important;-webkit-text-fill-color:#0b5a9c!important;background:#e1f0fc!important;font-weight:800!important}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -431,7 +452,9 @@ def confusion_html(tn, fp, fn, tp):
 # Navigation is a simple set of section links; model evaluation stays on one page.
 with st.sidebar:
     st.markdown('''<div class="sidebrand"><div class="mark">🧭</div>
-        <strong>Checkout Compass</strong><small>Purchase Intent Analytics</small></div>
+        <strong>Checkout Compass</strong><small>Purchase Intent Analytics</small>
+        <div class="branddesc">Predicts whether an online shopping session ends in a purchase, using five pretrained classifiers.</div>
+        <div class="brandmeta"><span>UCI dataset</span><span>12,330 sessions</span><span>17 features</span></div></div>
         <div class="sidelabel">WORKSPACE</div>
         <a class="sidelink" href="#overview">⌂ &nbsp; Dashboard overview</a>
         <a class="sidelink" href="#dataset">▤ &nbsp; Dataset preview</a>
@@ -668,7 +691,19 @@ if results is not None:
         st.latex(r"Recall = \frac{TP}{TP+FN}")
         st.latex(r"F1 = \frac{2\cdot Precision\cdot Recall}{Precision+Recall}")
         st.latex(r"MCC = \frac{TP\cdot TN-FP\cdot FN}{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}")
-        st.markdown("**AUC:** Area under the ROC curve, calculated using predicted probabilities.")
+        st.markdown(
+            "**AUC (Area Under the ROC Curve):** the chance that the model ranks a randomly chosen purchasing "
+            "session above a randomly chosen non-purchasing one, calculated from its predicted purchase "
+            "probabilities across every decision threshold. A value of 0.5 means no better than guessing and "
+            "1.0 means a perfect ranking. Because it does not depend on a single cutoff, it is a useful "
+            "companion to accuracy on imbalanced data such as this dataset (about 15.5% purchases).")
+        st.markdown(
+            "**MCC (Matthews Correlation Coefficient):** one score that uses all four counts below. It runs from "
+            "-1 to +1, where 0 is no better than chance and +1 is perfect.")
+        st.markdown(
+            "**TP** purchase predicted and real · **TN** no purchase predicted and real · "
+            "**FP** purchase predicted but none happened (false alarm) · "
+            "**FN** a real purchase the model missed.")
 
 # ------------------------------ Five-model comparison ------------------------------
 st.markdown('<div id="comparison"></div><div class="section-heading">Model comparison</div>', unsafe_allow_html=True)
