@@ -325,6 +325,25 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 }
 [data-testid="stNumberInput"] button:hover {background:#cce2fa!important;}
 [data-testid="stNumberInput"] svg {color:#285487!important;fill:#285487!important;}
+
+/* Final typography alignment: native controls match the dashboard's DM Sans theme. */
+[data-testid="stSelectbox"] label p,
+[data-testid="stMultiSelect"] label p,
+[data-testid="stFileUploader"] label p,
+[data-testid="stFormSubmitButton"] button,
+[data-testid="stButton"] button,
+[data-testid="stSelectbox"] [role="combobox"],
+[data-testid="stSelectbox"] [role="combobox"] *,
+[data-testid="stMultiSelect"] [role="combobox"],
+[data-testid="stTabs"] [role="tab"],
+[data-testid="stExpander"] summary,
+[data-testid="stCaptionContainer"] p {
+  font-family:'DM Sans',sans-serif!important;
+}
+[data-testid="stSelectbox"] [role="combobox"],
+[data-testid="stSelectbox"] [role="combobox"] * {
+  color:#25496c!important;-webkit-text-fill-color:#25496c!important;
+}
 </style>
 """, unsafe_allow_html=True)
 
