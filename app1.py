@@ -11,7 +11,7 @@ from sklearn.metrics import (
     matthews_corrcoef, roc_auc_score, confusion_matrix, classification_report, roc_curve
 )
 
-st.set_page_config(page_title="ShopSense | Purchase Intelligence", page_icon="🛍️", layout="wide")
+st.set_page_config(page_title="Checkout Compass | Purchase Intent Analytics", page_icon="🧭", layout="wide")
 
 st.markdown("""
 <style>
@@ -24,7 +24,7 @@ footer{visibility:hidden}
 h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 [data-testid="stWidgetLabel"] p{color:#29476a!important;font-weight:700}
 [data-testid="stCaptionContainer"]{color:#77879d!important}
-/* ShopSense shopping analytics design */
+/* Checkout Compass: purchase-intent analytics design */
 [data-testid="stSidebar"]{background:#101f35!important;border-right:1px solid #29425f}
 [data-testid="stSidebar"] [data-testid="stSidebarContent"]{background:#101f35!important}
 [data-testid="stSidebar"] p,[data-testid="stSidebar"] a,[data-testid="stSidebar"] span{color:#dce9f8}
@@ -211,7 +211,7 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 .classification-table th:not(:first-child),.classification-table td:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
 
 
-/* Final UI refinement: match multiselect chips, arrow, and number input to ShopSense blue. */
+/* Final UI refinement: match multiselect chips, arrow, and number input to the Checkout Compass blue. */
 [data-testid="stMultiSelect"] [data-baseweb="select"] > div,
 [data-testid="stMultiSelect"] [role="combobox"] {
   background:#eaf4ff!important;color:#25496c!important;
@@ -273,7 +273,7 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
   background-color:#ffffff!important}
 [data-testid="stFileUploader"] [data-testid="stFileUploaderFile"]{border:1px solid #bad1e8!important;border-radius:10px!important}
 [data-testid="stFileUploader"] button{background-color:#ffffff!important;border:1px solid #b8cde4!important;color:#254a73!important;border-radius:9px!important}
-[data-testid="stFileUploader"] svg,[data-testid="stFileUploader"] svg *{fill:#2a5d9f!important;color:#2a5d9f!important}
+[data-testid="stFileUploader"] svg{color:#2a5d9f!important}
 [data-testid="stFileUploader"] button:hover{background-color:#e7f2ff!important}
 
 /* ===== Compact column summary (no scrolling) ===== */
@@ -307,6 +307,29 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 .sc .sd,.sc .sm {font-size:10px!important;padding:2px 5px!important;}
 @media(max-width:900px){.schema-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media(max-width:560px){.schema-grid{grid-template-columns:1fr;}}
+
+/* ===== Checkout Compass finishing touches ===== */
+/* Rows-to-preview choices behave like clean pills: hide the native radio dot (it was black / red) */
+[data-testid="stRadio"] label > *:not(:has(p)):not(input){display:none!important}
+[data-testid="stRadio"] label{gap:0!important}
+/* Dropdowns: every inner box light, no dark ring, no dark arrow block */
+[data-baseweb="select"],[data-baseweb="select"] *{background-color:#e7f2ff!important;background-image:none!important;
+  border-color:#bdd4eb!important;box-shadow:none!important;outline:0!important;color:#25496c!important}
+/* Metric picker chips: blue instead of the default red */
+[data-baseweb="tag"],[data-baseweb="tag"] *{background-color:#cfe3f7!important;border-color:#a9c9e8!important;color:#24496e!important}
+/* Active tab: blue */
+[data-testid="stTabs"] button[aria-selected="true"]{color:#174577!important}
+[data-baseweb="tab-highlight"]{background-color:#2865a0!important}
+[data-baseweb="tab-border"]{background-color:#d3e1ef!important}
+/* Plain-English result sentence */
+.verdict-note{background:#eef6ff;border:1px solid #cfe2f4;border-left:4px solid #2865a0;border-radius:12px;padding:13px 16px;
+  color:#244b79;font-size:14px;line-height:1.6;margin:4px 0 16px}
+.verdict-note b{color:#174577}
+/* Column cards: full name on top, badges below, no truncation */
+.sc{display:block!important;padding:7px 10px!important}
+.sc .sn{display:block!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;
+  overflow-wrap:anywhere;line-height:1.25}
+.sc .sb{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
 
 </style>
 """, unsafe_allow_html=True)
@@ -407,8 +430,8 @@ def confusion_html(tn, fp, fn, tp):
 
 # Navigation is a simple set of section links; model evaluation stays on one page.
 with st.sidebar:
-    st.markdown('''<div class="sidebrand"><div class="mark">🛍️</div>
-        <strong>ShopSense AI</strong><small>Purchase Intent Analytics</small></div>
+    st.markdown('''<div class="sidebrand"><div class="mark">🧭</div>
+        <strong>Checkout Compass</strong><small>Purchase Intent Analytics</small></div>
         <div class="sidelabel">WORKSPACE</div>
         <a class="sidelink" href="#overview">⌂ &nbsp; Dashboard overview</a>
         <a class="sidelink" href="#dataset">▤ &nbsp; Dataset preview</a>
@@ -423,8 +446,8 @@ st.markdown(
     '<div id="overview"></div><div class="hero"><table><tr><td>'
     '<div class="kick">BITS PILANI · AIML · ASSIGNMENT 2</div>'
     "<h1>Online Shopping Purchase Prediction</h1>"
-    "<p>Upload labeled test data, evaluate a pretrained classifier, and explore how accurately it "
-    "identifies purchasing sessions.</p>"
+    "<p>Upload labeled test data, run any of five pretrained classifiers, and see how accurately it "
+    "separates sessions that end in a purchase from sessions that do not.</p>"
     '<span class="tag">5 trained models</span><span class="tag">6 evaluation metrics</span>'
     '<span class="tag">No retraining</span>'
     '</td><td style="width:120px;text-align:right;"><div class="cart" style="display:inline-block;">🛒</div></td>'
@@ -580,7 +603,7 @@ if active_name and active_file == current_file and X is not None:
     except Exception as exc:
         st.error(f"Evaluation failed: {exc}")
 elif not active_name:
-    st.info("Upload a labelled CSV, choose a classifier, and select Run Evaluation to view its results.")
+    st.info("Upload a labeled CSV, choose a classifier, and select Run Evaluation to view its results.")
 
 if test_df is not None and len(test_df) != 2466:
     st.warning(f"Uploaded {len(test_df):,} rows. For the assignment, use the held-out test_data.csv (2,466 rows).")
@@ -592,6 +615,14 @@ if results is not None:
                 f'<span class="chip">{results["features"]} input features</span></div>', unsafe_allow_html=True)
     scores = results["scores"]
     st.markdown(metric_cards(list(scores.items())), unsafe_allow_html=True)
+    tn, fp, fn, tp = results["counts"]
+    verdict = []
+    if tp + fn > 0:
+        verdict.append(f"Out of <b>{tp + fn:,}</b> real purchases, this model caught <b>{tp:,}</b> ({tp / (tp + fn):.1%}).")
+    if tp + fp > 0:
+        verdict.append(f"Of the <b>{tp + fp:,}</b> sessions it flagged as purchases, <b>{tp:,}</b> were real ({tp / (tp + fp):.1%}).")
+    if verdict:
+        st.markdown(f'<div class="verdict-note">{" ".join(verdict)}</div>', unsafe_allow_html=True)
     tab_matrix, tab_report, tab_roc = st.tabs(
         ["Confusion matrix", "Classification report", "ROC curve"]
     )
@@ -643,7 +674,7 @@ if results is not None:
 st.markdown('<div id="comparison"></div><div class="section-heading">Model comparison</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub">Compare the six evaluation metrics across all five classifiers. Scores are shown to four decimal places for readability.</div>', unsafe_allow_html=True)
 
-# A supplied comparison file is used only as a clearly labelled reference.
+# A supplied comparison file is used only as a clearly labeled reference.
 # Evaluations of uploaded data are calculated separately using the saved models.
 REFERENCE_COMPARISON = Path(__file__).resolve().parent / "model_comparison.csv"
 metric_columns = ["Accuracy", "AUC", "Precision", "Recall", "F1", "MCC"]
@@ -687,7 +718,7 @@ elif reference_comparison is not None:
     st.caption("Reference results from model_comparison.csv. Upload test data and select Evaluate all five models to recalculate.")
 else:
     comparison = None
-    st.info("Upload a labelled test CSV and select Evaluate all five models to see the comparison.")
+    st.info("Upload a labeled test CSV and select Evaluate all five models to see the comparison.")
 
 if comparison is not None:
     # Keep column names, model names, and numeric data unchanged; format only the display.
@@ -758,7 +789,10 @@ st.markdown('<div id="methodology"></div><div class="section-heading">Dataset & 
 st.markdown('<div class="insight-panel"><strong>Online Shoppers Purchasing Intention</strong><br>'
             'This binary classification task predicts whether an online browsing session ends in a purchase. '
             'The target column is <b>Revenue</b>; the remaining columns describe the session. '
-            'All evaluation is performed using saved model artifacts—no training takes place in this app.</div>',
+            'The data comes from the UCI Machine Learning Repository: 12,330 sessions with 17 input features, '
+            'of which about 15.5% ended in a purchase. The models were trained on a stratified 80% split, and '
+            'the 2,466-session hold-out set (<b>test_data.csv</b>) is used here. '
+            'All evaluation uses saved model artifacts—no training takes place in this app.</div>',
             unsafe_allow_html=True)
 if test_df is not None:
     with st.expander("View column types and missing values"):
@@ -774,13 +808,13 @@ if test_df is not None:
             name = _html.escape(str(col_name))
             missing_ok = int(n_missing) == 0
             cards.append(
-                f'<div class="sc"><span class="sn" title="{name}">{name}</span>'
+                f'<div class="sc"><div class="sn" title="{name}">{name}</div><div class="sb">'
                 f'<span class="sd">{_html.escape(dtype_name)}</span>'
-                f'<span class="sm {"ok" if missing_ok else "bad"}">{"0 missing" if missing_ok else f"{int(n_missing):,} missing"}</span></div>')
+                f'<span class="sm {"ok" if missing_ok else "bad"}">{"0 missing" if missing_ok else f"{int(n_missing):,} missing"}</span></div></div>')
         st.markdown(f'<div class="schema-grid">{"".join(cards)}</div>', unsafe_allow_html=True)
 else:
-    st.caption("Upload your labelled test CSV to see its actual structure and data-quality summary.")
-st.markdown('<div class="data-note">Evaluation workflow: read the labelled CSV → validate Revenue → '
+    st.caption("Upload your labeled test CSV to see its actual structure and data-quality summary.")
+st.markdown('<div class="data-note">Evaluation workflow: read the labeled CSV → validate Revenue → '
             'align input features to the saved pipeline → predict classes and probabilities → calculate '
             'Accuracy, AUC, Precision, Recall, F1 and MCC. The uploaded CSV is never modified.</div>',
             unsafe_allow_html=True)
