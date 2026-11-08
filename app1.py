@@ -747,7 +747,7 @@ if comparison is not None:
                 for spine in ("top", "right"):
                     ax.spines[spine].set_visible(False)
             fig.tight_layout(w_pad=2.8)
-            st.pyplot(fig, clear_figure=True, use_container_width=True)
+            st.pyplot(fig, clear_figure=True, width="stretch")
             plt.close(fig)
 
     for error in (st.session_state.get("shop_comparison_errors", []) if st.session_state.get("shop_comparison_file") == current_file else []):
