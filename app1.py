@@ -490,14 +490,19 @@ if uploaded_file is not None:
         if flags.notna().all():
             st.markdown(balance_bar(int(flags.sum()), len(flags)), unsafe_allow_html=True)
 
-    # Keep the original row-count input, aligned beside its label.
-    label_col, count_col, _ = st.columns([1.45, 1.25, 4.3], vertical_alignment="center")
+    # A compact dropdown avoids the native number-input's uneven focus border.
+    # Only the preview length changes; the original CSV records remain untouched.
+    label_col, count_col, _ = st.columns([1.45, 1.55, 4.0], vertical_alignment="center")
     with label_col:
         st.markdown('<div class="preview-inline-label">Rows to preview</div>', unsafe_allow_html=True)
     with count_col:
-        preview_count = st.number_input(
-            "Rows to preview", min_value=1, max_value=100, value=5,
-            step=1, label_visibility="collapsed", key="dataset_preview_count_input"
+        preview_count = st.selectbox(
+            "Rows to preview",
+            options=[5, 10, 20, 50, 100],
+            index=0,
+            format_func=lambda n: f"{n} rows",
+            label_visibility="collapsed",
+            key="dataset_preview_count_select",
         )
     preview_rows = test_df.head(preview_count)
     st.markdown(
