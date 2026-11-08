@@ -55,9 +55,20 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 .sub{color:var(--muted);font-size:.9rem;line-height:1.55;margin:0 0 15px}
 .workflow{background:#edf6fc;border:1px solid #cce3f1;border-radius:12px;padding:12px 16px;color:#355d7c;font-size:.83rem;margin:6px 0 18px}
 .workflow b{color:#1d547b}
+/* Keep Streamlit's working uploader, but do not show the unstyleable native black chip. */
+[data-testid="stFileUploader"] section{background:#f1f7ff!important;border:1px solid #bad1e8!important;border-radius:13px!important;box-shadow:none!important}
+[data-testid="stFileUploader"] section button{background:#fff!important;border:1px solid #b8cde4!important;color:#254a73!important;border-radius:9px!important}
+[data-testid="stFileUploaderFile"]{background:#fff!important;border:1px solid #bad1e8!important;border-radius:10px!important}
+[data-testid="stFileUploaderFile"] *{color:#254a73!important;-webkit-text-fill-color:#254a73!important}
 .chips{margin:9px 0 14px}.chip{display:inline-block;background:#eaf3fc;border:1px solid #cfe0ef;color:#315c84;font-size:.77rem;font-weight:750;padding:8px 13px;border-radius:9px;margin:0 7px 7px 0}
 .bal{width:100%;border-collapse:collapse;margin:11px 0 15px;table-layout:fixed}.bal td{padding:11px 12px!important;font-size:.79rem;font-weight:750;color:#fff;white-space:nowrap;overflow:hidden;border:0!important}
 .preview-inline-label{font-family:'DM Sans',sans-serif;color:#285487;font-size:.91rem;font-weight:750;white-space:nowrap}
+[data-testid="stNumberInput"] [data-baseweb="input"],[data-testid="stNumberInput"] [data-baseweb="base-input"]{background:#dceafb!important;border:1px solid #b9d2ee!important;border-radius:9px!important;box-shadow:none!important;outline:none!important}
+[data-testid="stNumberInput"] input{background:#dceafb!important;color:#285487!important;-webkit-text-fill-color:#285487!important;font-family:'DM Sans',sans-serif!important;font-weight:700!important}
+[data-testid="stNumberInput"] button{background:#dceafb!important;color:#285487!important;border-color:#b9d2ee!important;box-shadow:none!important}
+[data-testid="stNumberInput"] button:hover{background:#c5def9!important}
+[data-testid="stNumberInput"] button svg{color:#285487!important}
+[data-testid="stNumberInput"] [data-baseweb="input"]:focus-within{border-color:#78a8d9!important;box-shadow:none!important}
 .preview-caption{color:#4c6686;font-size:.84rem;font-weight:700;margin:15px 0 10px}
 /* Raw dataset: plain text only. Never relabel True/False or reorder columns. */
 .tw{width:100%;max-height:440px;overflow:auto;background:#fff;border:1px solid #d5e0ec;border-radius:12px;box-shadow:0 4px 14px rgba(30,62,95,.05)}
@@ -66,6 +77,8 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 .tw table.dt tbody td{background:#fff!important;color:#334155!important;font-family:'DM Sans',sans-serif!important;font-size:12.5px!important;font-weight:400!important;padding:11px 15px!important;white-space:nowrap;border:0!important;border-bottom:1px solid #edf1f5!important}
 .note{color:#6b7e95;font-size:.82rem;margin:11px 0 0}
 [data-testid="stForm"]{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 23px 18px;box-shadow:0 5px 16px rgba(20,36,61,.04)}
+[data-testid="stSelectbox"] [data-baseweb="select"],[data-testid="stSelectbox"] [data-baseweb="select"]>div,[data-testid="stSelectbox"] [role="combobox"],[data-testid="stSelectbox"] [data-baseweb="select"]>div>div{background:#e7f2ff!important;color:#25496c!important;border-color:#bdd4eb!important}
+[data-testid="stSelectbox"] [data-baseweb="select"] svg{color:#25496c!important}
 [data-testid="stSelectbox"] [role="combobox"]{border:1px solid #bdd4eb!important;border-radius:10px!important;box-shadow:none!important}
 [data-baseweb="popover"],[data-baseweb="menu"],[data-baseweb="popover"] [role="listbox"],[data-testid="stSelectboxVirtualDropdown"],[data-baseweb="menu"] li,[data-baseweb="menu"] [role="option"]{background:#eaf4ff!important;color:#25496c!important}
 [data-baseweb="menu"] li:hover,[data-baseweb="menu"] [aria-selected="true"]{background:#cfe6ff!important}
@@ -198,48 +211,70 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 .classification-table th:not(:first-child),.classification-table td:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
 
 
+/* Final UI refinement: match multiselect chips, arrow, and number input to ShopSense blue. */
+[data-testid="stMultiSelect"] [data-baseweb="select"] > div,
+[data-testid="stMultiSelect"] [role="combobox"] {
+  background:#eaf4ff!important;color:#25496c!important;
+  border:1px solid #bdd4eb!important;border-radius:10px!important;
+  box-shadow:none!important;
+}
+[data-testid="stMultiSelect"] [data-baseweb="tag"] {
+  background:#d1e7fb!important;color:#24496e!important;
+  border:1px solid #a9cde9!important;border-radius:7px!important;
+}
+[data-testid="stMultiSelect"] [data-baseweb="tag"] *,
+[data-testid="stMultiSelect"] [data-baseweb="select"] svg,
+[data-testid="stMultiSelect"] input {
+  color:#24496e!important;-webkit-text-fill-color:#24496e!important;
+  font-family:'DM Sans',sans-serif!important;
+}
+[data-testid="stMultiSelect"] [data-baseweb="tag"] svg {fill:#24496e!important;}
+[data-testid="stSelectbox"] [data-baseweb="select"] [role="combobox"] > div,
+[data-testid="stSelectbox"] [data-baseweb="select"] [role="combobox"] svg {
+  background:#e7f2ff!important;color:#25496c!important;
+}
+[data-testid="stNumberInput"] [data-baseweb="input"],
+[data-testid="stNumberInput"] [data-baseweb="base-input"],
+[data-testid="stNumberInput"] [data-baseweb="input"] > div {
+  border-color:#b9d2ee!important;outline:none!important;box-shadow:none!important;
+}
+[data-testid="stNumberInput"] [data-baseweb="input"]:focus-within {
+  border-color:#78a8d9!important;box-shadow:none!important;
+}
+/* Select arrow area and every inner box of the model dropdown stay light. */
+[data-testid="stSelectbox"] [data-baseweb="select"] div{background-color:#e7f2ff!important;color:#25496c!important}
+[data-testid="stForm"]{overflow-x:hidden}
+/* Light surfaces for any portal-hosted metric choices. */
+[data-baseweb="popover"] [role="listbox"],
+[data-baseweb="popover"] [role="option"] {
+  color:#25496c!important;-webkit-text-fill-color:#25496c!important;
+  font-family:'DM Sans',sans-serif!important;
+}
 /* Keep horizontal scrolling obvious, without changing original table values. */
 .tw,.compare-scroll {scrollbar-color:#a8c5e3 #edf4fb;scrollbar-width:thin;}
 .tw::-webkit-scrollbar,.compare-scroll::-webkit-scrollbar {height:9px;}
 .tw::-webkit-scrollbar-thumb,.compare-scroll::-webkit-scrollbar-thumb {background:#a8c5e3;border-radius:9px;}
 .tw::-webkit-scrollbar-track,.compare-scroll::-webkit-scrollbar-track {background:#edf4fb;}
-/* CSV uploader: light file row, readable filename and original icon shape. */
-[data-testid="stFileUploader"] section {
-  background:#f1f7ff!important;
-  border:1px solid #bad1e8!important;
-  border-radius:13px!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
-  background:#e7f2ff!important;
-  border:1px solid #bad1e8!important;
-  border-radius:10px!important;
-  color:#254a73!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] :is(div,span,p,small) {
-  background-color:transparent!important;
-  color:#254a73!important;
-  -webkit-text-fill-color:#254a73!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button {
-  background:#ffffff!important;
-  border:1px solid #bad1e8!important;
-  border-radius:50%!important;
-  color:#285487!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] svg {
-  color:#285487!important;
-  fill:none!important;
-}
-[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] svg path {
-  fill:none!important;
-  stroke:currentColor!important;
-}
-[data-testid="stFileUploader"] section button {
-  background:#ffffff!important;
-  border:1px solid #bad1e8!important;
-  color:#285487!important;
-  border-radius:9px!important;
-}
+/* ===== Rows-to-preview box: ONE thin line, also while typing (outer border only, no inner border/shadow/outline) ===== */
+[data-testid="stNumberInput"] [data-baseweb="base-input"]{border:0!important;box-shadow:none!important;outline:0!important;background:transparent!important}
+[data-testid="stNumberInput"] [data-baseweb="input"]{border:1px solid #b9d2ee!important;box-shadow:none!important;outline:0!important}
+[data-testid="stNumberInput"] [data-baseweb="input"]:focus-within{border:1px solid #6fa3d8!important;box-shadow:none!important;outline:0!important}
+[data-testid="stNumberInput"] input,[data-testid="stNumberInput"] input:focus,[data-testid="stNumberInput"] input:focus-visible,[data-testid="stNumberInput"] input:active{
+  border:0!important;box-shadow:none!important;outline:0!important;caret-color:#285487}
+[data-testid="stNumberInput"] button:focus,[data-testid="stNumberInput"] button:focus-visible,[data-testid="stNumberInput"] button:active{
+  outline:0!important;box-shadow:none!important}
+
+/* ===== File uploader: light before AND after a file is chosen (no black chip / black fill) ===== */
+[data-testid="stFileUploader"],[data-testid="stFileUploader"]>div{background:transparent!important}
+[data-testid="stFileUploader"] div,[data-testid="stFileUploader"] section,[data-testid="stFileUploader"] small,[data-testid="stFileUploader"] span,[data-testid="stFileUploader"] p{
+  background-color:#f1f7ff!important;color:#254a73!important;-webkit-text-fill-color:#254a73!important}
+[data-testid="stFileUploader"] section{border:1px solid #bad1e8!important;border-radius:13px!important}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] div,[data-testid="stFileUploader"] [data-testid="stFileUploaderFileData"],[data-testid="stFileUploader"] [data-testid="stFileUploaderFileData"] div{
+  background-color:#ffffff!important}
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"]{border:1px solid #bad1e8!important;border-radius:10px!important}
+[data-testid="stFileUploader"] button{background-color:#ffffff!important;border:1px solid #b8cde4!important;color:#254a73!important;border-radius:9px!important}
+[data-testid="stFileUploader"] svg,[data-testid="stFileUploader"] svg *{fill:#2a5d9f!important;color:#2a5d9f!important}
+[data-testid="stFileUploader"] button:hover{background-color:#e7f2ff!important}
 
 /* ===== Compact column summary (no scrolling) ===== */
 .schema-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:8px 0 4px}
@@ -251,96 +286,6 @@ h1,h2,h3,p{font-family:'DM Sans',sans-serif}
 .sc .sm.bad{background:#ffe6d1;color:#9a4b00}
 @media(max-width:900px){.schema-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.schema-grid{grid-template-columns:1fr}}
-
-
-/* Model comparison success message: matching DM Sans, navy and powder blue. */
-.shop-success{display:flex;align-items:center;gap:12px;background:#eaf4ff;
- border:1px solid #bcd7ef;border-left:4px solid #3c8dbd;border-radius:11px;
- padding:13px 17px;color:#244b79;font-family:'DM Sans',sans-serif;
- font-size:.92rem;font-weight:700;line-height:1.45;margin:10px 0 13px}
-.shop-success-icon{display:inline-flex;align-items:center;justify-content:center;
- width:25px;height:25px;flex-shrink:0;background:#d4eaf9;color:#24648e;
- border-radius:50%;font-size:15px;font-weight:800}
-
-
-/* Final typography alignment: native controls match the dashboard's DM Sans theme. */
-[data-testid="stSelectbox"] label p,
-[data-testid="stMultiSelect"] label p,
-[data-testid="stFileUploader"] label p,
-[data-testid="stFormSubmitButton"] button,
-[data-testid="stButton"] button,
-[data-testid="stSelectbox"] [role="combobox"],
-[data-testid="stSelectbox"] [role="combobox"] *,
-[data-testid="stMultiSelect"] [role="combobox"],
-[data-testid="stTabs"] [role="tab"],
-[data-testid="stExpander"] summary,
-[data-testid="stCaptionContainer"] p {
-  font-family:'DM Sans',sans-serif!important;
-}
-[data-testid="stSelectbox"] [role="combobox"],
-[data-testid="stSelectbox"] [role="combobox"] * {
-  color:#25496c!important;-webkit-text-fill-color:#25496c!important;
-}
-
-/* Final visual corrections — native select controls, metric chips and table text. */
-[data-testid="stSelectbox"] [data-baseweb="select"] > div,
-[data-testid="stSelectbox"] [data-baseweb="select"] > div > div,
-[data-testid="stSelectbox"] [data-baseweb="select"] [role="combobox"],
-[data-testid="stSelectbox"] [data-baseweb="select"] [data-baseweb="select-arrow"],
-[data-testid="stSelectbox"] [data-baseweb="select"] [data-baseweb="select-arrow"] > div {
-  background:#e7f2ff!important;color:#25496c!important;
-  -webkit-text-fill-color:#25496c!important;border-color:#bdd4eb!important;
-}
-[data-testid="stSelectbox"] [data-baseweb="select"] svg,
-[data-testid="stSelectbox"] [data-baseweb="select"] svg path {
-  color:#25496c!important;fill:#25496c!important;
-}
-/* BaseWeb uses an internal div for the arrow; remove the black end-cap. */
-[data-testid="stSelectbox"] [data-baseweb="select"] > div > div:last-child {
-  background:#e7f2ff!important;border-radius:0 9px 9px 0!important;
-}
-/* Metric selector: BaseWeb's selected pills can be buttons rather than tags. */
-[data-testid="stMultiSelect"] [data-baseweb="select"],
-[data-testid="stMultiSelect"] [data-baseweb="select"] > div,
-[data-testid="stMultiSelect"] [role="combobox"] {
-  background:#eaf4ff!important;color:#25496c!important;
-  border-color:#bdd4eb!important;box-shadow:none!important;
-}
-[data-testid="stMultiSelect"] [data-baseweb="tag"],
-[data-testid="stMultiSelect"] [data-baseweb="tag"] > span,
-[data-testid="stMultiSelect"] [data-baseweb="select"] button[aria-label*="Remove"],
-[data-testid="stMultiSelect"] [data-baseweb="select"] [data-baseweb="tag"] button {
-  background:#d1e7fb!important;color:#24496e!important;
-  -webkit-text-fill-color:#24496e!important;border-color:#a9cde9!important;
-}
-[data-testid="stMultiSelect"] [data-baseweb="tag"] *,
-[data-testid="stMultiSelect"] [data-baseweb="tag"] svg,
-[data-testid="stMultiSelect"] [data-baseweb="select"] svg,
-[data-testid="stMultiSelect"] [data-baseweb="select"] input {
-  color:#24496e!important;-webkit-text-fill-color:#24496e!important;
-  font-family:'DM Sans',sans-serif!important;
-}
-/* Make comparison, classification and raw dataset tables consistent. */
-.tw table.dt th,.tw table.dt td,
-.compare-table th,.compare-table td,
-.schema-table th,.schema-table td {
-  font-family:'DM Sans',sans-serif!important;
-  -webkit-text-fill-color:currentColor!important;
-}
-.compare-table th,.schema-table th,.tw table.dt th {color:#285487!important;}
-.compare-table td,.schema-table td,.tw table.dt td {color:#334155!important;}
-.compare-table td.model-name {color:#253d5a!important;}
-.compare-table td.best-score {color:#205f91!important;background:#eef6fd!important;}
-/* Full column names in methodology, without clipping or ellipsis. */
-.schema-grid {grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;}
-.schema-grid .sc {align-items:flex-start!important;flex-wrap:wrap!important;gap:6px 9px!important;}
-.schema-grid .sc .sn {
-  flex:1 1 100%!important;white-space:normal!important;overflow:visible!important;
-  text-overflow:clip!important;overflow-wrap:anywhere!important;
-  line-height:1.4!important;font-size:12.5px!important;
-}
-.schema-grid .sc .sd,.schema-grid .sc .sm {font-family:'DM Sans',sans-serif!important;}
-@media(max-width:650px){.schema-grid{grid-template-columns:1fr!important;}}
 
 </style>
 """, unsafe_allow_html=True)
@@ -359,6 +304,13 @@ MODEL_FILES = {
 def load_model(model_path: str):
     return joblib.load(model_path)
 
+
+def fmt_num(v) -> str:
+    if pd.isna(v):
+        return ""
+    if float(v).is_integer():
+        return f"{int(v):,}" if abs(v) >= 10000 else str(int(v))
+    return f"{v:,.3f}".rstrip("0").rstrip(".")
 
 
 def preview_table(df: pd.DataFrame, n: int) -> str:
@@ -500,20 +452,11 @@ if uploaded_file is not None:
         if flags.notna().all():
             st.markdown(balance_bar(int(flags.sum()), len(flags)), unsafe_allow_html=True)
 
-    # A compact dropdown avoids the native number-input's uneven focus border.
-    # Only the preview length changes; the original CSV records remain untouched.
-    label_col, count_col, _ = st.columns([1.45, 1.55, 4.0], vertical_alignment="center")
-    with label_col:
-        st.markdown('<div class="preview-inline-label">Rows to preview</div>', unsafe_allow_html=True)
-    with count_col:
-        preview_count = st.selectbox(
-            "Rows to preview",
-            options=[5, 10, 20, 50, 100],
-            index=0,
-            format_func=lambda n: f"{n} rows",
-            label_visibility="collapsed",
-            key="dataset_preview_count_select",
-        )
+    # Rows to preview: horizontal choices only.
+    preview_count = st.radio(
+        "Rows to preview", options=[5, 10, 20, 50, 100],
+        index=0, horizontal=True, key="dataset_preview_count_input"
+    )
     preview_rows = test_df.head(preview_count)
     st.markdown(
         f'<div class="preview-caption">Showing {len(preview_rows):,} of '
@@ -521,7 +464,7 @@ if uploaded_file is not None:
         unsafe_allow_html=True,
     )
     st.caption("Scroll horizontally inside the table to view all CSV columns.")
-    st.markdown(preview_table(test_df, preview_count), unsafe_allow_html=True)
+    st.markdown(preview_table(preview_rows, len(preview_rows)), unsafe_allow_html=True)
     if "Revenue" in test_df.columns:
         st.markdown(f'<div class="note">The <b>Revenue</b> column is the target used for model evaluation. '
                     f'The other {test_df.shape[1] - 1} columns are the inputs they use.</div>', unsafe_allow_html=True)
@@ -711,11 +654,7 @@ if compare_clicked and X is not None:
     if comparison_errors:
         st.warning(f"Evaluated {len(comparison_rows)} of {len(MODEL_FILES)} models successfully. See model-specific errors below.")
     else:
-        st.markdown(
-            f'<div class="shop-success"><span class="shop-success-icon">✓</span>'
-            f'<span>All {len(MODEL_FILES)} models evaluated successfully.</span></div>',
-            unsafe_allow_html=True,
-        )
+        st.success(f"All {len(MODEL_FILES)} models evaluated successfully.")
 
 live_comparison = st.session_state.get("shop_comparison")
 if (isinstance(live_comparison, pd.DataFrame) and not live_comparison.empty
@@ -787,7 +726,7 @@ if comparison is not None:
                 for spine in ("top", "right"):
                     ax.spines[spine].set_visible(False)
             fig.tight_layout(w_pad=2.8)
-            st.pyplot(fig, clear_figure=True, width="stretch")
+            st.pyplot(fig, clear_figure=True, use_container_width=True)
             plt.close(fig)
 
     for error in (st.session_state.get("shop_comparison_errors", []) if st.session_state.get("shop_comparison_file") == current_file else []):
